@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salty Padel</title>
+    <link rel="stylesheet" href="Style.css" />
+    <script src="SaltyPadelJava.js"></script>
+</head>
+
+<body>
+    <!-- Home -->
+    <div id="home_page">
+        <h1>home page</h1>
+        <button class="full_width" onclick="button_who_are_we()">Who are we</button>
+        <button class="full_width" onclick="button_what_we_do()">What we do</button>
+        <button class="full_width" onclick="button_past_events()">Past events</button>
+        <button class="full_width" onclick="button_upcoming_events()">Upcoming events</button>
+        <button class="full_width" onclick="button_admin_login()">Admin login</button>
+    </div>
+
+    <!-- Add new event -->
+    <div id="add_new_event" style="display:none">
+        <h1>admin page - add new event</h1>
+        <button class="full_width" onclick="button_home()">Home</button>
+    </div>
+
+    <!-- Admin login page -->
+    <div id="login_page" style="display:none">
+        <h1>admin page - login</h1>
+        <button class="full_width" onclick="button_home()">Home</button>
+        <button class="full_width" onclick="button_edit_home()">Edit home</button>
+    </div>
+
+    <!-- What we do -->
+    <div id="what_we_do" style="display:none">
+        <h1>what we do</h1>
+        <button class="full_width" onclick="button_home()">Home</button>
+        <button class="full_width" onclick="button_contact()">Contact</button>
+    </div>
+
+    <!-- Who we are -->
+    <div id="who_we_are" style="display:none">
+        <h1>who we are</h1>
+        <button class="full_width" onclick="button_home()">Home</button>
+        <button class="full_width" onclick="button_contact()">Contact</button>
+    </div>
+
+    <!-- Upcoming events -->
+    <div id="upcoming_events" style="display:none">
+        <h1>upcoming events</h1>
+        <button class="full_width" onclick="button_home()">Home</button>
+        <button class="full_width" onclick="button_contact()">Contact</button>
+    </div>
+
+    <!-- Past events -->
+    <div id="past_events" style="display:none">
+        <h1>past events</h1>
+        <button class="full_width" onclick="button_home()">Home</button>
+        <button class="full_width" onclick="button_contact()">Contact</button>
+    </div>
+
+    <!-- Edit home page -->
+    <div id="edit_home_page" style="display:none">
+        <h1>admin page - edit home page</h1>
+        <button class="full_width" onclick="button_home()">Home</button>
+    </div>
+</body>
+
+</html>
