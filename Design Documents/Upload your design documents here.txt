@@ -1,0 +1,53 @@
+Plan - Implementing drag & drop 
+
+To have functional drag and drop editing, following functions should exist for the user: 
+
+-move element 
+
+-resize element 
+
+-add new element 
+
+-upload image 
+
+-delete 
+
+-edit text boxes 
+
+-admin login 
+
+-save/undo/redo changes 
+
+-enter editing mode 
+
+-select element 
+
+Identified product backlog: 
+
+Identified product backlog: 
+
+user can ‘select’ an element 
+
+menu / UI for selecting a change to the element 
+
+measure user movements (to move or resize) 
+
+take uploaded image and save as an element on the page 
+
+admin login 
+
+UI buttons: enable editing, add an element, undo and redo buttons, save button 
+
+html form for uploading 
+
+menu allowing user to select what element to add 
+
+transcribe user movements into a grid position or span 
+
+all existing elements should be selectable 
+
+text content can be changed by user 
+
+loop that holds information about the last 3 changes made to the website for undo/redo 
+
+ 
