@@ -2,69 +2,152 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salty Padel</title>
-    <link rel="stylesheet" href="Style.css" />
+    <link rel="stylesheet" href="Style.css">
     <script src="SaltyPadelJava.js"></script>
 </head>
 
 <body>
-    <!-- Home -->
+<!-- Header -->
+<header id="site-header" class="bg-black">
+    <div class="header-content">
+        <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo">
+        <span class="brand-title">Salty Padel</span>
+    </div>
+</header>
+
+<!-- Navigation -->
+<nav id="main-nav" class="bg-black">
+    <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
+    <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
+    <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
+    <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
+</nav>
+
+    <!-- Home Page -->
     <div id="home_page">
-        <h1>home page</h1>
-        <button class="full_width" onclick="button_who_we_are()">Who we are</button>
-        <button class="full_width" onclick="button_what_we_do()">What we do</button>
-        <button class="full_width" onclick="button_past_events()">Past events</button>
-        <button class="full_width" onclick="button_upcoming_events()">Upcoming events</button>
-        <button class="full_width" onclick="button_admin_login()">Admin login</button>
+        <!-- Hero Section -->
+        <section id="hero" class="bg-yellow">
+            <p class="hero-subtitle">Grow your game. Join the movement.</p>
+            <h1 class="hero-title">Where energy, competition and community meet.</h1>
+            <div class="hero-buttons">
+                <button class="btn btn-hero">Join our WhatsApp group</button>
+                <button class="btn btn-hero">Check our shop</button>
+                <button class="btn btn-hero">Follow our Instagram</button>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="bg-pink">
+            <h2 class="testimonials-title">Testimonials</h2>
+            <p class="testimonials-subtitle">Here's what people are saying</p>
+            <div class="testimonials-list">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">testimonial 1</p>
+                    <div class="testimonial-author-block">
+                        <div class="testimonial-icon"></div>
+                        <div>
+                            <p class="testimonial-author">Author1</p>
+                            <p class="testimonial-role">AuthorRole1</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">testimonial 2</p>
+                    <div class="testimonial-author-block">
+                        <div class="testimonial-icon"></div>
+                        <div>
+                            <p class="testimonial-author">Author2</p>
+                            <p class="testimonial-role">AuthoreRole2</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">testimonial 3</p>
+                    <div class="testimonial-author-block">
+                        <div class="testimonial-icon"></div>
+                        <div>
+                            <p class="testimonial-author">Author3</p>
+                            <p class="testimonial-role">AuthorRole3.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Partners Section -->
+        <section id="partners" class="bg-pink">
+            <h2 class="partners-title">Our Proud Partners</h2>
+            <div class="partners-list">
+                <img src="assets/partner-logo-1.png" alt="VX3" class="partner-logo">
+                <img src="assets/partner-logo-2.png" alt="Partner2" class="partner-logo">
+                <img src="assets/partner-logo-3.png" alt="Partner3" class="partner-logo">
+            </div>
+        </section>
     </div>
 
-    <!-- Add new event -->
-    <div id="add_new_event" style="display:none">
-        <h1>admin page - add new event</h1>
-        <button class="full_width" onclick="button_home()">Home</button>
-    </div>
+    <!-- Footer -->
+    <footer id="site-footer" class="bg-black">
+        <div class="footer-left">
+            <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo-footer">
+            <span class="footer-brand">SaltyPadel</span>
+        </div>
+            <div class="footer-center">
+                  <a href="https://www.instagram.com/saltypadel/" target="_blank">
+                  <img src="assets/icon-instagram.png" alt="Instagram" class="footer-social-icon">
+                  </a>
+            </div>
+        <div class="footer-right">
+            <button class="btn btn-admin" onclick="button_admin_login()">Admin Login</button>
+        </div>
+    </footer>
 
-    <!-- Admin login page -->
-    <div id="login_page" style="display:none">
-        <h1>admin page - login</h1>
-        <button class="full_width" onclick="button_home()">Home</button>
-        <button class="full_width" onclick="button_edit_home()">Edit home</button>
-        <button class="full_width" onclick="button_add_new_event()">Add new event</button>
-    </div>
-
-    <!-- What we do -->
-    <div id="what_we_do" style="display:none">
-        <h1>what we do</h1>
-        <button class="full_width" onclick="button_home()">Home</button>
-        <button class="full_width" onclick="button_contact()">Contact</button>
-    </div>
-
-    <!-- Who we are -->
+    <!-- Who We Are Page -->
     <div id="who_we_are" style="display:none">
-        <h1>who we are</h1>
-        <button class="full_width" onclick="button_home()">Home</button>
+        <h1>Who we are</h1>
+        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
     </div>
 
-    <!-- Upcoming events -->
+    <!-- What We Do Page -->
+    <div id="what_we_do" style="display:none">
+        <h1>What we do</h1>
+        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+    </div>
+
+    <!-- Upcoming Events Page -->
     <div id="upcoming_events" style="display:none">
-        <h1>upcoming events</h1>
-        <button class="full_width" onclick="button_home()">Home</button>
-        <button class="full_width" onclick="button_contact()">Contact</button>
+        <h1>Upcoming events</h1>
+        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
     </div>
 
-    <!-- Past events -->
+    <!-- Past Events Page -->
     <div id="past_events" style="display:none">
-        <h1>past events</h1>
-        <button class="full_width" onclick="button_home()">Home</button>
-        <button class="full_width" onclick="button_contact()">Contact</button>
+        <h1>Past events</h1>
+        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
     </div>
 
-    <!-- Edit home page -->
-    <div id="edit_home_page" style="display:none">
-        <h1>admin page - edit home page</h1>
-        <button class="full_width" onclick="button_home()">Home</button>
+    <!-- Admin Login Page -->
+    <div id="login_page" style="display:none">
+        <h1>Admin Login</h1>
+        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+        <button class="btn btn-nav" onclick="button_edit_home()">Edit home</button>
+        <button class="btn btn-nav" onclick="button_add_new_event()">Add new event</button>
     </div>
+
+    <!-- Edit Home Page -->
+    <div id="edit_home_page" style="display:none">
+        <h1>Edit Home Page</h1>
+        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+    </div>
+
+    <!-- Add New Event Page -->
+    <div id="add_new_event" style="display:none">
+        <h1>Add New Event</h1>
+        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+    </div>
+
 </body>
 
 </html>
