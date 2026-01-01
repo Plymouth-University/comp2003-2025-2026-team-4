@@ -1,16 +1,34 @@
 // Functions in charge of the (SPA) single page application
 // Home page
+
+function hide_other_pages() {
+    var who_are_we = document.getElementById("who_we_are");
+    var what_we_do = document.getElementById("what_we_do");
+    var past_events = document.getElementById("past_events");
+    var upcoming_events = document.getElementById("upcoming_events");
+    var login_page = document.getElementById("login_page");
+    var admin_page = document.getElementById("admin_page");
+    who_are_we.style.display = "none";
+    what_we_do.style.display = "none";
+    past_events.style.display = "none";
+    upcoming_events.style.display = "none";
+    login_page.style.display = "none";
+    admin_page.style.display = "none";
+}
 function button_who_we_are() {
     // Variables transfer from HTML by getElementByID
     var home_page = document.getElementById("home_page");
     var who_are_we = document.getElementById("who_we_are");
+    hide_other_pages();
     home_page.style.display = "none"; // hide home
     who_are_we.style.display = "block"; // show "who are we" page
+
 }
 
 function button_what_we_do() {
     var home_page = document.getElementById("home_page");
     var what_we_do = document.getElementById("what_we_do");
+    hide_other_pages();
     home_page.style.display = "none";
     what_we_do.style.display = "block";
 }
@@ -18,6 +36,7 @@ function button_what_we_do() {
 function button_past_events() {
     var home_page = document.getElementById("home_page");
     var past_events = document.getElementById("past_events");
+    hide_other_pages();
     home_page.style.display = "none";
     past_events.style.display = "block";
 }
@@ -25,12 +44,14 @@ function button_past_events() {
 function button_upcoming_events() {
     var home_page = document.getElementById("home_page");
     var upcoming_events = document.getElementById("upcoming_events");
+    hide_other_pages();
     home_page.style.display = "none";
     upcoming_events.style.display = "block";
 }
 
 function button_admin_login() {
     var login_page = document.getElementById("login_page");
+    hide_other_pages();
     home_page.style.display = "none";
     login_page.style.display = "block";
 }
