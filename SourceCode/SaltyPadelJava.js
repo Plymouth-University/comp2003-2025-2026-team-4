@@ -30,10 +30,18 @@ function button_upcoming_events() {
 }
 
 function button_admin_login() {
-    var home_page = document.getElementById("home_page");
     var login_page = document.getElementById("login_page");
     home_page.style.display = "none";
     login_page.style.display = "block";
+}
+
+function button_admin_home() {
+    var home_page = document.getElementById("home_page");
+    var admin_home = document.getElementById("admin_page");
+    var login_page = document.getElementById("login_page");
+    login_page.style.display = "none";
+    home_page.style.display = "none";
+    admin_home.style.display = "block";
 }
 
 // Admin login page, add new events page, and edit home page
@@ -46,6 +54,7 @@ function button_home() {
     var edit_home_page = document.getElementById("edit_home_page");
     var add_new_event = document.getElementById("add_new_event");
     var home_page = document.getElementById("home_page");
+    var admin_page = document.getElementById("admin_page");
     login_page.style.display = "none";
     who_are_we.style.display = "none";
     what_we_do.style.display = "none";
@@ -53,6 +62,7 @@ function button_home() {
     upcoming_events.style.display = "none";
     edit_home_page.style.display = "none";
     add_new_event.style.display = "none";
+    admin_page.style.display = "none";
     home_page.style.display = "block";
 }
 
