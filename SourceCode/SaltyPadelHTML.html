@@ -10,21 +10,21 @@
 </head>
 
 <body>
-<!-- Header -->
-<header id="site-header" class="bg-black">
-    <div class="header-content">
-        <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo">
-        <span class="brand-title">Salty Padel</span>
-    </div>
-</header>
+    <!-- Header -->
+    <header id="site-header" class="bg-black">
+        <div class="header-content">
+            <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo">
+            <span class="brand-title">Salty Padel</span>
+        </div>
+    </header>
 
-<!-- Navigation -->
-<nav id="main-nav" class="bg-black">
-    <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
-    <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
-    <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
-    <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
-</nav>
+    <!-- Navigation -->
+    <nav id="main-nav" class="bg-black">
+        <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
+        <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
+        <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
+        <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
+    </nav>
 
     <!-- Home Page -->
     <div id="home_page">
@@ -94,11 +94,11 @@
             <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo-footer">
             <span class="footer-brand">SaltyPadel</span>
         </div>
-            <div class="footer-center">
-                  <a href="https://www.instagram.com/saltypadel/" target="_blank">
-                  <img src="assets/icon-instagram.png" alt="Instagram" class="footer-social-icon">
-                  </a>
-            </div>
+        <div class="footer-center">
+            <a href="https://www.instagram.com/saltypadel/" target="_blank">
+                <img src="assets/icon-instagram.png" alt="Instagram" class="footer-social-icon">
+            </a>
+        </div>
         <div class="footer-right">
             <button class="btn btn-admin" onclick="button_admin_login()">Admin Login</button>
         </div>
@@ -128,9 +128,21 @@
         <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
     </div>
 
-    <!-- Admin Login Page -->
+    <!-- Admin login page-->
     <div id="login_page" style="display:none">
-        <h1>Admin Login</h1>
+        <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo">
+        <h1>Admin login</h1>
+        <h3>Salty Padel</h3>
+        <input type="text" id="admin_username" placeholder="Username:">
+        <input type="text" id="admin_password" placeholder="Password:">
+        <button class="btn btn-nav" onclick="button_admin_home()">Login</button>
+        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+
+    </div>
+
+    <!-- Admin Home Page -->
+    <div id="admin_page" style="display:none">
+        <h1>Admin Homepage</h1>
         <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
         <button class="btn btn-nav" onclick="button_edit_home()">Edit home</button>
         <button class="btn btn-nav" onclick="button_add_new_event()">Add new event</button>
@@ -148,6 +160,13 @@
         <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
     </div>
 
+
+
 </body>
+
+</html>
+
+</body>
+
 
 </html>
