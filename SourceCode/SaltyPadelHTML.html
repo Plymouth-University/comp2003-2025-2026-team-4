@@ -133,41 +133,40 @@
         <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo">
         <h1>Admin login</h1>
         <h3>Salty Padel</h3>
-        <input type="text" id="admin_username" placeholder="Username:" class="input-field">
-        <input type="password" id="admin_password" placeholder="Password:" class="input-field">
-        <button class="btn btn-nav" onclick="button_admin_home()">Login</button>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+        <div class="login-formatting">
+             <input type="text" id="admin_username" placeholder="Username:" class="input-field">
+             <p class="input-warning" id="warning1"> </p>
+             <input type="password" id="admin_password" placeholder="Password:" class="input-field">
+             <p class="input-warning" id="warning2"> </p>
+             <button class="btn btn-nav" onclick="button_verify_login()">Login</button>
+             <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+        </div>
 
     </div>
 
     <!-- Admin Home Page -->
-    <div id="admin_page" style="display:none">
-        <h1>Admin Homepage</h1>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
-        <button class="btn btn-nav" onclick="button_edit_home()">Edit home</button>
-        <button class="btn btn-nav" onclick="button_add_new_event()">Add new event</button>
-    </div>
+        <div id="admin_page" style="display:none">
+            <h1>Admin Homepage</h1>
+            <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+            <button class="btn btn-nav" onclick="button_edit_home()">Edit home</button>
+            <button class="btn btn-nav" onclick="button_add_new_event()">Add new event</button>
+        </div>
 
-    <!-- Edit Home Page -->
-    <div id="edit_home_page" style="display:none">
-        <h1>Edit Home Page</h1>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
-    </div>
+        <!-- Edit Home Page -->
+        <div id="edit_home_page" style="display:none">
+            <h1>Edit Home Page</h1>
+            <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+        </div>
 
-    <!-- Add New Event Page -->
-    <div id="add_new_event" style="display:none">
-        <h1>Add New Event</h1>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
-    </div>
+        <!-- Add New Event Page -->
+        <div id="add_new_event" style="display:none">
+            <h1>Add New Event</h1>
+            <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+        </div>
 
 
-
-</body>
-
-</html>
 
 </body>
-
 
 </html>
 
