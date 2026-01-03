@@ -50,6 +50,7 @@ function button_upcoming_events() {
 }
 
 function button_admin_login() {
+    var home_page = document.getElementById("home_page");
     var login_page = document.getElementById("login_page");
     hide_other_pages();
     home_page.style.display = "none";
@@ -111,4 +112,27 @@ function button_contact() {
     past_events.style.display = "none";
     upcoming_events.style.display = "none";
     who_we_are.style.display = "block";
+}
+
+
+//backend
+function button_verify_login() {
+    //login button calls this fn. if login fields are validated, go to admin home
+    //init placeholder verification values
+    let admin_user = "admin";
+    let admin_password = "123";
+    let username = document.getElementById("admin_username").value;
+    let password = document.getElementById("admin_password").value;
+    let warning1 = document.getElementById("warning1");
+    let warning2 = document.getElementById("warning2");
+    warning1.textContent = " ";
+    warning2.textContent = " ";
+
+    if (admin_user == username) {
+        if (admin_password == password) {
+            button_admin_home();
+        }
+        else { warning2.textContent = "Password invalid." }
+    }
+    else {warning1.textContent = "Enter a valid username"}
 }
