@@ -152,7 +152,6 @@ body {
 /* Make non-home page text align left */
 
 #who_we_are #hero,
-#what_we_do #hero,
 #upcoming_events #hero,
 #past_events #hero {
     align-items: flex-start;
@@ -484,4 +483,20 @@ body {
     .unknownface {
         width: 120px;
     }
+}
+
+
+/* what we do */
+
+.what-we-do-image {
+    margin-top: 32px;
+    display: flex;
+    justify-content: center;
+}
+
+.what-we-do-image img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border-radius: 16px;
 }
