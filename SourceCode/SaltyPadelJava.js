@@ -15,6 +15,15 @@ function hide_other_pages() {
     login_page.style.display = "none";
     admin_page.style.display = "none";
 }
+
+function hide_other_navs() {
+    document.getElementById("main-nav").style.display = "none";
+    document.getElementById("who-are-we-nav").style.display = "none";
+    document.getElementById("what-we-do-nav").style.display = "none";
+    document.getElementById("past-events-nav").style.display = "none";
+    document.getElementById("upcoming-events-nav").style.display = "none";
+}
+
 function button_who_we_are() {
     // Variables transfer from HTML by getElementByID
     var home_page = document.getElementById("home_page");
@@ -23,6 +32,8 @@ function button_who_we_are() {
     home_page.style.display = "none"; // hide home
     who_are_we.style.display = "block"; // show "who are we" page
 
+    hide_other_navs();
+    document.getElementById("who-are-we-nav").style.display = "flex";
 }
 
 function button_what_we_do() {
@@ -31,6 +42,9 @@ function button_what_we_do() {
     hide_other_pages();
     home_page.style.display = "none";
     what_we_do.style.display = "block";
+
+    hide_other_navs();
+    document.getElementById("what-we-do-nav").style.display = "flex";
 }
 
 function button_past_events() {
@@ -39,6 +53,9 @@ function button_past_events() {
     hide_other_pages();
     home_page.style.display = "none";
     past_events.style.display = "block";
+
+    hide_other_navs();
+    document.getElementById("past-events-nav").style.display = "flex";
 }
 
 function button_upcoming_events() {
@@ -47,6 +64,9 @@ function button_upcoming_events() {
     hide_other_pages();
     home_page.style.display = "none";
     upcoming_events.style.display = "block";
+
+    hide_other_navs();
+    document.getElementById("upcoming-events-nav").style.display = "flex";
 }
 
 function button_admin_login() {
@@ -68,24 +88,12 @@ function button_admin_home() {
 
 // Admin login page, add new events page, and edit home page
 function button_home() {
-    var login_page = document.getElementById("login_page");
-    var who_are_we = document.getElementById("who_we_are");
-    var what_we_do = document.getElementById("what_we_do");
-    var past_events = document.getElementById("past_events");
-    var upcoming_events = document.getElementById("upcoming_events");
-    var edit_home_page = document.getElementById("edit_home_page");
-    var add_new_event = document.getElementById("add_new_event");
+    hide_other_pages();
     var home_page = document.getElementById("home_page");
-    var admin_page = document.getElementById("admin_page");
-    login_page.style.display = "none";
-    who_are_we.style.display = "none";
-    what_we_do.style.display = "none";
-    past_events.style.display = "none";
-    upcoming_events.style.display = "none";
-    edit_home_page.style.display = "none";
-    add_new_event.style.display = "none";
-    admin_page.style.display = "none";
     home_page.style.display = "block";
+
+    hide_other_navs();
+    document.getElementById("main-nav").style.display = "flex";
 }
 
 function button_edit_home() {
@@ -114,6 +122,14 @@ function button_contact() {
     who_we_are.style.display = "block";
 }
 
+// Ensures code code shows after page is loaded
+document.addEventListener("DOMContentLoaded", () => {
+    hide_other_pages();
+    hide_other_navs();
+
+    document.getElementById("home_page").style.display = "block";
+    document.getElementById("main-nav").style.display = "flex";
+})
 
 //backend
 function button_verify_login() {
@@ -131,8 +147,6 @@ function button_verify_login() {
     if (admin_user == username) {
         if (admin_password == password) {
             button_admin_home();
-        }
-        else { warning2.textContent = "Password invalid." }
-    }
-    else {warning1.textContent = "Enter a valid username"}
+        } else { warning2.textContent = "Password invalid." }
+    } else { warning1.textContent = "Enter a valid username" }
 }

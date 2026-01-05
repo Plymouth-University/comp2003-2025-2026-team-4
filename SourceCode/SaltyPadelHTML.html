@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salty Padel</title>
     <link rel="stylesheet" href="Style.css">
-    <script src="SaltyPadelJava.js"></script>
+    <script src="SaltyPadelJava.js" defer></script>
 </head>
 
 <body>
@@ -24,6 +24,34 @@
         <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
         <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
         <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
+    </nav>
+
+    <nav id="who-are-we-nav" class="bg-black" style="display:none">
+        <button class="btn btn-nav" onclick="button_home()">Home</button>
+        <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
+        <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
+        <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
+    </nav>
+
+    <nav id="what-we-do-nav" class="bg-black" style="display:none">
+        <button class="btn btn-nav" onclick="button_home()">Home</button>
+        <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
+        <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
+        <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
+    </nav>
+
+    <nav id="past-events-nav" class="bg-black" style="display:none">
+        <button class="btn btn-nav" onclick="button_home()">Home</button>
+        <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
+        <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
+        <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
+    </nav>
+
+    <nav id="upcoming-events-nav" class="bg-black" style="display:none">
+        <button class="btn btn-nav" onclick="button_home()">Home</button>
+        <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
+        <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
+        <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
     </nav>
 
     <!-- Home Page -->
@@ -107,25 +135,21 @@
     <!-- Who We Are Page -->
     <div id="who_we_are" style="display:none">
         <h1>Who we are</h1>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
     </div>
 
     <!-- What We Do Page -->
     <div id="what_we_do" style="display:none">
         <h1>What we do</h1>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
     </div>
 
     <!-- Upcoming Events Page -->
     <div id="upcoming_events" style="display:none">
         <h1>Upcoming events</h1>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
     </div>
 
     <!-- Past Events Page -->
     <div id="past_events" style="display:none">
-        <h1>Past events</h1>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+        <h1>past events</h1>
     </div>
 
     <!-- Admin login page-->
