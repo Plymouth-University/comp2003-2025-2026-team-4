@@ -33,7 +33,9 @@ function button_who_we_are() {
     who_are_we.style.display = "block"; // show "who are we" page
 
     hide_other_navs();
-    document.getElementById("who-are-we-nav").style.display = "flex";
+    let nav = document.getElementById("who-are-we-nav");
+    nav.style.display = "flex";
+    nav.style.justifyContent = "center";
 }
 
 function button_what_we_do() {
@@ -44,7 +46,9 @@ function button_what_we_do() {
     what_we_do.style.display = "block";
 
     hide_other_navs();
-    document.getElementById("what-we-do-nav").style.display = "flex";
+    let nav = document.getElementById("what-we-do-nav");
+    nav.style.display = "flex";
+    nav.style.justifyContent = "center";
 }
 
 function button_past_events() {
@@ -55,7 +59,9 @@ function button_past_events() {
     past_events.style.display = "block";
 
     hide_other_navs();
-    document.getElementById("past-events-nav").style.display = "flex";
+    let nav = document.getElementById("past-events-nav");
+    nav.style.display = "flex";
+    nav.style.justifyContent = "center";
 }
 
 function button_upcoming_events() {
@@ -66,7 +72,9 @@ function button_upcoming_events() {
     upcoming_events.style.display = "block";
 
     hide_other_navs();
-    document.getElementById("upcoming-events-nav").style.display = "flex";
+    let nav = document.getElementById("upcoming-events-nav");
+    nav.style.display = "flex";
+    nav.style.justifyContent = "center";
 }
 
 function button_admin_login() {

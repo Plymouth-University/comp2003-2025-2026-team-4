@@ -67,46 +67,10 @@ body {
 
 /*  NAVIGATION */
 
-#main-nav {
-    height: 70px;
-    /* matches Figma */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 0 24px;
-}
-
-#who-we-are-nav {
-    height: 70px;
-    /* matches Figma */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 0 24px;
-}
-
-#what-we-do-nav {
-    height: 70px;
-    /* matches Figma */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 0 24px;
-}
-
-#past-events-nav {
-    height: 70px;
-    /* matches Figma */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 0 24px;
-}
-
+#main-nav,
+#who-are-we-nav,
+#what-we-do-nav,
+#past-events-nav,
 #upcoming-events-nav {
     height: 70px;
     /* matches Figma */
@@ -115,6 +79,7 @@ body {
     justify-content: center;
     gap: 12px;
     padding: 0 24px;
+    width: 100%;
 }
 
 .btn {
