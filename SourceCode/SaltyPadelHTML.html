@@ -145,8 +145,6 @@
             <div class="join-page">
                 <button class="join-page-animation" onclick="button_join_our_whatsapp_group()">Join our WhatsApp Group</button>
             </div>
-
-            <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
         </main>
     </div>
 
@@ -160,7 +158,6 @@
         <h1>Upcoming events</h1>
     </div>
 
-
     <!-- Past Events Page -->
     <div id="past_events" style="display:none">
         <section class="page-banner bg-yellow">
@@ -168,17 +165,31 @@
         </section>
         <main class="past-events-main">
             <section class="gallery">
-                <img src="assets/peg1.png" alt="Past event 1">
-                <img src="assets/peg2.png" alt="Past event 2">
-                <img src="assets/peg3.png" alt="Past event 3">
-                <img src="assets/peg4.png" alt="Past event 4">
+                <!-- Figure's can't be combined as one figcaption belongs to one figure -->
+                <figure class="gallery-item">
+                    <img src="assets/peg1.png" alt="Past event 1">
+                    <figcaption>Event name - event date</figcaption>
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="assets/peg2.png" alt="Past event 2">
+                    <figcaption>Event name - event date</figcaption>
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="assets/peg3.png" alt="Past event 3">
+                    <figcaption>Event name - event date</figcaption>
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="assets/peg4.png" alt="Past event 4">
+                    <figcaption>Event name - event date</figcaption>
+                </figure>
             </section>
 
             <div class="join-page">
                 <button class="join-page-animation" onclick="button_join_our_whatsapp_group()">Join our WhatsApp Group</button>
             </div>
-
-            <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
         </main>
     </div>
 
