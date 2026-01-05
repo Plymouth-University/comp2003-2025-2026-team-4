@@ -155,6 +155,21 @@ function button_verify_login() {
     if (admin_user == username) {
         if (admin_password == password) {
             button_admin_home();
-        } else { warning2.textContent = "Password invalid." }
-    } else { warning1.textContent = "Enter a valid username" }
+        }
+        else { warning2.textContent = "Password invalid." }
+    }
+    else {warning1.textContent = "Enter a valid username"}
 }
+
+// Open WhatsApp group invite (replace the link with a real invite)
+function button_join_our_whatsapp_group() {
+  window.open('https://chat.whatsapp.com/your-invite-link', '_blank');
+}
+
+// On page load, check URL hash to open pages directly (e.g., #who)
+window.addEventListener('DOMContentLoaded', function() {
+  if (location.hash === '#who') {
+    button_who_we_are();
+  }
+});
+
