@@ -1,0 +1,340 @@
+/* GLOBAL RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* COLOURS */
+.bg-black { background-color: #000000; }
+.bg-yellow { background-color: #F0FF70; }
+.bg-pink { background-color: #FFF9FC; }
+.bg-white { background-color: #FFFFFF; }
+
+/* HEADER */
+#site-header {
+    width: 100%;
+    height: 80px;              /* smaller height from Figma */
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;        /* vertical centering */
+    justify-content: flex-start;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo {
+    width: 60px;
+    height: 70px;
+}
+
+.brand-title {
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;           /* tighter line height for small text */
+}
+
+/*  NAVIGATION */
+#main-nav {
+    height: 70px;               /* matches Figma */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 24px;
+}
+
+.btn {
+    cursor: pointer;
+    border: none;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.btn-nav {
+    padding: 12px 24px;
+    min-width: 140px;
+    height: 48px;
+    border-radius: 999px;
+    background-color: #F0FF70;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: #000000;
+
+    /* INNER SHADOW (Figma equivalent) */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+
+.btn-nav:hover {
+    filter: brightness(0.97);
+}
+
+/* HERO SECTION */
+#hero {
+    width: 100%;
+    padding: 64px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.hero-subtitle {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+}
+
+.btn-hero {
+    padding: 16px 24px;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.btn-hero:hover {
+    background-color: #f5f5f5;
+}
+
+
+/* TESTIMONIALS */
+#testimonials {
+    width: 100%;
+    padding: 64px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.testimonials-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.testimonials-subtitle {
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+.testimonials-list {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+}
+
+.testimonial-card {
+    width: 390px;
+    padding: 24px;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-text {
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.testimonial-author-block {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.testimonial-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #E8F5E9;
+}
+
+.testimonial-author {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.testimonial-role {
+    font-size: 12px;
+    color: #666666;
+}
+
+/* PARTNERS*/
+#partners {
+    width: 100%;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.partners-title {
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+.partners-list {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.partner-logo {
+    width: 80px;
+    height: 60px;
+    object-fit: contain;
+}
+
+/* FOOTER */
+#site-footer {
+    width: 100%;
+    padding: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-footer {
+    width: 60px;
+    height: 60px;
+}
+
+.footer-brand {
+    color: #FFFFFF;
+    font-size: 14px;
+}
+
+.footer-center {
+    display: flex;
+}
+
+.footer-social-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.footer-right {
+    display: flex;
+}
+
+.btn-admin {
+    padding: 12px 24px;
+    border-radius: 24px;
+    background-color: transparent;
+    border: 1px solid #FFFFFF;
+    color: #FFFFFF;
+}
+
+.btn-admin:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+
+/* ========== PAGES (hidden by default) ========== */
+#who_we_are,
+#what_we_do,
+#upcoming_events,
+#past_events {
+  display: none;
+  padding: 64px 24px;
+  min-height: 50vh;
+}
+/* ============== Login page stuff ============== */
+.input-field {
+    padding: 12px 24px;
+    min-width: 140px;
+    height: 48px;
+    border-radius: 999px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+.input-warning {
+    font-size: 16px;
+    color: red;
+}
+
+.login-formatting {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+}
+
+#edit_home_page,
+#add_new_event {
+    padding: 64px 24px;
+    min-height: 50vh;
+}
+
+/* ============== Past Events stuff ============== */
+.page-banner { background: var(--color-yellow); padding: 32px 60px; }
+.page-banner h1 { margin: 0; font-size: 40px; font-weight: 500; }
+
+.gallery {
+  padding: 30px 60px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+.gallery img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+}
+
+.join-page { display: flex; justify-content: center; margin: 60px 0; }
+.join-page-animation {
+  background-color: #F0FF70;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.join-page-animation:hover { transform: scale(0.94); }
+
+@media (max-width: 700px) {
+  .gallery { grid-template-columns: 1fr; gap: 18px; padding: 20px; }
+  .page-banner { padding: 20px; }
+  .page-banner h1 { font-size: 28px; }
+}
