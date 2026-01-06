@@ -268,18 +268,21 @@
 
     <!-- Admin login page-->
     <div id="login_page" style="display:none">
-        <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo">
-        <h1>Admin login</h1>
-        <h3>Salty Padel</h3>
-        <div class="login-formatting">
-            <input type="text" id="admin_username" placeholder="Username:" class="input-field">
-            <p class="input-warning" id="warning1"> </p>
-            <input type="password" id="admin_password" placeholder="Password:" class="input-field">
-            <p class="input-warning" id="warning2"> </p>
-            <button class="btn btn-nav" onclick="button_verify_login()">Login</button>
-            <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
-        </div>
+        <div class="login-container">
+            <img src="assets/logo-saltypadel-white-bg.png" alt="Salty Padel logo" class="login-logo">
+            <h1>Admin login</h1>
+            <h3>Salty Padel</h3>
 
+            <div class="login-formatting">
+                <input type="text" id="admin_username" placeholder="Username:" class="input-field">
+                <p class="input-warning" id="warning1"> </p>
+
+                <input type="password" id="admin_password" placeholder="Password:" class="input-field">
+                <p class="input-warning" id="warning2"> </p>
+
+                <button class="btn btn-nav" onclick="button_verify_login()">Login</button>
+            </div>
+        </div>
     </div>
 
     <!-- Admin Home Page -->
