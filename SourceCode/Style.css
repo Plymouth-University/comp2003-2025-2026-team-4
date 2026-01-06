@@ -222,6 +222,10 @@ body {
     color: #666666;
 }
 
+#what_we_do .testimonial-card {
+    margin: 40px auto;
+}
+
 
 /* PARTNERS*/
 
@@ -499,4 +503,43 @@ body {
     max-width: 600px;
     height: auto;
     border-radius: 16px;
+}
+
+.content-block {
+    max-width: 800px;
+    padding: 32px;
+    margin: 40px auto;
+    text-align: left;
+}
+
+.content-block h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.content-block p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444
+}
+
+.quote-block {
+    max-width: 800px;
+    padding: 32px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.quote-block h1 {
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 700px) {
+    .content-block {
+        padding: 24px;
+        margin: 24px 16px;
+    }
 }
