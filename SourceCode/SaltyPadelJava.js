@@ -81,6 +81,8 @@ function button_upcoming_events() {
 function button_admin_login() {
     var home_page = document.getElementById("home_page");
     var login_page = document.getElementById("login_page");
+    var login_button = document.getElementById("admin-login");
+    login_button.style.display = "none";
     hide_other_pages();
     home_page.style.display = "none";
     login_page.style.display = "flex";
@@ -88,7 +90,6 @@ function button_admin_login() {
 
 function admin_home() {
     var admin_page = document.getElementById("admin_page");
-    var login_button = document.getElementById("admin-login");
     hide_other_navs();
     let nav = document.getElementById("admin-log-off-nav");
     nav.style.display = "flex";
@@ -100,11 +101,26 @@ function admin_home() {
 // Admin login page, add new events page, and edit home page
 function button_home() {
     hide_other_pages();
+    var login_button = document.getElementById("admin-login");
+    login_button.style.display = "block";
     var home_page = document.getElementById("home_page");
     home_page.style.display = "block";
 
     hide_other_navs();
     document.getElementById("main-nav").style.display = "flex";
+}
+
+function button_manage_testimonials() {
+    hide_other_pages();
+}
+function button_manage_past_events() {
+    hide_other_pages();
+}
+function button_manage_upcoming_events() {
+    hide_other_pages();
+}
+function button_manage_partners() {
+    hide_other_pages();
 }
 
 function button_edit_home() {
@@ -173,3 +189,4 @@ window.addEventListener('DOMContentLoaded', function () {
         button_who_we_are();
     }
 });
+
