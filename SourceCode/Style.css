@@ -71,7 +71,8 @@ body {
 #who-are-we-nav,
 #what-we-do-nav,
 #past-events-nav,
-#upcoming-events-nav {
+#upcoming-events-nav,
+#admin-log-off-nav{
     height: 70px;
     /* matches Figma */
     display: flex;
@@ -105,9 +106,9 @@ body {
     font-weight: 500;
 }
 
-.btn-nav:hover {
-    filter: brightness(0.97);
-}
+    .btn-nav:hover {
+        filter: brightness(0.97);
+    }
 
 #login_page .btn-nav {
     background-color: #FFFFFF;
@@ -151,9 +152,9 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.btn-hero:hover {
-    background-color: #f5f5f5;
-}
+    .btn-hero:hover {
+        background-color: #f5f5f5;
+    }
 
 
 /* Make non-home page text align left */
@@ -309,9 +310,9 @@ body {
     color: #FFFFFF;
 }
 
-.btn-admin:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
+    .btn-admin:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
 
 
 /* ========== PAGES (hidden by default) ========== */
@@ -353,22 +354,22 @@ body {
     justify-content: center;
 }
 
-#login_page .btn-nav {
-    width: 180px;
-    margin: 0 auto;
-    height: 42px;
-    padding: 0px 20px;
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    margin-top: 12px;
-}
+    #login_page .btn-nav {
+        width: 180px;
+        margin: 0 auto;
+        height: 42px;
+        padding: 0px 20px;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        margin-top: 12px;
+    }
 
-#login_page .btn-nav:hover {
-    background-color: #F0FF70;
-}
+        #login_page .btn-nav:hover {
+            background-color: #F0FF70;
+        }
 
 .login-container {
     background-color: #FFFFFF;
@@ -408,14 +409,50 @@ body {
     align-items: stretch;
 }
 
-.login-formatting .btn {
+    .login-formatting .btn {
+        width: 100%;
+    }
+
+    .login-formatting button {
+        margin-top: 8px;
+    }
+
+#hero_admin {
     width: 100%;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
-
-.login-formatting button {
-    margin-top: 8px;
+.admin-hero-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
 }
-
+#management_buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+    padding: 48px;
+    box-sizing: border-box;
+    align-items: center;
+}
+.btn-management {
+    padding: 12px 24px;
+    width: 280px;
+    max-width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    background-color: #F0FF70;
+    border: 1px solid #000000;
+    color: #000000;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
 #edit_home_page,
 #add_new_event {
     padding: 64px 24px;
@@ -427,6 +464,7 @@ body {
         padding: 40px 24px 32px;
         margin: 16px;
     }
+
     .login-logo {
         width: 44px;
     }
@@ -440,13 +478,13 @@ body {
 }
 
 
-/* background supplied by .bg-yellow on the element */
+    /* background supplied by .bg-yellow on the element */
 
-.page-banner h1 {
-    margin: 0;
-    font-size: 40px;
-    font-weight: 500;
-}
+    .page-banner h1 {
+        margin: 0;
+        font-size: 40px;
+        font-weight: 500;
+    }
 
 .gallery {
     padding: 30px 60px;
@@ -455,26 +493,26 @@ body {
     gap: 30px;
 }
 
-.gallery img {
-    width: 100%;
-    height: 320px;
-    object-fit: cover;
-    border-radius: 18px;
-    display: block;
-}
+    .gallery img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        border-radius: 18px;
+        display: block;
+    }
 
 .gallery-item {
     display: flex;
     flex-direction: column;
 }
 
-.gallery-item figcaption {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #444;
-    text-align: center;
-    white-space: normal;
-}
+    .gallery-item figcaption {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #444;
+        text-align: center;
+        white-space: normal;
+    }
 
 .ticket-btn {
     margin-top: 12px;
@@ -490,9 +528,9 @@ body {
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.ticket-btn:hover {
-    background-color: #F0FF70;
-}
+    .ticket-btn:hover {
+        background-color: #F0FF70;
+    }
 
 .join-page {
     display: flex;
@@ -512,9 +550,9 @@ body {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.join-page-animation:hover {
-    transform: scale(0.94);
-}
+    .join-page-animation:hover {
+        transform: scale(0.94);
+    }
 
 @media (max-width: 700px) {
     .gallery {
@@ -522,12 +560,14 @@ body {
         gap: 18px;
         padding: 20px;
     }
+
     .page-banner {
         padding: 20px;
     }
-    .page-banner h1 {
-        font-size: 28px;
-    }
+
+        .page-banner h1 {
+            font-size: 28px;
+        }
 }
 
 
@@ -580,12 +620,12 @@ body {
     justify-content: center;
 }
 
-.what-we-do-image img {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    border-radius: 16px;
-}
+    .what-we-do-image img {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        border-radius: 16px;
+    }
 
 .content-block {
     max-width: 800px;
@@ -594,17 +634,17 @@ body {
     text-align: left;
 }
 
-.content-block h2 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 12px;
-}
+    .content-block h2 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
 
-.content-block p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #444
-}
+    .content-block p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #444
+    }
 
 .quote-block {
     max-width: 800px;
@@ -613,11 +653,11 @@ body {
     text-align: center;
 }
 
-.quote-block h1 {
-    font-size: 40px;
-    font-weight: 800;
-    margin-bottom: 12px;
-}
+    .quote-block h1 {
+        font-size: 40px;
+        font-weight: 800;
+        margin-bottom: 12px;
+    }
 
 @media (max-width: 700px) {
     .content-block {
