@@ -22,6 +22,7 @@ function hide_other_navs() {
     document.getElementById("what-we-do-nav").style.display = "none";
     document.getElementById("past-events-nav").style.display = "none";
     document.getElementById("upcoming-events-nav").style.display = "none";
+    document.getElementById("admin-log-off-nav").style.display = "none";
 }
 
 function button_who_we_are() {
@@ -85,13 +86,15 @@ function button_admin_login() {
     login_page.style.display = "flex";
 }
 
-function button_admin_home() {
-    var home_page = document.getElementById("home_page");
-    var admin_home = document.getElementById("admin_page");
-    var login_page = document.getElementById("login_page");
-    login_page.style.display = "none";
-    home_page.style.display = "none";
-    admin_home.style.display = "block";
+function admin_home() {
+    var admin_page = document.getElementById("admin_page");
+    var login_button = document.getElementById("admin-login");
+    hide_other_navs();
+    let nav = document.getElementById("admin-log-off-nav");
+    nav.style.display = "flex";
+    nav.style.justifyContent = "center";
+    hide_other_pages();
+    admin_page.style.display = "block";
 }
 
 // Admin login page, add new events page, and edit home page
@@ -154,7 +157,7 @@ function button_verify_login() {
 
     if (admin_user == username) {
         if (admin_password == password) {
-            button_admin_home();
+            admin_home();
         } else { warning2.textContent = "Password invalid." }
     } else { warning1.textContent = "Enter a valid username" }
 }
@@ -165,7 +168,7 @@ function button_join_our_whatsapp_group() {
 }
 
 // On page load, check URL hash to open pages directly (e.g., #who)
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', function () {
     if (location.hash === '#who') {
         button_who_we_are();
     }
