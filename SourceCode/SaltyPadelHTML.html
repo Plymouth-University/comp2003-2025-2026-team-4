@@ -54,6 +54,10 @@
         <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
     </nav>
 
+    <nav id="admin-log-off-nav" class=" bg-black" style="display: none">
+        <button class="btn btn-nav" onclick="button_home()">Log off</button>
+    </nav>
+
     <!-- Home Page -->
     <div id="home_page">
         <!-- Hero Section -->
@@ -123,8 +127,10 @@
             <h1>Meet the owner</h1>
             <div class="who-intro">
                 <img src="assets/unknownface.png" class="unknownface" alt="Owner">
-                <p class="fade">A little paragraph introduction that gives a sense of what you do, who you are, where you’re from, and why you created this website. This is the most likely part of the page to be read in full. Who’s the person behind it, really? What
-                    do they like—and what are they like? Sections like this can go a little bit longer because it’s nice to learn more about what makes someone tick.</p>
+                <p class="fade">
+                    A little paragraph introduction that gives a sense of what you do, who you are, where you’re from, and why you created this website. This is the most likely part of the page to be read in full. Who’s the person behind it, really? What
+                    do they like—and what are they like? Sections like this can go a little bit longer because it’s nice to learn more about what makes someone tick.
+                </p>
             </div>
         </section>
 
@@ -287,10 +293,17 @@
 
     <!-- Admin Home Page -->
     <div id="admin_page" style="display:none">
-        <h1>Admin Homepage</h1>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
-        <button class="btn btn-nav" onclick="button_edit_home()">Edit home</button>
-        <button class="btn btn-nav" onclick="button_add_new_event()">Add new event</button>
+        <section id="hero_admin" class="bg-yellow">
+            <p class="hero-subtitle">Grow your game. Join the movement.</p>
+            <h1 class="admin-hero-title">Where energy, competition and community meet.</h1>
+                <button class="btn btn-hero">Change WhatsApp group</button>
+        </section>
+        <section id="management_buttons" class="bg-white">
+            <button class="btn btn-management" onclick="button_manage_testimonials()">Manage Testimonials</button>
+            <button class="btn btn-management" onclick="button_manage_past_events()">Manage Past Events</button>
+            <button class="btn btn-management" onclick="button_manage_upcoming_events()">Manage Upcoming Events</button>
+            <button class="btn btn-management" onclick="button_manage_partners()">Manage Partners</button>
+        </section>
     </div>
 
     <!-- Edit Home Page -->
@@ -317,7 +330,7 @@
             </a>
         </div>
         <div class="footer-right">
-            <button class="btn btn-admin" onclick="button_admin_login()">Admin Login</button>
+            <button class="btn btn-admin" id="admin-login" onclick="button_admin_login()">Admin Login</button>
         </div>
     </footer>
 
