@@ -22,7 +22,7 @@ function hide_other_navs() {
     document.getElementById("what-we-do-nav").style.display = "none";
     document.getElementById("past-events-nav").style.display = "none";
     document.getElementById("upcoming-events-nav").style.display = "none";
-    document.getElementById("admin-log-off-nav").style.display = "none";
+    document.getElementById("admin-nav").style.display = "none";
 }
 
 function button_who_we_are() {
@@ -78,6 +78,7 @@ function button_upcoming_events() {
     nav.style.justifyContent = "center";
 }
 
+// Admin login and management pages
 function button_admin_login() {
     var home_page = document.getElementById("home_page");
     var login_page = document.getElementById("login_page");
@@ -89,18 +90,22 @@ function button_admin_login() {
 }
 
 function admin_home() {
-    var admin_page = document.getElementById("admin_page");
+    hide_other_pages();
     hide_other_navs();
-    let nav = document.getElementById("admin-log-off-nav");
+
+    var admin_page = document.getElementById("admin_page");
+    let nav = document.getElementById("admin-nav");
+
     nav.style.display = "flex";
     nav.style.justifyContent = "center";
-    hide_other_pages();
     admin_page.style.display = "block";
+
+    document.getElementById("admin-home-btn").style.display = "none";
 }
 
-// Admin login page, add new events page, and edit home page
 function button_home() {
     hide_other_pages();
+    hide_other_navs();
     var login_button = document.getElementById("admin-login");
     login_button.style.display = "block";
     var home_page = document.getElementById("home_page");
@@ -112,22 +117,21 @@ function button_home() {
 
 function button_manage_testimonials() {
     hide_other_pages();
+    document.getElementById("manage_testimonials").style.display = "block";
+
+    let nav = document.getElementById("admin-nav");
+    nav.style.display = "flex";
+    nav.style.justifyContent = "center";
+
+    document.getElementById("admin-home-btn").style.display = "inline-flex";
 }
+
 function button_manage_past_events() {
     hide_other_pages();
 }
+
 function button_manage_upcoming_events() {
     hide_other_pages();
-}
-function button_manage_partners() {
-    hide_other_pages();
-}
-
-function button_edit_home() {
-    var login_page = document.getElementById("login_page");
-    var edit_home_page = document.getElementById("edit_home_page");
-    login_page.style.display = "none";
-    edit_home_page.style.display = "block";
 }
 
 function button_add_new_event() {
@@ -184,9 +188,8 @@ function button_join_our_whatsapp_group() {
 }
 
 // On page load, check URL hash to open pages directly (e.g., #who)
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', function() {
     if (location.hash === '#who') {
         button_who_we_are();
     }
 });
-

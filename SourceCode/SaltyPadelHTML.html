@@ -54,8 +54,9 @@
         <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
     </nav>
 
-    <nav id="admin-log-off-nav" class=" bg-black" style="display: none">
+    <nav id="admin-nav" class="bg-black" style="display: none">
         <button class="btn btn-nav" onclick="button_home()">Log off</button>
+        <button id="admin-home-btn" class="btn btn-nav" onclick="admin_home()">Home</button>
     </nav>
 
     <!-- Home Page -->
@@ -128,8 +129,8 @@
             <div class="who-intro">
                 <img src="assets/unknownface.png" class="unknownface" alt="Owner">
                 <p class="fade">
-                    A little paragraph introduction that gives a sense of what you do, who you are, where you’re from, and why you created this website. This is the most likely part of the page to be read in full. Who’s the person behind it, really? What
-                    do they like—and what are they like? Sections like this can go a little bit longer because it’s nice to learn more about what makes someone tick.
+                    A little paragraph introduction that gives a sense of what you do, who you are, where you’re from, and why you created this website. This is the most likely part of the page to be read in full. Who’s the person behind it, really? What do they like—and
+                    what are they like? Sections like this can go a little bit longer because it’s nice to learn more about what makes someone tick.
                 </p>
             </div>
         </section>
@@ -296,7 +297,7 @@
         <section id="hero_admin" class="bg-yellow">
             <p class="hero-subtitle">Grow your game. Join the movement.</p>
             <h1 class="admin-hero-title">Where energy, competition and community meet.</h1>
-                <button class="btn btn-hero">Change WhatsApp group</button>
+            <button class="btn btn-hero">Change WhatsApp group</button>
         </section>
         <section id="management_buttons" class="bg-white">
             <button class="btn btn-management" onclick="button_manage_testimonials()">Manage Testimonials</button>
@@ -306,10 +307,11 @@
         </section>
     </div>
 
-    <!-- Edit Home Page -->
-    <div id="edit_home_page" style="display:none">
-        <h1>Edit Home Page</h1>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+    <!-- Manage Testimonials -->
+    <div id="manage_testimonials" style="display:none">
+        <section id="hero" class="bg-yellow">
+            <h1>Manage Testimonials</h1>
+        </section>
     </div>
 
     <!-- Add New Event Page -->
