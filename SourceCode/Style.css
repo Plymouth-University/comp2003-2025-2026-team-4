@@ -521,6 +521,17 @@ body {
     white-space: normal;
 }
 
+#manage_testimonials .gallery {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+#manage_testimonials .gallery img {
+    width: auto;
+    max-width: 100%;
+}
+
 .ticket-btn {
     margin-top: 12px;
     align-self: center;
