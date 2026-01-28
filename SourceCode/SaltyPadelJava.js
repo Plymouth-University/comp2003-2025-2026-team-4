@@ -8,12 +8,14 @@ function hide_other_pages() {
     var upcoming_events = document.getElementById("upcoming_events");
     var login_page = document.getElementById("login_page");
     var admin_page = document.getElementById("admin_page");
+    var manage_testimonials = document.getElementById("manage_testimonials");
     who_are_we.style.display = "none";
     what_we_do.style.display = "none";
     past_events.style.display = "none";
     upcoming_events.style.display = "none";
     login_page.style.display = "none";
     admin_page.style.display = "none";
+    manage_testimonials.style.display = "none";
 }
 
 function hide_other_navs() {

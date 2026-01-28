@@ -521,17 +521,6 @@ body {
     white-space: normal;
 }
 
-#manage_testimonials .gallery {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-}
-
-#manage_testimonials .gallery img {
-    width: auto;
-    max-width: 100%;
-}
-
 .ticket-btn {
     margin-top: 12px;
     align-self: center;
@@ -680,4 +669,54 @@ body {
         padding: 24px;
         margin: 24px 16px;
     }
+}
+
+
+/* Manage testimonials */
+
+#manage_testimonials .gallery {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+#manage_testimonials .gallery img {
+    width: auto;
+    max-width: 100%;
+}
+
+#manage_testimonials .gallery-item {
+    padding: 24px 0;
+}
+
+.button-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.testimonial-textbox {
+    width: 100%;
+    max-width: 420px;
+    min-height: 200px;
+    margin: 16px auto 0;
+    padding: 14px 16px;
+    font-family: 'Inter', Arial, sans-serid;
+    font-size: 15px;
+    line-height: 1.5;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    resize: vertical;
+}
+
+.testimonial-action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 20px auto 0;
+    width: 60%;
+    max-width: 420px;
 }
