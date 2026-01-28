@@ -55,7 +55,7 @@
     </nav>
 
     <nav id="admin-nav" class="bg-black" style="display: none">
-        <button class="btn btn-nav" onclick="button_home()">Log off</button>
+        <button class="btn btn-nav" onclick="open_modal('modal-logout-confirm')">Log off</button>
         <button id="admin-home-btn" class="btn btn-nav" onclick="admin_home()">Home</button>
     </nav>
 
@@ -66,9 +66,9 @@
             <p class="hero-subtitle">Grow your game. Join the movement.</p>
             <h1 class="hero-title">Where energy, competition and community meet.</h1>
             <div class="hero-buttons">
-                <button class="btn btn-hero">Join our WhatsApp group</button>
-                <button class="btn btn-hero">Check our shop</button>
-                <button class="btn btn-hero">Follow our Instagram</button>
+                <button class="btn btn-hero"  onclick="open_whatsapp()">Join our WhatsApp group</button>
+                <button class="btn btn-hero" onclick="open_shop_with_warning()">Check our shop</button>
+                <button class="btn btn-hero" onclick="open_instagram()">Follow our Instagram</button>
             </div>
         </section>
 
@@ -217,25 +217,25 @@
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn">Get tickets</button>
+                    <button class="ticket-btn"  onclick="open_whatsapp()">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder2.png" alt="Upcoming event 2">
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn">Get tickets</button>
+                    <button class="ticket-btn"  onclick="open_whatsapp()">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder3.png" alt="Upcoming event 3">
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn">Get tickets</button>
+                    <button class="ticket-btn"  onclick="open_whatsapp()">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder4.png" alt="Upcoming event 4">
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn">Get tickets</button>
+                    <button class="ticket-btn"  onclick="open_whatsapp()">Join our WhatsApp group</button>
                 </figure>
             </section>
         </main>
@@ -352,7 +352,71 @@
             <button class="btn btn-admin" id="admin-login" onclick="button_admin_login()">Admin Login</button>
         </div>
     </footer>
+    <!-- ====================MODALS ======================= -->
+    
+    <!-- Admin Logout Confirm Modal -->
+    <div id="modal-logout-confirm" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Logout</h3>
+                <button class="modal-close" onclick="close_modal('modal-logout-confirm')">&times;</button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to log out?
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn-secondary" onclick="close_modal('modal-logout-confirm')">Cancel</button>
+                <button class="modal-btn-primary" onclick="button_home()">Log Out</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- External Redirect Warning Modal -->
+    <div id="modal-external-warning" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Leaving Salty Padel</h3>
+                <button class="modal-close" onclick="close_modal('modal-external-warning')">&times;</button>
+            </div>
+            <div class="modal-body">
+                You're about to open an external website. Their privacy policy may differ from Salty Padel.
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn-secondary" onclick="close_modal('modal-external-warning')">Cancel</button>
+                <button class="modal-btn-primary" id="external-link-confirm">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Confirm Delete Modal -->
+    <div id="modal-confirm-delete" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+                <button class="modal-close" onclick="close_modal('modal-confirm-delete')">&times;</button>
+            </div>
+            <div class="modal-body">
+                Delete this item? This can't be undone.
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn-secondary" onclick="close_modal('modal-confirm-delete')">Cancel</button>
+                <button class="modal-btn-primary" id="delete-confirm-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Save Success Toast -->
+    <div id="modal-save-success" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">✓ Success</h3>
+                <button class="modal-close" onclick="close_modal('modal-save-success')">&times;</button>
+            </div>
+            <div class="modal-body">
+                Changes saved successfully!
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

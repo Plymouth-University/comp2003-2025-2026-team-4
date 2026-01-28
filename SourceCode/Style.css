@@ -529,7 +529,7 @@ body {
     font-weight: 500;
     border: none;
     border-radius: 999px;
-    background-color: #fff;
+    background-color: #F0FF70;
     color: #000;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
@@ -719,4 +719,145 @@ body {
     margin: 20px auto 0;
     width: 60%;
     max-width: 420px;
+}
+
+/* ========================================
+MODAL SYSTEM
+   ======================================== */
+
+/* Modal overlay - dark background */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    align-items: center;
+    justify-content: center;
+}
+
+/* When modal is active */
+.modal-overlay.active {
+    display: flex;
+}
+
+/* Modal container - the popup box */
+.modal-container {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 480px;
+    width: 90%;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    z-index: 1002;
+    position: relative;
+}
+
+/* Prevent body scroll when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Modal header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+}
+
+/* Close button (X) */
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666666;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    color: #000000;
+}
+
+/* Modal body */
+.modal-body {
+    margin-bottom: 24px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333333;
+}
+
+/* Modal buttons container */
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+/* Primary button (yellow) */
+.modal-btn-primary {
+    background-color: #F0FF70;
+    color: #000000;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 120px;
+    height: 44px;
+}
+
+.modal-btn-primary:hover {
+    background-color: #e0ef60;
+}
+
+/* Secondary button (white with border) */
+.modal-btn-secondary {
+    background-color: #FFFFFF;
+    color: #000000;
+    border: 1px solid #CCCCCC;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 120px;
+    height: 44px;
+}
+
+.modal-btn-secondary:hover {
+    background-color: #F5F5F5;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .modal-container {
+        max-width: 360px;
+        padding: 20px;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .modal-btn-primary,
+    .modal-btn-secondary {
+        width: 100%;
+    }
 }

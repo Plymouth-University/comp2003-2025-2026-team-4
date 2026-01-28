@@ -184,9 +184,48 @@ function button_verify_login() {
     } else { warning1.textContent = "Enter a valid username" }
 }
 
-// Open WhatsApp group invite (replace the link with a real invite)
-function button_join_our_whatsapp_group() {
-    window.open('https://chat.whatsapp.com/your-invite-link', '_blank');
+// ========================================
+// EXTERNAL LINK FUNCTIONS
+// ========================================
+
+// WhatsApp link - direct open
+function open_whatsapp() {
+    // REPLACE THIS with Phil's real WhatsApp group invite link
+    const whatsapp_link = 'https://chat.whatsapp.com/YOUR-INVITE-CODE-HERE';
+    window.open(whatsapp_link, '_blank');
+}
+
+// Instagram link - direct open
+function open_instagram() {
+    const instagram_link = 'https://www.instagram.com/saltypadel/';
+    window.open(instagram_link, '_blank');
+}
+
+// Shop link - opens with warning modal
+function open_shop_with_warning() {
+    // Store the shop URL
+    const shop_link = 'https://vx3.co.uk/collections/salty-padel';
+    
+    // Open the external warning modal
+    open_modal('modal-external-warning');
+    
+    // When user clicks "Continue", open the shop
+    const confirm_button = document.getElementById('external-link-confirm');
+    confirm_button.onclick = function() {
+        window.open(shop_link, '_blank');
+        close_modal('modal-external-warning');
+    };
+}
+
+// Generic function for any external link with warning
+function open_external_link_with_warning(url) {
+    open_modal('modal-external-warning');
+    
+    const confirm_button = document.getElementById('external-link-confirm');
+    confirm_button.onclick = function() {
+        window.open(url, '_blank');
+        close_modal('modal-external-warning');
+    };
 }
 
 // On page load, check URL hash to open pages directly (e.g., #who)
@@ -194,4 +233,56 @@ window.addEventListener('DOMContentLoaded', function() {
     if (location.hash === '#who') {
         button_who_we_are();
     }
+});
+// ========================================
+// MODAL FUNCTIONS
+// ========================================
+
+// Open modal
+function open_modal(modal_id) {
+    const modal = document.getElementById(modal_id);
+    if (modal) {
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+        
+        // Close mobile menu if open
+        close_mobile_menu();
+    }
+}
+
+// Close modal
+function close_modal(modal_id) {
+    const modal = document.getElementById(modal_id);
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+}
+
+// Close modal when clicking outside
+function setup_modal_click_outside() {
+    const overlays = document.querySelectorAll('.modal-overlay');
+    overlays.forEach(overlay => {
+        overlay.addEventListener('click', function(event) {
+            if (event.target === overlay) {
+                const modal_id = overlay.id;
+                close_modal(modal_id);
+            }
+        });
+    });
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        const active_modals = document.querySelectorAll('.modal-overlay.active');
+        active_modals.forEach(modal => {
+            close_modal(modal.id);
+        });
+    }
+});
+
+// Initialize modal click-outside functionality when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    setup_modal_click_outside();
 });
