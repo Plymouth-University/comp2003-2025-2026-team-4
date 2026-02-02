@@ -12,52 +12,69 @@
 <body>
     <!-- Header -->
     <header id="site-header" class="bg-black">
-        <div class="header-content">
+        <div class="header-left">
             <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo">
-            <span class="brand-title">Salty Padel</span>
         </div>
-    </header>
 
     <!-- Navigation -->
-    <nav id="main-nav" class="bg-black">
+    <nav id="main-nav"  class="header-nav" >
         <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
         <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
         <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
         <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
     </nav>
 
-    <nav id="who-are-we-nav" class="bg-black" style="display:none">
+    <nav id="who-are-we-nav" class="header-nav" style="display:none">
         <button class="btn btn-nav" onclick="button_home()">Home</button>
         <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
         <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
         <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
     </nav>
 
-    <nav id="what-we-do-nav" class="bg-black" style="display:none">
+    <nav id="what-we-do-nav" class="header-nav" style="display:none">
         <button class="btn btn-nav" onclick="button_home()">Home</button>
         <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
         <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
         <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
     </nav>
 
-    <nav id="past-events-nav" class="bg-black" style="display:none">
+    <nav id="past-events-nav" class="header-nav" style="display:none">
         <button class="btn btn-nav" onclick="button_home()">Home</button>
         <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
         <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
         <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
     </nav>
 
-    <nav id="upcoming-events-nav" class="bg-black" style="display:none">
+    <nav id="upcoming-events-nav" class="header-nav"  style="display:none">
         <button class="btn btn-nav" onclick="button_home()">Home</button>
         <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
         <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
         <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
     </nav>
 
-    <nav id="admin-nav" class="bg-black" style="display: none">
-        <button class="btn btn-nav" onclick="open_modal('modal-logout-confirm')">Log off</button>
-        <button id="admin-home-btn" class="btn btn-nav" onclick="admin_home()">Home</button>
+    <nav id="admin-log-off-nav"  style="display: none">
+        <button class="btn btn-nav" onclick="button_home()">Log off</button>
     </nav>
+<!-- Brand title on RIGHT -->
+    <div class="header-right">
+        <span class="brand-title">Salty Padel</span>
+    </div>
+                <!-- Mobile Menu Toggle-->
+    <button class="mobile-menu-toggle" onclick="toggle_mobile_menu()">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    </header>
+
+    <!-- Mobile Dropdown Menu -->
+<div id="mobile-dropdown" class="mobile-dropdown">
+    <button class="btn btn-nav-mobile" id="mobile-nav-home" onclick="button_home(); close_mobile_menu();">Home</button>
+    <button class="btn btn-nav-mobile" id="mobile-nav-who-we-are" onclick="button_who_we_are(); close_mobile_menu();">Who we are</button>
+    <button class="btn btn-nav-mobile" id="mobile-nav-what-we-do" onclick="button_what_we_do(); close_mobile_menu();">What we do</button>
+    <button class="btn btn-nav-mobile" id="mobile-nav-past-events" onclick="button_past_events(); close_mobile_menu();">Past events</button>
+    <button class="btn btn-nav-mobile" id="mobile-nav-upcoming-events" onclick="button_upcoming_events(); close_mobile_menu();">Upcoming events</button>
+</div>
 
     <!-- Home Page -->
     <div id="home_page">

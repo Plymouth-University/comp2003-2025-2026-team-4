@@ -1,5 +1,6 @@
-// Functions in charge of the (SPA) single page application
-// Home page
+// ========================================
+// CORE PAGE SWITCHING FUNCTIONS
+// ========================================
 
 function hide_other_pages() {
     var who_are_we = document.getElementById("who_we_are");
@@ -27,18 +28,79 @@ function hide_other_navs() {
     document.getElementById("admin-nav").style.display = "none";
 }
 
+// ========================================
+// MOBILE NAVIGATION FUNCTIONS (NEW)
+// ========================================
+
+// Toggle mobile dropdown menu
+function toggle_mobile_menu() {
+    const dropdown = document.getElementById('mobile-dropdown');
+    dropdown.classList.toggle('active');
+}
+
+// Close mobile dropdown menu
+function close_mobile_menu() {
+    const dropdown = document.getElementById('mobile-dropdown');
+    dropdown.classList.remove('active');
+}
+
+// Update which mobile nav buttons are visible based on current page
+function update_mobile_nav(current_page) {
+    // Map of page IDs to mobile button IDs
+    const mobile_buttons = {
+        'home_page': 'mobile-nav-home',
+        'who_we_are': 'mobile-nav-who-we-are',
+        'what_we_do': 'mobile-nav-what-we-do',
+        'past_events': 'mobile-nav-past-events',
+        'upcoming_events': 'mobile-nav-upcoming-events'
+    };
+    
+    // Show all mobile nav buttons first
+    Object.values(mobile_buttons).forEach(btn_id => {
+        const btn = document.getElementById(btn_id);
+        if (btn) btn.style.display = 'block';
+    });
+    
+    // Hide the current page button (don't show "Home" when you're on Home)
+    const current_button = mobile_buttons[current_page];
+    if (current_button) {
+        const btn = document.getElementById(current_button);
+        if (btn) btn.style.display = 'none';
+    }
+}
+
+// ========================================
+// PAGE NAVIGATION FUNCTIONS (UPDATED)
+// ========================================
+
+function button_home() {
+    hide_other_pages();
+    var login_button = document.getElementById("admin-login");
+    login_button.style.display = "block";
+    var home_page = document.getElementById("home_page");
+    home_page.style.display = "block";
+
+    hide_other_navs();
+    document.getElementById("main-nav").style.display = "flex";
+    
+    // Update mobile navigation
+    update_mobile_nav('home_page');
+}
+
 function button_who_we_are() {
-    // Variables transfer from HTML by getElementByID
     var home_page = document.getElementById("home_page");
     var who_are_we = document.getElementById("who_we_are");
     hide_other_pages();
-    home_page.style.display = "none"; // hide home
-    who_are_we.style.display = "block"; // show "who are we" page
+    home_page.style.display = "none";
+    who_are_we.style.display = "block";
 
     hide_other_navs();
     let nav = document.getElementById("who-are-we-nav");
     nav.style.display = "flex";
     nav.style.justifyContent = "center";
+    
+    // Update mobile navigation
+    update_mobile_nav('who_we_are');
 }
 
 function button_what_we_do() {
@@ -52,6 +114,9 @@ function button_what_we_do() {
     let nav = document.getElementById("what-we-do-nav");
     nav.style.display = "flex";
     nav.style.justifyContent = "center";
+    
+    // Update mobile navigation
+    update_mobile_nav('what_we_do');
 }
 
 function button_past_events() {
@@ -65,6 +130,9 @@ function button_past_events() {
     let nav = document.getElementById("past-events-nav");
     nav.style.display = "flex";
     nav.style.justifyContent = "center";
+    
+    // Update mobile navigation
+    update_mobile_nav('past_events');
 }
 
 function button_upcoming_events() {
@@ -78,9 +146,15 @@ function button_upcoming_events() {
     let nav = document.getElementById("upcoming-events-nav");
     nav.style.display = "flex";
     nav.style.justifyContent = "center";
+    
+    // Update mobile navigation
+    update_mobile_nav('upcoming_events');
 }
 
-// Admin login and management pages
+// ========================================
+// ADMIN FUNCTIONS
+// ========================================
+
 function button_admin_login() {
     var home_page = document.getElementById("home_page");
     var login_page = document.getElementById("login_page");
@@ -89,6 +163,8 @@ function button_admin_login() {
     hide_other_pages();
     home_page.style.display = "none";
     login_page.style.display = "flex";
+    
+    hide_other_navs();
 }
 
 function admin_home() {
@@ -105,16 +181,26 @@ function admin_home() {
     document.getElementById("admin-home-btn").style.display = "none";
 }
 
-function button_home() {
-    hide_other_pages();
-    hide_other_navs();
-    var login_button = document.getElementById("admin-login");
-    login_button.style.display = "block";
-    var home_page = document.getElementById("home_page");
-    home_page.style.display = "block";
+function button_verify_login() {
+    // Login button calls this function
+    let admin_user = "admin";
+    let admin_password = "123";
+    let username = document.getElementById("admin_username").value;
+    let password = document.getElementById("admin_password").value;
+    let warning1 = document.getElementById("warning1");
+    let warning2 = document.getElementById("warning2");
+    warning1.textContent = " ";
+    warning2.textContent = " ";
 
-    hide_other_navs();
-    document.getElementById("main-nav").style.display = "flex";
+    if (admin_user == username) {
+        if (admin_password == password) {
+            admin_home();
+        } else { 
+            warning2.textContent = "Password invalid.";
+        }
+    } else { 
+        warning1.textContent = "Enter a valid username";
+    }
 }
 
 function button_manage_testimonials() {
@@ -136,6 +222,17 @@ function button_manage_upcoming_events() {
     hide_other_pages();
 }
 
+function button_manage_partners() {
+    hide_other_pages();
+}
+
+function button_edit_home() {
+    var login_page = document.getElementById("login_page");
+    var edit_home_page = document.getElementById("edit_home_page");
+    login_page.style.display = "none";
+    edit_home_page.style.display = "block";
+}
+
 function button_add_new_event() {
     var login_page = document.getElementById("login_page");
     var add_new_event = document.getElementById("add_new_event");
@@ -143,7 +240,10 @@ function button_add_new_event() {
     add_new_event.style.display = "block";
 }
 
-// What we do, who we are, past events, upcoming events
+// ========================================
+// OTHER FUNCTIONS
+// ========================================
+
 function button_contact() {
     var what_we_do = document.getElementById("what_we_do");
     var who_we_are = document.getElementById("who_we_are");
@@ -155,134 +255,27 @@ function button_contact() {
     who_we_are.style.display = "block";
 }
 
-// Ensures code code shows after page is loaded
+function button_join_our_whatsapp_group() {
+    window.open('https://chat.whatsapp.com/your-invite-link', '_blank');
+}
+
+// ========================================
+// PAGE INITIALIZATION
+// ========================================
+
 document.addEventListener("DOMContentLoaded", () => {
     hide_other_pages();
     hide_other_navs();
 
+    // Show home page and main navigation
     document.getElementById("home_page").style.display = "block";
     document.getElementById("main-nav").style.display = "flex";
-})
-
-//backend
-function button_verify_login() {
-    //login button calls this fn. if login fields are validated, go to admin home
-    //init placeholder verification values
-    let admin_user = "admin";
-    let admin_password = "123";
-    let username = document.getElementById("admin_username").value;
-    let password = document.getElementById("admin_password").value;
-    let warning1 = document.getElementById("warning1");
-    let warning2 = document.getElementById("warning2");
-    warning1.textContent = " ";
-    warning2.textContent = " ";
-
-    if (admin_user == username) {
-        if (admin_password == password) {
-            admin_home();
-        } else { warning2.textContent = "Password invalid." }
-    } else { warning1.textContent = "Enter a valid username" }
-}
-
-// ========================================
-// EXTERNAL LINK FUNCTIONS
-// ========================================
-
-// WhatsApp link - direct open
-function open_whatsapp() {
-    // REPLACE THIS with Phil's real WhatsApp group invite link
-    const whatsapp_link = 'https://chat.whatsapp.com/YOUR-INVITE-CODE-HERE';
-    window.open(whatsapp_link, '_blank');
-}
-
-// Instagram link - direct open
-function open_instagram() {
-    const instagram_link = 'https://www.instagram.com/saltypadel/';
-    window.open(instagram_link, '_blank');
-}
-
-// Shop link - opens with warning modal
-function open_shop_with_warning() {
-    // Store the shop URL
-    const shop_link = 'https://vx3.co.uk/collections/salty-padel';
     
-    // Open the external warning modal
-    open_modal('modal-external-warning');
+    // Initialize mobile navigation (hide "Home" button on home page)
+    update_mobile_nav('home_page');
     
-    // When user clicks "Continue", open the shop
-    const confirm_button = document.getElementById('external-link-confirm');
-    confirm_button.onclick = function() {
-        window.open(shop_link, '_blank');
-        close_modal('modal-external-warning');
-    };
-}
-
-// Generic function for any external link with warning
-function open_external_link_with_warning(url) {
-    open_modal('modal-external-warning');
-    
-    const confirm_button = document.getElementById('external-link-confirm');
-    confirm_button.onclick = function() {
-        window.open(url, '_blank');
-        close_modal('modal-external-warning');
-    };
-}
-
-// On page load, check URL hash to open pages directly (e.g., #who)
-window.addEventListener('DOMContentLoaded', function() {
+    // Check for URL hash navigation
     if (location.hash === '#who') {
         button_who_we_are();
     }
-});
-// ========================================
-// MODAL FUNCTIONS
-// ========================================
-
-// Open modal
-function open_modal(modal_id) {
-    const modal = document.getElementById(modal_id);
-    if (modal) {
-        modal.classList.add('active');
-        document.body.classList.add('modal-open');
-        
-        // Close mobile menu if open
-        close_mobile_menu();
-    }
-}
-
-// Close modal
-function close_modal(modal_id) {
-    const modal = document.getElementById(modal_id);
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.classList.remove('modal-open');
-    }
-}
-
-// Close modal when clicking outside
-function setup_modal_click_outside() {
-    const overlays = document.querySelectorAll('.modal-overlay');
-    overlays.forEach(overlay => {
-        overlay.addEventListener('click', function(event) {
-            if (event.target === overlay) {
-                const modal_id = overlay.id;
-                close_modal(modal_id);
-            }
-        });
-    });
-}
-
-// Close modal with Escape key
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape') {
-        const active_modals = document.querySelectorAll('.modal-overlay.active');
-        active_modals.forEach(modal => {
-            close_modal(modal.id);
-        });
-    }
-});
-
-// Initialize modal click-outside functionality when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    setup_modal_click_outside();
 });
