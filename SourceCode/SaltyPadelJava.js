@@ -2,21 +2,44 @@
 // CORE PAGE SWITCHING FUNCTIONS
 // ========================================
 
+/* =========================================================
+GLOBAL STATE
+   ========================================================= */
+let has_unsaved_changes = false;
+let pending_navigation_action = null;
+let pending_external_url = null;
+
+/* =========================================================
+HELPERS
+   ========================================================= */
+function mark_unsaved_changes() {
+    has_unsaved_changes = true;
+}
+
+function clear_unsaved_changes() {
+    has_unsaved_changes = false;
+}
+
+function safe_hide(id) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+}
+
+function safe_show(id, display_value = "block") {
+    const el = document.getElementById(id);
+    if (el) el.style.display = display_value;
+}
+
 function hide_other_pages() {
-    var who_are_we = document.getElementById("who_we_are");
-    var what_we_do = document.getElementById("what_we_do");
-    var past_events = document.getElementById("past_events");
-    var upcoming_events = document.getElementById("upcoming_events");
-    var login_page = document.getElementById("login_page");
-    var admin_page = document.getElementById("admin_page");
-    var manage_testimonials = document.getElementById("manage_testimonials");
-    who_are_we.style.display = "none";
-    what_we_do.style.display = "none";
-    past_events.style.display = "none";
-    upcoming_events.style.display = "none";
-    login_page.style.display = "none";
-    admin_page.style.display = "none";
-    manage_testimonials.style.display = "none";
+    document.getElementById("who_we_are").style.display = "none";
+    document.getElementById("what_we_do").style.display = "none";
+    document.getElementById("past_events").style.display = "none";
+    document.getElementById("upcoming_events").style.display = "none";
+    document.getElementById("login_page").style.display = "none";
+    document.getElementById("admin_page").style.display = "none";
+    document.getElementById("manage_testimonials").style.display = "none";
+    document.getElementById("add_new_event").style.display = "none";
+    // NOTE: home_page is controlled by button_home / other buttons
 }
 
 function hide_other_navs() {
@@ -28,64 +51,41 @@ function hide_other_navs() {
     document.getElementById("admin-nav").style.display = "none";
 }
 
-// ========================================
-// MOBILE NAVIGATION FUNCTIONS (NEW)
-// ========================================
-
-// Toggle mobile dropdown menu
-function toggle_mobile_menu() {
-    const dropdown = document.getElementById('mobile-dropdown');
-    dropdown.classList.toggle('active');
+/* =========================================================
+UNSAVED CHANGES NAVIGATION GUARD
+Use: try_navigate(() => button_home());
+   ========================================================= */
+function try_navigate(action_fn) {
+    if (has_unsaved_changes) {
+    pending_navigation_action = action_fn;
+    open_modal("modal-unsaved-changes");
+    return;
+}
+action_fn();
 }
 
-// Close mobile dropdown menu
-function close_mobile_menu() {
-    const dropdown = document.getElementById('mobile-dropdown');
-    dropdown.classList.remove('active');
-}
-
-// Update which mobile nav buttons are visible based on current page
-function update_mobile_nav(current_page) {
-    // Map of page IDs to mobile button IDs
-    const mobile_buttons = {
-        'home_page': 'mobile-nav-home',
-        'who_we_are': 'mobile-nav-who-we-are',
-        'what_we_do': 'mobile-nav-what-we-do',
-        'past_events': 'mobile-nav-past-events',
-        'upcoming_events': 'mobile-nav-upcoming-events'
+function setup_unsaved_modal_buttons() {
+    const stay = document.getElementById("unsaved-stay-btn");
+    const leave = document.getElementById("unsaved-leave-btn");
+    if (stay) {
+    stay.onclick = function (event) {
+        if (event) event.preventDefault();
+        pending_navigation_action = null;
+        close_modal("modal-unsaved-changes");
     };
-    
-    // Show all mobile nav buttons first
-    Object.values(mobile_buttons).forEach(btn_id => {
-        const btn = document.getElementById(btn_id);
-        if (btn) btn.style.display = 'block';
-    });
-    
-    // Hide the current page button (don't show "Home" when you're on Home)
-    const current_button = mobile_buttons[current_page];
-    if (current_button) {
-        const btn = document.getElementById(current_button);
-        if (btn) btn.style.display = 'none';
-    }
+}
+if (leave) {
+    leave.onclick = function (event) {
+        if (event) event.preventDefault();
+        close_modal("modal-unsaved-changes");
+        has_unsaved_changes = false;
+        if (typeof pending_navigation_action === "function") {
+        pending_navigation_action();}
+        pending_navigation_action = null;
+    };
+}
 }
 
-// ========================================
-// PAGE NAVIGATION FUNCTIONS (UPDATED)
-// ========================================
-
-function button_home() {
-    hide_other_pages();
-    var login_button = document.getElementById("admin-login");
-    login_button.style.display = "block";
-    var home_page = document.getElementById("home_page");
-    home_page.style.display = "block";
-
-    hide_other_navs();
-    document.getElementById("main-nav").style.display = "flex";
-    
-    // Update mobile navigation
-    update_mobile_nav('home_page');
-}
 
 function button_who_we_are() {
     var home_page = document.getElementById("home_page");
@@ -212,6 +212,7 @@ function button_manage_testimonials() {
     nav.style.justifyContent = "center";
 
     document.getElementById("admin-home-btn").style.display = "inline-flex";
+
 }
 
 function button_manage_past_events() {
@@ -255,27 +256,225 @@ function button_contact() {
     who_we_are.style.display = "block";
 }
 
-function button_join_our_whatsapp_group() {
-    window.open('https://chat.whatsapp.com/your-invite-link', '_blank');
+//backend
+function button_verify_login() {
+    //login button calls this fn. if login fields are validated, go to admin home
+    //init placeholder verification values
+    let admin_user = "admin";
+    let admin_password = "123";
+    let username = document.getElementById("admin_username").value;
+    let password = document.getElementById("admin_password").value;
+    let warning1 = document.getElementById("warning1");
+    let warning2 = document.getElementById("warning2");
+    warning1.textContent = " ";
+    warning2.textContent = " ";
+
+    if (admin_user == username) {
+        if (admin_password == password) {
+            admin_home();
+        } else { warning2.textContent = "Password invalid." }
+    } else { warning1.textContent = "Enter a valid username" }
+}
+/* =========================================================
+LOGOUT CONFIRM 
+- Admin clicks "Logout" => opens confirm modal
+- Confirm => logout + go to HOME user page
+- Cancel/Close => stay where you are
+   ========================================================= */
+
+function button_logout() {
+    open_modal("modal-logout-confirm");
 }
 
-// ========================================
-// PAGE INITIALIZATION
-// ========================================
+function confirm_logout() {
+  // clear any admin-only UI state
+    clear_unsaved_changes();
+    pending_navigation_action = null;
 
-document.addEventListener("DOMContentLoaded", () => {
+  // close the modal
+    close_modal("modal-logout-confirm");
+
+  // go to public home page
+    button_home();
+
+  // optional: friendly toast
+    show_toast("Logged out successfully!");
+}
+
+function cancel_logout() {
+    close_modal("modal-logout-confirm");
+}
+
+//* =========================================================EXTERNAL LINKS====================================================*//
+
+function open_whatsapp() {
+    const whatsapp_link = "https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb";
+    window.open(whatsapp_link, "_blank");
+}
+
+function open_instagram() {
+    const instagram_link = "https://www.instagram.com/saltypadel/";
+    window.open(instagram_link, "_blank");
+}
+
+/* Open shop ONLY after user confirms in modal */
+function open_shop_with_warning() {
+    pending_external_url = "https://vx3.co.uk/collections/salty-padel";
+    show_toast("Opening shop link…"); 
+    open_modal("modal-external-warning");
+}
+
+function open_external_link_with_warning(url) {
+    pending_external_url = url;
+    show_toast("Opening shop link…"); 
+    open_modal("modal-external-warning");
+}
+
+function setup_external_warning_modal_buttons() {
+    const confirm_button = document.getElementById("external-link-confirm");
+    if (!confirm_button) return;
+
+    confirm_button.onclick = function (event) {
+    if (event) event.preventDefault();
+
+    if (pending_external_url) {
+        const new_tab = window.open(pending_external_url, "_blank");
+
+      // if popups blocked, tell the user
+    if (!new_tab) {
+        show_toast("Pop-up blocked. Please allow pop-ups for this site.", "error");
+    } else {
+        show_toast("Opened in a new tab!");
+    }
+
+    pending_external_url = null;
+    }
+
+    close_modal("modal-external-warning");
+};
+
+  // OPTIONAL: if you want cancel button to also clear pending url
+if (cancel_button) {
+    cancel_button.onclick = function (event) {
+    if (event) event.preventDefault();
+    pending_external_url = null;
+    close_modal("modal-external-warning");
+    show_toast("Cancelled.");
+    };
+}
+}
+
+/* =========================================================
+MODALS
+   ========================================================= */
+
+/* Prevent crash if mobile menu not implemented yet */
+function close_mobile_menu() {
+  // no mobile menu yet - safe empty function
+}
+
+function open_modal(modal_id) {
+    const modal = document.getElementById(modal_id);
+    if (!modal) return;
+
+    modal.classList.add("active");
+    document.body.classList.add("modal-open");
+
+    close_mobile_menu();
+}
+
+function close_modal(modal_id) {
+    const modal = document.getElementById(modal_id);
+    if (!modal) return;
+
+    modal.classList.remove("active");
+    document.body.classList.remove("modal-open");
+}
+
+function setup_modal_click_outside() {
+    const overlays = document.querySelectorAll(".modal-overlay");
+    overlays.forEach((overlay) => {
+    overlay.addEventListener("click", function (event) {
+        if (event.target === overlay) {
+        close_modal(overlay.id);
+        }   
+    });
+});
+}
+
+document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+    const active_modals = document.querySelectorAll(".modal-overlay.active");
+    active_modals.forEach((modal) => close_modal(modal.id));
+    }
+});
+
+/* =========================================================
+TOASTS
+   ========================================================= */
+function show_toast(message, type = "default") {
+    const area = document.getElementById("toast-area");
+    if (!area) return;
+
+    const toast = document.createElement("div");
+    toast.className = "toast" + (type === "error" ? " toast-error" : "");
+
+    toast.innerHTML = `
+    <div>
+        <div class="toast-title">${type === "error" ? "Error" : "Notice"}</div>
+        <div class="toast-msg">${message}</div>
+    </div>
+    <button class="toast-close" aria-label="Close">&times;</button>
+`;
+
+area.appendChild(toast);
+
+    const close_btn = toast.querySelector(".toast-close");
+    if (close_btn) close_btn.onclick = () => toast.remove();
+
+    setTimeout(() => {
+    if (toast && toast.parentNode) toast.remove();
+}, 3000);
+}
+
+/* =========================================================
+UPLOAD TESTIMONIAL (placeholder)
+- Requires in HTML:
+textarea id="testimonial_text"
+- Add oninput="mark_unsaved_changes()" on the textarea
+   ========================================================= */
+function upload_testimonial() {
+    const text_el = document.getElementById("testimonial_text");
+    const text = text_el ? text_el.value.trim() : "";
+
+    if (text === "") {
+    show_toast("Please fill all required fields", "error");
+    return;
+}
+
+  // Simulate saving
+clear_unsaved_changes();
+show_toast("Changes saved successfully!");
+}
+
+// =======================================================
+// SINGLE INIT (IMPORTANT: only one DOMContentLoaded)
+// =======================================================
+document.addEventListener("DOMContentLoaded", function() {
+
+    // Setup modal systems
+    setup_modal_click_outside();
+    setup_unsaved_modal_buttons();
+    setup_external_warning_modal_buttons();
+
+    // Default page OR hash page
     hide_other_pages();
     hide_other_navs();
 
-    // Show home page and main navigation
-    document.getElementById("home_page").style.display = "block";
-    document.getElementById("main-nav").style.display = "flex";
-    
-    // Initialize mobile navigation (hide "Home" button on home page)
-    update_mobile_nav('home_page');
-    
-    // Check for URL hash navigation
     if (location.hash === '#who') {
         button_who_we_are();
+    } else {
+        document.getElementById("home_page").style.display = "block";
+        document.getElementById("main-nav").style.display = "flex";
     }
 });
