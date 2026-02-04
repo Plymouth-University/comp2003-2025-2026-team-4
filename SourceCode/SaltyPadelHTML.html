@@ -16,52 +16,52 @@
             <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo">
         </div>
 
-    <!-- Navigation -->
-    <nav id="main-nav"  class="header-nav" >
-        <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
-        <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
-        <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
-        <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
-    </nav>
+        <!-- Navigation -->
+        <nav id="main-nav" class="header-nav">
+            <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
+            <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
+            <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
+            <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
+        </nav>
 
-    <nav id="who-are-we-nav" class="header-nav" style="display:none">
-        <button class="btn btn-nav" onclick="button_home()">Home</button>
-        <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
-        <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
-        <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
-    </nav>
+        <nav id="who-are-we-nav" class="header-nav" style="display:none">
+            <button class="btn btn-nav" onclick="button_home()">Home</button>
+            <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
+            <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
+            <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
+        </nav>
 
-    <nav id="what-we-do-nav" class="header-nav" style="display:none">
-        <button class="btn btn-nav" onclick="button_home()">Home</button>
-        <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
-        <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
-        <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
-    </nav>
+        <nav id="what-we-do-nav" class="header-nav" style="display:none">
+            <button class="btn btn-nav" onclick="button_home()">Home</button>
+            <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
+            <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
+            <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
+        </nav>
 
-    <nav id="past-events-nav" class="header-nav" style="display:none">
-        <button class="btn btn-nav" onclick="button_home()">Home</button>
-        <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
-        <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
-        <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
-    </nav>
+        <nav id="past-events-nav" class="header-nav" style="display:none">
+            <button class="btn btn-nav" onclick="button_home()">Home</button>
+            <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
+            <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
+            <button class="btn btn-nav" onclick="button_upcoming_events()">Upcoming events</button>
+        </nav>
 
-    <nav id="upcoming-events-nav" class="header-nav"  style="display:none">
-        <button class="btn btn-nav" onclick="button_home()">Home</button>
-        <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
-        <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
-        <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
-    </nav>
+        <nav id="upcoming-events-nav" class="header-nav" style="display:none">
+            <button class="btn btn-nav" onclick="button_home()">Home</button>
+            <button class="btn btn-nav" onclick="button_who_we_are()">Who we are</button>
+            <button class="btn btn-nav" onclick="button_what_we_do()">What we do</button>
+            <button class="btn btn-nav" onclick="button_past_events()">Past events</button>
+        </nav>
 
-    <nav id="admin-nav" class="bg-black" style="display: none">
-        <button class="btn btn-nav" onclick="button_logout()">Logout</button>
-        <button id="admin-home-btn" class="btn btn-nav" onclick="admin_home()">Home</button>
-    </nav>
-<!-- Brand title on RIGHT -->
-    <div class="header-right">
-        <span class="brand-title">Salty Padel</span>
-    </div>
-                <!-- Mobile Menu Toggle-->
-    <button class="mobile-menu-toggle" onclick="toggle_mobile_menu()">
+        <nav id="admin-nav" class="bg-black" style="display: none">
+            <button class="btn btn-nav" onclick="button_logout()">Logout</button>
+            <button id="admin-home-btn" class="btn btn-nav" onclick="admin_home()">Home</button>
+        </nav>
+        <!-- Brand title on RIGHT -->
+        <div class="header-right">
+            <span class="brand-title">Salty Padel</span>
+        </div>
+        <!-- Mobile Menu Toggle-->
+        <button class="mobile-menu-toggle" onclick="toggle_mobile_menu()">
         <span></span>
         <span></span>
         <span></span>
@@ -69,13 +69,13 @@
     </header>
 
     <!-- Mobile Dropdown Menu -->
-<div id="mobile-dropdown" class="mobile-dropdown">
-    <button class="btn btn-nav-mobile" id="mobile-nav-home" onclick="button_home(); close_mobile_menu();">Home</button>
-    <button class="btn btn-nav-mobile" id="mobile-nav-who-we-are" onclick="button_who_we_are(); close_mobile_menu();">Who we are</button>
-    <button class="btn btn-nav-mobile" id="mobile-nav-what-we-do" onclick="button_what_we_do(); close_mobile_menu();">What we do</button>
-    <button class="btn btn-nav-mobile" id="mobile-nav-past-events" onclick="button_past_events(); close_mobile_menu();">Past events</button>
-    <button class="btn btn-nav-mobile" id="mobile-nav-upcoming-events" onclick="button_upcoming_events(); close_mobile_menu();">Upcoming events</button>
-</div>
+    <div id="mobile-dropdown" class="mobile-dropdown">
+        <button class="btn btn-nav-mobile" id="mobile-nav-home" onclick="button_home(); close_mobile_menu();">Home</button>
+        <button class="btn btn-nav-mobile" id="mobile-nav-who-we-are" onclick="button_who_we_are(); close_mobile_menu();">Who we are</button>
+        <button class="btn btn-nav-mobile" id="mobile-nav-what-we-do" onclick="button_what_we_do(); close_mobile_menu();">What we do</button>
+        <button class="btn btn-nav-mobile" id="mobile-nav-past-events" onclick="button_past_events(); close_mobile_menu();">Past events</button>
+        <button class="btn btn-nav-mobile" id="mobile-nav-upcoming-events" onclick="button_upcoming_events(); close_mobile_menu();">Upcoming events</button>
+    </div>
 
     <!-- Home Page -->
     <div id="home_page">
@@ -84,7 +84,7 @@
             <p class="hero-subtitle">Grow your game. Join the movement.</p>
             <h1 class="hero-title">Where energy, competition and community meet.</h1>
             <div class="hero-buttons">
-                <button class="btn btn-hero"  onclick="open_whatsapp()">Join our WhatsApp group</button>
+                <button class="btn btn-hero" onclick="open_whatsapp()">Join our WhatsApp group</button>
                 <button class="btn btn-hero" onclick="open_shop_with_warning()">Check our shop</button>
                 <button class="btn btn-hero" onclick="open_instagram()">Follow our Instagram</button>
             </div>
@@ -235,25 +235,25 @@
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn"  onclick="open_whatsapp()">Join our WhatsApp group</button>
+                    <button class="ticket-btn" onclick="open_whatsapp()">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder2.png" alt="Upcoming event 2">
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn"  onclick="open_whatsapp()">Join our WhatsApp group</button>
+                    <button class="ticket-btn" onclick="open_whatsapp()">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder3.png" alt="Upcoming event 3">
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn"  onclick="open_whatsapp()">Join our WhatsApp group</button>
+                    <button class="ticket-btn" onclick="open_whatsapp()">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder4.png" alt="Upcoming event 4">
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn"  onclick="open_whatsapp()">Join our WhatsApp group</button>
+                    <button class="ticket-btn" onclick="open_whatsapp()">Join our WhatsApp group</button>
                 </figure>
             </section>
         </main>
@@ -349,10 +349,65 @@
         </section>
     </div>
 
-    <!-- Add New Event Page -->
-    <div id="add_new_event" style="display:none">
-        <h1>Add New Event</h1>
-        <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+    <!-- Manage Partners -->
+    <div id="manage_partners" style="display:none">
+        <section id="hero" class="bg-yellow">
+            <h1>Manage Partners</h1>
+        </section>
+        <section class="gallery">
+            <figure class="gallery-item">
+                <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
+                <div class="button-row">
+                    <button class="btn btn-nav">Logo</button>
+                    <button class="btn btn-nav">Name</button>
+                </div>
+                <div class="testimonial-action-buttons">
+                    <button class="btn btn-nav">Upload Partner</button>
+                    <button class="btn btn-nav">Check Partners</button>
+                </div>
+            </figure>
+        </section>
+    </div>
+
+    <!-- Manage Past Events -->
+    <div id="manage_past_events" style="display:none">
+        <section id="hero" class="bg-yellow">
+            <h1>Manage Past Events</h1>
+        </section>
+        <section class="gallery">
+            <figure class="gallery-item">
+                <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
+                <div class="button-row">
+                    <button class="btn btn-nav">Photo</button>
+                    <button class="btn btn-nav">Name</button>
+                    <button class="btn btn-nav">Date</button>
+                </div>
+                <div class="testimonial-action-buttons">
+                    <button class="btn btn-nav">Upload Past Event</button>
+                </div>
+            </figure>
+        </section>
+    </div>
+
+    <!-- Manage Upcoming Events -->
+    <div id="manage_upcoming_events" style="display:none">
+        <section id="hero" class="bg-yellow">
+            <h1>Manager Upcoming Events</h1>
+        </section>
+        <section class="gallery">
+            <figure class="gallery-item">
+                <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
+                <div class="button-row">
+                    <button class="btn btn-nav">Photo</button>
+                    <button class="btn btn-nav">Name</button>
+                    <button class="btn btn-nav">Time/Date</button>
+                    <button class="btn btn-nav">Location</button>
+                </div>
+                <div class="testimonial-action-buttons">
+                    <button class="btn btn-nav">Upload Upcoming Event</button>
+                </div>
+            </figure>
+        </section>
     </div>
 
     <!-- Footer -->
@@ -430,7 +485,7 @@
         </div>
     </div>
 
-    <!-- Unsaved Changes Warning Modal --> 
+    <!-- Unsaved Changes Warning Modal -->
     <div id="modal-unsaved-changes" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
@@ -444,7 +499,7 @@
                 <button class="modal-btn-secondary" id="unsaved-stay-btn">Stay on Page</button>
                 <button class="modal-btn-primary" id="unsaved-leave-btn">Leave</button>
             </div>
-    </div>
+        </div>
     </div>
 
 </body>

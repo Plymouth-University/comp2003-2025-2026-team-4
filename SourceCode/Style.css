@@ -32,6 +32,7 @@ body {
     background-color: #FFFFFF;
 }
 
+
 /* HEADER */
 
 #site-header {
@@ -52,7 +53,7 @@ body {
 .header-left {
     display: flex;
     align-items: center;
-    min-width: 100px; 
+    min-width: 100px;
 }
 
 .logo {
@@ -63,9 +64,10 @@ body {
 .header-right {
     display: flex;
     align-items: center;
-    min-width: 150px; 
+    min-width: 150px;
     justify-content: flex-end;
 }
+
 .brand-title {
     color: #FFFFFF;
     font-size: 18px;
@@ -75,9 +77,12 @@ body {
     /* tighter line height for small text */
 }
 
+
 /* NAVIGATION (INSIDE BLACK HEADER)*/
 
+
 /* Navigation containers */
+
 #main-nav,
 #who-are-we-nav,
 #what-we-do-nav,
@@ -102,13 +107,15 @@ body {
     font-weight: 500;
 }
 
+
 /* Navigation buttons */
+
 .btn-nav {
     padding: 10px 20px;
     min-width: 120px;
     height: 40px;
     border-radius: 999px;
-    background-color: #F0FF70; 
+    background-color: #F0FF70;
     border: 1px solid rgba(0, 0, 0, 0.1);
     color: #000000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -126,7 +133,9 @@ body {
     transform: scale(0.95);
 }
 
+
 /* Login page buttons stay white */
+
 #login_page .btn-nav {
     background-color: #F0FF70;
     color: #000000;
@@ -134,11 +143,14 @@ body {
     box-shadow: none;
 }
 
+
 /* ========================================
 MOBILE NAVIGATION 
 ======================================== */
 
+
 /* Hamburger icon - hidden on desktop, shown on mobile */
+
 .mobile-menu-toggle {
     display: none;
     flex-direction: column;
@@ -162,7 +174,9 @@ MOBILE NAVIGATION
     border-radius: 2px;
 }
 
+
 /* Mobile dropdown menu - appears BELOW header */
+
 .mobile-dropdown {
     display: none;
     background-color: #000000;
@@ -181,7 +195,9 @@ MOBILE NAVIGATION
     display: flex;
 }
 
+
 /* Mobile navigation buttons */
+
 .btn-nav-mobile {
     width: 100%;
     height: 48px;
@@ -207,6 +223,7 @@ MOBILE NAVIGATION
     transform: scale(0.95);
 }
 
+
 /* ========================================
 MOBILE RESPONSIVE 
 ======================================== */
@@ -216,7 +233,6 @@ MOBILE RESPONSIVE
     body {
         padding-top: 80px;
     }
-    
     /* Header adjustments for mobile */
     #site-header {
         min-height: 80px;
@@ -225,34 +241,28 @@ MOBILE RESPONSIVE
         justify-content: space-between;
         align-items: stretch;
     }
-    
     /* Logo stays top-left */
     .header-left {
         align-self: flex-start;
     }
-    
     .logo {
         width: 50px;
         height: 60px;
     }
-    
     /* HIDE brand title on mobile */
     .header-right {
         display: none;
     }
-    
     /* Mobile dropdown - appears below header */
     .mobile-dropdown {
         top: 80px;
         padding: 20px 24px 16px 24px;
     }
-    
     /* Show hamburger icon at bottom-right */
     .mobile-menu-toggle {
         display: flex;
         align-self: flex-end;
     }
-    
     /* Hide ALL desktop navigation bars on mobile */
     #main-nav,
     #who-are-we-nav,
@@ -262,82 +272,69 @@ MOBILE RESPONSIVE
     #admin-log-off-nav {
         display: none !important;
     }
-    
     /* Hero section adjustments */
     .hero-title {
         font-size: 32px;
     }
-    
     .hero-buttons {
         flex-direction: column;
         width: 100%;
     }
-    
     .btn-hero {
         width: 100%;
     }
-    
     /* Testimonials stack vertically */
     .testimonials-list {
         flex-direction: column;
         gap: 16px;
     }
-    
     .testimonial-card {
         width: 100%;
         max-width: 390px;
     }
-    
     /* Partner logos smaller */
     .partner-logo {
         width: 50px;
         height: 40px;
     }
-    
     /* Footer stacks vertically */
     #site-footer {
         flex-direction: column;
         gap: 24px;
         padding: 32px 24px;
     }
-    
     /* Gallery single column */
     .gallery {
         grid-template-columns: 1fr;
         gap: 18px;
         padding: 20px;
     }
-    
     /* Page banner adjustments */
     .page-banner {
         padding: 20px;
     }
-    
     .page-banner h1 {
         font-size: 28px;
     }
-    
     /* Who We Are adjustments */
     .unknownface {
         width: 120px;
     }
-    
     /* Content blocks */
     .content-block {
         padding: 24px;
         margin: 24px 16px;
     }
-    
     /* Login page adjustments */
     .login-container {
         padding: 40px 24px 32px;
         margin: 16px;
     }
-    
     .login-logo {
         width: 44px;
     }
 }
+
 
 /* HERO SECTION */
 
@@ -891,18 +888,29 @@ MOBILE RESPONSIVE
 
 /* Manage testimonials */
 
-#manage_testimonials .gallery {
+#manage_testimonials .gallery,
+#manage_partners .gallery,
+#manage_past_events .gallery,
+#manage_upcoming_events .gallery {
     display: flex;
     justify-content: center;
     padding: 0;
 }
 
-#manage_testimonials .gallery img {
-    width: auto;
-    max-width: 100%;
+#manage_testimonials .gallery img,
+#manage_partners .gallery img,
+#manage_past_events .gallery img,
+#manage_upcoming_events .gallery img {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    object-fit: contain;
 }
 
-#manage_testimonials .gallery-item {
+#manage_testimonials .gallery-item,
+#manage_partners .gallery-item,
+#manage_past_events .gallery-item,
+#manage_upcoming_events .gallery-item {
     padding: 24px 0;
 }
 
@@ -938,11 +946,14 @@ MOBILE RESPONSIVE
     max-width: 420px;
 }
 
+
 /* ========================================
 MODAL SYSTEM
    ======================================== */
 
+
 /* Modal overlay - dark background */
+
 .modal-overlay {
     display: none;
     position: fixed;
@@ -956,12 +967,16 @@ MODAL SYSTEM
     justify-content: center;
 }
 
+
 /* When modal is active */
+
 .modal-overlay.active {
     display: flex;
 }
 
+
 /* Modal container - the popup box */
+
 .modal-container {
     background-color: #FFFFFF;
     border-radius: 16px;
@@ -973,12 +988,16 @@ MODAL SYSTEM
     position: relative;
 }
 
+
 /* Prevent body scroll when modal is open */
+
 body.modal-open {
     overflow: hidden;
 }
 
+
 /* Modal header */
+
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -992,7 +1011,9 @@ body.modal-open {
     color: #000000;
 }
 
+
 /* Close button (X) */
+
 .modal-close {
     background: none;
     border: none;
@@ -1011,7 +1032,9 @@ body.modal-open {
     color: #000000;
 }
 
+
 /* Modal body */
+
 .modal-body {
     margin-bottom: 24px;
     font-size: 16px;
@@ -1019,14 +1042,18 @@ body.modal-open {
     color: #333333;
 }
 
+
 /* Modal buttons container */
+
 .modal-actions {
     display: flex;
     gap: 12px;
     justify-content: flex-end;
 }
 
+
 /* Primary button (yellow) */
+
 .modal-btn-primary {
     background-color: #F0FF70;
     color: #000000;
@@ -1043,7 +1070,10 @@ body.modal-open {
 .modal-btn-primary:hover {
     background-color: #e0ef60;
 }
+
+
 /* TOASTS ) */
+
 .toast-area {
     position: fixed;
     right: 16px;
@@ -1061,7 +1091,7 @@ body.modal-open {
     color: #000;
     border-radius: 12px;
     padding: 12px 14px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
     display: flex;
     align-items: flex-start;
     gap: 10px;
@@ -1093,7 +1123,9 @@ body.modal-open {
     color: #666;
 }
 
+
 /* Secondary button (white with border) */
+
 .modal-btn-secondary {
     background-color: #FFFFFF;
     color: #000000;
@@ -1110,7 +1142,10 @@ body.modal-open {
 .modal-btn-secondary:hover {
     background-color: #F5F5F5;
 }
+
+
 /* STATUS BADGES */
+
 .status-badge {
     display: inline-flex;
     align-items: center;
@@ -1139,17 +1174,17 @@ body.modal-open {
     background: #6C757D;
 }
 
+
 /* Mobile responsive */
+
 @media (max-width: 768px) {
     .modal-container {
         max-width: 360px;
         padding: 20px;
     }
-    
     .modal-actions {
         flex-direction: column;
     }
-    
     .modal-btn-primary,
     .modal-btn-secondary {
         width: 100%;
