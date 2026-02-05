@@ -376,7 +376,6 @@ MOBILE RESPONSIVE
 
 
 /* Make non-home page text align left */
-
 #who_we_are #hero,
 #upcoming_events #hero,
 #past_events #hero {
@@ -386,7 +385,6 @@ MOBILE RESPONSIVE
 
 
 /* TESTIMONIALS */
-
 #testimonials {
     width: 100%;
     padding: 64px 24px;
@@ -482,7 +480,6 @@ MOBILE RESPONSIVE
 
 
 /* FOOTER */
-
 #site-footer {
     width: 100%;
     padding: 64px;
@@ -498,13 +495,8 @@ MOBILE RESPONSIVE
 }
 
 .logo-footer {
-    width: 60px;
-    height: 60px;
-}
-
-.footer-brand {
-    color: #FFFFFF;
-    font-size: 14px;
+    width: 90px;
+    height: 90px;
 }
 
 .footer-center {
@@ -512,8 +504,8 @@ MOBILE RESPONSIVE
 }
 
 .footer-social-icon {
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 36px;
 }
 
 .footer-right {
@@ -534,7 +526,6 @@ MOBILE RESPONSIVE
 
 
 /* ========== PAGES (hidden by default) ========== */
-
 #who_we_are,
 #what_we_do,
 #upcoming_events,
@@ -546,7 +537,6 @@ MOBILE RESPONSIVE
 
 
 /* ============== Login page stuff ============== */
-
 .input-field {
     padding: 12px 24px;
     min-width: 140px;
@@ -693,14 +683,12 @@ MOBILE RESPONSIVE
 
 
 /* ============== Events stuff ============== */
-
 .page-banner {
     padding: 32px 60px;
 }
 
 
 /* background supplied by .bg-yellow on the element */
-
 .page-banner h1 {
     margin: 0;
     font-size: 40px;
@@ -788,7 +776,6 @@ MOBILE RESPONSIVE
         font-size: 28px;
     }
 }
-
 
 /* === Who We Are styles (adapted to site tokens) === */
 
@@ -947,9 +934,7 @@ MOBILE RESPONSIVE
 }
 
 
-/* ========================================
-MODAL SYSTEM
-   ======================================== */
+/* ==========MODAL SYSTEM=============== */
 
 
 /* Modal overlay - dark background */
@@ -1092,9 +1077,7 @@ body.modal-open {
 }
 
 
-/* ========================================
-TOASTS (NOTIFICATIONS)
-   ======================================== */
+/* =======TOASTS (NOTIFICATIONS)======= */
 
 .toast-area {
     position: fixed;
@@ -1165,9 +1148,7 @@ TOASTS (NOTIFICATIONS)
 }
 
 
-/* ========================================
-STATUS BADGES (for event cards)
-   ======================================== */
+/* ==========STATUS BADGES (for event cards)============= */
 
 .status-badge {
     display: inline-flex;
@@ -1197,6 +1178,97 @@ STATUS BADGES (for event cards)
     background: #6C757D;
 }
 
+/* ==========ADMIN-SPECIFIC STYLES============= */
+
+/* Hide hamburger menu in admin mode */
+body.admin-mode .mobile-menu-toggle {
+    display: none !important;
+}
+
+/* Hide Instagram icon in footer for admin */
+body.admin-mode .footer-center {
+    display: none !important;
+}
+
+/* Admin mobile adjustments */
+@media (max-width: 768px) {
+    body.admin-mode #site-header {
+        justify-content: space-between;
+    }
+    
+    body.admin-mode .header-left {
+        flex: 1;
+    }
+    
+    body.admin-mode #site-footer {
+        justify-content: space-between;
+        padding: 24px 16px;
+    }
+}
+/* ==========ADMIN MOBILE RESPONSIVENESS============= */
+
+/* Admin navigation buttons - mobile */
+@media (max-width: 768px) {
+    body.admin-mode #admin-nav {
+        display: flex !important;
+        flex-direction: row;
+        gap: 8px;
+        padding: 12px 16px;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    
+    body.admin-mode #admin-nav .btn-nav {
+        min-width: 100px;
+        max-width: 140px;
+        height: 44px;
+        font-size: 15px;
+        padding: 10px 16px;
+    }
+    
+    /* Admin management pages - button rows */
+    body.admin-mode .button-row {
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+    
+    body.admin-mode .button-row .btn-nav {
+        flex: 1 1 calc(50% - 4px);
+        min-width: 120px;
+        max-width: 180px;
+        height: 44px;
+        font-size: 14px;
+        padding: 10px 16px;
+    }
+    
+    /* Admin action buttons */
+    body.admin-mode .testimonial-action-buttons {
+        width: 90%;
+        max-width: none;
+    }
+    
+    body.admin-mode .testimonial-action-buttons .btn-nav {
+        width: 100%;
+        height: 48px;
+        font-size: 15px;
+    }
+    
+    /* Gallery items in admin pages */
+    body.admin-mode .gallery {
+        padding: 20px 16px;
+    }
+    
+    body.admin-mode .gallery-item {
+        padding: 16px 0;
+        width: 100%;
+    }
+    
+    body.admin-mode .gallery img {
+        max-width: 100%;
+        height: auto;
+    }
+}
 
 /* Mobile responsive */
 @media (max-width: 768px) {

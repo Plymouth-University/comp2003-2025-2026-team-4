@@ -204,6 +204,8 @@ function button_admin_login() {
 function admin_home() {
     hide_other_pages();
     hide_other_navs();
+
+    document.body.classList.add('admin-mode');
     
     safe_show("admin_page", "block");
     
@@ -232,6 +234,7 @@ function button_verify_login() {
 
     if (admin_user == username) {
         if (admin_password == password) {
+            document.body.classList.add('admin-mode');
             showToast('Welcome back!', 'success');
             admin_home();
         } else {
@@ -363,6 +366,7 @@ function cancel_logout() {
 
 function confirm_logout() {
     close_modal('modal-logout-confirm');
+    document.body.classList.remove('admin-mode');
     showToast('Logged out successfully', 'success');
     
     setTimeout(function() {
