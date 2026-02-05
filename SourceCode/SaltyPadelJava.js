@@ -55,6 +55,7 @@ function hide_other_pages() {
     safe_hide("manage_partners");
     safe_hide("manage_past_events");
     safe_hide("manage_upcoming_events");
+    safe_hide("manage_whatsapp"); 
 }
 
 function hide_other_navs() {
@@ -307,6 +308,44 @@ function button_manage_partners() {
     if (adminHomeBtn) {
         adminHomeBtn.style.display = "inline-flex";
     }
+}
+function button_manage_whatsapp() {
+    hide_other_pages();
+    safe_show("manage_whatsapp", "block");
+
+    let nav = document.getElementById("admin-nav");
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
+
+    const adminHomeBtn = document.getElementById("admin-home-btn");
+    if (adminHomeBtn) {
+        adminHomeBtn.style.display = "inline-flex";
+    }
+}
+
+function save_whatsapp_link() {
+    const input = document.getElementById('whatsapp-link-input');
+    const newLink = input.value.trim();
+    
+    // Basic validation
+    if (!newLink) {
+        showToast('Please enter a WhatsApp link', 'error');
+        return;
+    }
+    
+    if (!newLink.includes('whatsapp.com')) {
+        showToast('Please enter a valid WhatsApp link', 'error');
+        return;
+    }
+    
+    // Here you would normally save to database
+    // For now, just show success message
+    showToast('WhatsApp link updated successfully!', 'success');
+    
+    console.log('New WhatsApp link:', newLink);
+    // TODO: Add backend integration to actually save the link
 }
 
 // ========================================

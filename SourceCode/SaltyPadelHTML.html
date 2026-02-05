@@ -320,7 +320,7 @@
         <section id="hero_admin" class="bg-yellow">
             <p class="hero-subtitle">Grow your game. Join the movement.</p>
             <h1 class="admin-hero-title">Where energy, competition and community meet.</h1>
-            <button class="btn btn-hero">Change WhatsApp group</button>
+            <button class="btn btn-hero" onclick="button_manage_whatsapp()">Change WhatsApp group</button>
         </section>
         <section id="management_buttons" class="bg-white">
             <button class="btn btn-management" onclick="button_manage_testimonials()">Manage Testimonials</button>
@@ -410,6 +410,23 @@
                 </div>
                 <div class="testimonial-action-buttons">
                     <button class="btn btn-nav">Upload Upcoming Event</button>
+                </div>
+            </figure>
+        </section>
+    </div>
+
+    <!-- Manage WhatsApp Group -->
+    <div id="manage_whatsapp" style="display:none">
+        <section id="hero" class="bg-yellow">
+            <h1>Change WhatsApp Group</h1>
+        </section>
+        <section class="gallery">
+            <figure class="gallery-item">
+                <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
+                <p class="whatsapp-label">Current WhatsApp Link:</p>
+                <input type="text" id="whatsapp-link-input" class="whatsapp-input" placeholder="https://chat.whatsapp.com/..." value="https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb">
+                <div class="testimonial-action-buttons">
+                    <button class="btn btn-nav" onclick="save_whatsapp_link()">Save WhatsApp Link</button>
                 </div>
             </figure>
         </section>
