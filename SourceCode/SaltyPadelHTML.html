@@ -53,9 +53,10 @@
         </nav>
 
         <nav id="admin-nav" class="bg-black" style="display: none">
-            <button class="btn btn-nav" onclick="button_logout()">Logout</button>
+            <button class="btn btn-nav" onclick="trigger_logout()">Logout</button>
             <button id="admin-home-btn" class="btn btn-nav" onclick="admin_home()">Home</button>
         </nav>
+
         <!-- Brand title on RIGHT -->
         <div class="header-right">
             <span class="brand-title">Salty Padel</span>
@@ -84,7 +85,7 @@
             <p class="hero-subtitle">Grow your game. Join the movement.</p>
             <h1 class="hero-title">Where energy, competition and community meet.</h1>
             <div class="hero-buttons">
-                <button class="btn btn-hero" onclick="open_whatsapp()">Join our WhatsApp group</button>
+                <button class="btn btn-hero" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
                 <button class="btn btn-hero" onclick="open_shop_with_warning()">Check our shop</button>
                 <button class="btn btn-hero" onclick="open_instagram()">Follow our Instagram</button>
             </div>
@@ -234,26 +235,30 @@
                 <!-- Figure's can't be combined as one figcaption belongs to one figure -->
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
+                    <div class="status-badge status-open">Open for Booking</div>
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="open_whatsapp()">Join our WhatsApp group</button>
+                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder2.png" alt="Upcoming event 2">
+                    <div class="status-badge status-full">Fully Booked</div>
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="open_whatsapp()">Join our WhatsApp group</button>
+                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder3.png" alt="Upcoming event 3">
+                    <div class="status-badge status-cancelled">Cancelled</div>
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="open_whatsapp()">Join our WhatsApp group</button>
+                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder4.png" alt="Upcoming event 4">
+                    <div class="status-badge status-open">Open for Booking</div>
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="open_whatsapp()">Join our WhatsApp group</button>
+                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
                 </figure>
             </section>
         </main>
@@ -412,96 +417,74 @@
 
     <!-- Footer -->
     <footer id="site-footer" class="bg-black">
-        <div class="footer-left">
-            <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo-footer">
-            <span class="footer-brand">SaltyPadel</span>
+    <div class="footer-left">
+        <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo-footer">
+        <span class="footer-brand">SaltyPadel</span>
+    </div>
+    <div class="footer-center">
+        <div onclick="open_instagram()" style="cursor: pointer;">
+            <img src="assets/icon-instagram.png" alt="Instagram" class="footer-social-icon">
         </div>
-        <div class="footer-center">
-            <a href="https://www.instagram.com/saltypadel/" target="_blank">
-                <img src="assets/icon-instagram.png" alt="Instagram" class="footer-social-icon">
-            </a>
-        </div>
-        <div class="footer-right">
-            <button class="btn btn-admin" id="admin-login" onclick="button_admin_login()">Admin Login</button>
-        </div>
+    </div>
+    <div class="footer-right">
+        <button class="btn btn-admin" id="admin-login" onclick="button_admin_login()">Admin Login</button>
+    </div>
     </footer>
+<!-- ====================MODALS ======================= -->
 
-    <!-- ====================MODALS ======================= -->
-    <div class="status-badge status-open">Open for Booking</div>
-    <div class="status-badge status-full">Fully Booked</div>
-    <div class="status-badge status-cancelled">Cancelled</div>
+<!-- TOAST AREA (non-blocking notifications) -->
+<div id="toast-area" class="toast-area" aria-live="polite" aria-atomic="true"></div>
 
-    <!-- TOAST AREA (non-blocking notifications) -->
-    <div id="toast-area" class="toast-area" aria-live="polite" aria-atomic="true"></div>
-
-    <!-- Admin Logout Confirm Modal -->
-    <div id="modal-logout-confirm" class="modal-overlay">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h3 class="modal-title">Confirm Logout</h3>
-                <button class="modal-close" onclick="cancel_logout()">&times;</button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to log out?
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn-secondary" onclick="cancel_logout()">Cancel</button>
-                <button class="modal-btn-primary" onclick="confirm_logout()">Log Out</button>
-            </div>
+<!-- Admin Logout Confirm Modal -->
+<div id="modal-logout-confirm" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm Logout</h3>
+            <button class="modal-close" onclick="cancel_logout()">&times;</button>
+        </div>
+        <div class="modal-body">
+            Are you sure you want to log out?
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn-secondary" onclick="cancel_logout()">Cancel</button>
+            <button class="modal-btn-primary" onclick="confirm_logout()">Log Out</button>
         </div>
     </div>
+</div>
 
-    <!-- External Redirect Warning Modal -->
-    <div id="modal-external-warning" class="modal-overlay">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h3 class="modal-title">Leaving Salty Padel</h3>
-                <button class="modal-close" onclick="close_modal('modal-external-warning')">&times;</button>
-            </div>
-            <div class="modal-body">
-                You're about to open an external website. Their privacy policy may differ from Salty Padel.
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn-secondary" onclick="close_modal('modal-external-warning')">Cancel</button>
-                <button class="modal-btn-primary" id="external-link-confirm">Continue</button>
-            </div>
+<!-- External Redirect Warning Modal -->
+<div id="modal-external-warning" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title">Leaving Salty Padel</h3>
+            <button class="modal-close" onclick="close_modal('modal-external-warning')">&times;</button>
+        </div>
+        <div class="modal-body">
+            You're about to open an external website. Their privacy policy may differ from Salty Padel.
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn-secondary" onclick="close_modal('modal-external-warning')">Cancel</button>
+            <button class="modal-btn-primary" id="external-link-confirm">Continue</button>
         </div>
     </div>
+</div>
 
-    <!-- Admin Confirm Delete Modal -->
-    <div id="modal-confirm-delete" class="modal-overlay">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h3 class="modal-title">Confirm Delete</h3>
-                <button class="modal-close" onclick="close_modal('modal-confirm-delete')">&times;</button>
-            </div>
-            <div class="modal-body">
-                Delete this item? This can't be undone.
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn-secondary" onclick="close_modal('modal-confirm-delete')">Cancel</button>
-                <button class="modal-btn-primary" id="delete-confirm-btn">Delete</button>
-            </div>
+<!-- Admin Confirm Delete Modal -->
+<div id="modal-confirm-delete" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3 class="modal-title">Confirm Delete</h3>
+            <button class="modal-close" onclick="close_modal('modal-confirm-delete')">&times;</button>
+        </div>
+        <div class="modal-body">
+            Delete this item? This can't be undone.
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn-secondary" onclick="close_modal('modal-confirm-delete')">Cancel</button>
+            <button class="modal-btn-primary" id="delete-confirm-btn">Delete</button>
         </div>
     </div>
-
-    <!-- Unsaved Changes Warning Modal -->
-    <div id="modal-unsaved-changes" class="modal-overlay">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h3 class="modal-title">Unsaved Changes</h3>
-                <button class="modal-close" onclick="close_modal('modal-unsaved-changes')">&times;</button>
-            </div>
-            <div class="modal-body">
-                You have unsaved changes. Leave anyway?
-            </div>
-            <div class="modal-actions">
-                <button class="modal-btn-secondary" id="unsaved-stay-btn">Stay on Page</button>
-                <button class="modal-btn-primary" id="unsaved-leave-btn">Leave</button>
-            </div>
-        </div>
-    </div>
-
+</div>
 </body>
 
 </html>

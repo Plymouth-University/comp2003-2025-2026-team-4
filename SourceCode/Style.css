@@ -1072,7 +1072,29 @@ body.modal-open {
 }
 
 
-/* TOASTS ) */
+/* Secondary button (white with border) */
+
+.modal-btn-secondary {
+    background-color: #FFFFFF;
+    color: #000000;
+    border: 1px solid #CCCCCC;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    min-width: 120px;
+    height: 44px;
+}
+
+.modal-btn-secondary:hover {
+    background-color: #F5F5F5;
+}
+
+
+/* ========================================
+TOASTS (NOTIFICATIONS)
+   ======================================== */
 
 .toast-area {
     position: fixed;
@@ -1096,6 +1118,19 @@ body.modal-open {
     align-items: flex-start;
     gap: 10px;
     border-left: 6px solid #6C757D;
+
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 .toast-title {
@@ -1109,6 +1144,12 @@ body.modal-open {
     color: #333;
 }
 
+/* Success toast - green border */
+.toast-success {
+    border-left-color: #28A745;
+}
+
+/* Error toast - red border */
 .toast-error {
     border-left-color: #DC3545;
 }
@@ -1124,27 +1165,9 @@ body.modal-open {
 }
 
 
-/* Secondary button (white with border) */
-
-.modal-btn-secondary {
-    background-color: #FFFFFF;
-    color: #000000;
-    border: 1px solid #CCCCCC;
-    padding: 12px 24px;
-    border-radius: 999px;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    min-width: 120px;
-    height: 44px;
-}
-
-.modal-btn-secondary:hover {
-    background-color: #F5F5F5;
-}
-
-
-/* STATUS BADGES */
+/* ========================================
+STATUS BADGES (for event cards)
+   ======================================== */
 
 .status-badge {
     display: inline-flex;
@@ -1176,7 +1199,6 @@ body.modal-open {
 
 
 /* Mobile responsive */
-
 @media (max-width: 768px) {
     .modal-container {
         max-width: 360px;

@@ -1,17 +1,30 @@
 // ========================================
-// CORE PAGE SWITCHING FUNCTIONS
+// GLOBAL STATE
 // ========================================
-
-/* =========================================================
-GLOBAL STATE
-   ========================================================= */
 let has_unsaved_changes = false;
 let pending_navigation_action = null;
 let pending_external_url = null;
+let pendingDeleteAction = null;
 
-/* =========================================================
-HELPERS
-   ========================================================= */
+// ========================================
+// DOM READY - INITIALIZE EVERYTHING
+// ========================================
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Modal close on outside click
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('modal-overlay')) {
+            event.target.classList.remove('active');
+            document.body.classList.remove('modal-open');
+        }
+    });
+
+    console.log('Modal and Toast system initialized');
+});
+
+// ========================================
+// HELPER FUNCTIONS
+// ========================================
 function mark_unsaved_changes() {
     has_unsaved_changes = true;
 }
@@ -31,126 +44,144 @@ function safe_show(id, display_value = "block") {
 }
 
 function hide_other_pages() {
-    document.getElementById("who_we_are").style.display = "none";
-    document.getElementById("what_we_do").style.display = "none";
-    document.getElementById("past_events").style.display = "none";
-    document.getElementById("upcoming_events").style.display = "none";
-    document.getElementById("login_page").style.display = "none";
-    document.getElementById("admin_page").style.display = "none";
-    document.getElementById("manage_testimonials").style.display = "none";
-    document.getElementById("manage_partners").style.display = "none";
-    document.getElementById("manage_past_events").style.display = "none";
-    document.getElementById("manage_upcoming_events").style.display = "none";
-    // NOTE: home_page is controlled by button_home / other buttons
+    safe_hide("home_page");
+    safe_hide("who_we_are");
+    safe_hide("what_we_do");
+    safe_hide("past_events");
+    safe_hide("upcoming_events");
+    safe_hide("login_page");
+    safe_hide("admin_page");
+    safe_hide("manage_testimonials");
+    safe_hide("manage_partners");
+    safe_hide("manage_past_events");
+    safe_hide("manage_upcoming_events");
 }
 
 function hide_other_navs() {
-    document.getElementById("main-nav").style.display = "none";
-    document.getElementById("who-are-we-nav").style.display = "none";
-    document.getElementById("what-we-do-nav").style.display = "none";
-    document.getElementById("past-events-nav").style.display = "none";
-    document.getElementById("upcoming-events-nav").style.display = "none";
-    document.getElementById("admin-nav").style.display = "none";
+    safe_hide("main-nav");
+    safe_hide("who-are-we-nav");
+    safe_hide("what-we-do-nav");
+    safe_hide("past-events-nav");
+    safe_hide("upcoming-events-nav");
+    safe_hide("admin-nav");
 }
 
-/* =========================================================
-UNSAVED CHANGES NAVIGATION GUARD
-Use: try_navigate(() => button_home());
-   ========================================================= */
-function try_navigate(action_fn) {
-    if (has_unsaved_changes) {
-        pending_navigation_action = action_fn;
-        open_modal("modal-unsaved-changes");
-        return;
-    }
-    action_fn();
-}
-
-function setup_unsaved_modal_buttons() {
-    const stay = document.getElementById("unsaved-stay-btn");
-    const leave = document.getElementById("unsaved-leave-btn");
-    if (stay) {
-        stay.onclick = function(event) {
-            if (event) event.preventDefault();
-            pending_navigation_action = null;
-            close_modal("modal-unsaved-changes");
-        };
-    }
-    if (leave) {
-        leave.onclick = function(event) {
-            if (event) event.preventDefault();
-            close_modal("modal-unsaved-changes");
-            has_unsaved_changes = false;
-            if (typeof pending_navigation_action === "function") {
-                pending_navigation_action();
-            }
-            pending_navigation_action = null;
-        };
+// ========================================
+// MOBILE MENU FUNCTIONS
+// ========================================
+function toggle_mobile_menu() {
+    const dropdown = document.getElementById('mobile-dropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('active');
     }
 }
 
+function close_mobile_menu() {
+    const dropdown = document.getElementById('mobile-dropdown');
+    if (dropdown) {
+        dropdown.classList.remove('active');
+    }
+}
+
+function update_mobile_nav(current_page) {
+    // Update mobile menu button visibility based on current page
+    const buttons = {
+        'home': document.getElementById('mobile-nav-home'),
+        'who_we_are': document.getElementById('mobile-nav-who-we-are'),
+        'what_we_do': document.getElementById('mobile-nav-what-we-do'),
+        'past_events': document.getElementById('mobile-nav-past-events'),
+        'upcoming_events': document.getElementById('mobile-nav-upcoming-events')
+    };
+    
+    // Show all buttons
+    Object.values(buttons).forEach(btn => {
+        if (btn) btn.style.display = 'block';
+    });
+    
+    // Hide current page button
+    if (buttons[current_page]) {
+        buttons[current_page].style.display = 'none';
+    }
+}
+
+// ========================================
+// PAGE NAVIGATION FUNCTIONS
+// ========================================
+
+function button_home() {
+    hide_other_pages();
+    safe_show("home_page", "block");
+
+    hide_other_navs();
+    let nav = document.getElementById("main-nav");
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
+
+    // Show admin login button in footer
+    const adminLoginBtn = document.getElementById("admin-login");
+    if (adminLoginBtn) {
+        adminLoginBtn.style.display = "block";
+    }
+
+    // Update mobile navigation
+    update_mobile_nav('home');
+}
 
 function button_who_we_are() {
-    var home_page = document.getElementById("home_page");
-    var who_are_we = document.getElementById("who_we_are");
     hide_other_pages();
-    home_page.style.display = "none";
-    who_are_we.style.display = "block";
+    safe_show("who_we_are", "block");
 
     hide_other_navs();
     let nav = document.getElementById("who-are-we-nav");
-    nav.style.display = "flex";
-    nav.style.justifyContent = "center";
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
 
-    // Update mobile navigation
     update_mobile_nav('who_we_are');
 }
 
 function button_what_we_do() {
-    var home_page = document.getElementById("home_page");
-    var what_we_do = document.getElementById("what_we_do");
     hide_other_pages();
-    home_page.style.display = "none";
-    what_we_do.style.display = "block";
+    safe_show("what_we_do", "block");
 
     hide_other_navs();
     let nav = document.getElementById("what-we-do-nav");
-    nav.style.display = "flex";
-    nav.style.justifyContent = "center";
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
 
-    // Update mobile navigation
     update_mobile_nav('what_we_do');
 }
 
 function button_past_events() {
-    var home_page = document.getElementById("home_page");
-    var past_events = document.getElementById("past_events");
     hide_other_pages();
-    home_page.style.display = "none";
-    past_events.style.display = "block";
+    safe_show("past_events", "block");
 
     hide_other_navs();
     let nav = document.getElementById("past-events-nav");
-    nav.style.display = "flex";
-    nav.style.justifyContent = "center";
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
 
-    // Update mobile navigation
     update_mobile_nav('past_events');
 }
 
 function button_upcoming_events() {
-    var home_page = document.getElementById("home_page");
-    var upcoming_events = document.getElementById("upcoming_events");
     hide_other_pages();
-    home_page.style.display = "none";
-    upcoming_events.style.display = "block";
+    safe_show("upcoming_events", "block");
 
     hide_other_navs();
     let nav = document.getElementById("upcoming-events-nav");
-    nav.style.display = "flex";
-    nav.style.justifyContent = "center";
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
 
-    // Update mobile navigation
     update_mobile_nav('upcoming_events');
 }
 
@@ -159,13 +190,13 @@ function button_upcoming_events() {
 // ========================================
 
 function button_admin_login() {
-    var home_page = document.getElementById("home_page");
-    var login_page = document.getElementById("login_page");
-    var login_button = document.getElementById("admin-login");
-    login_button.style.display = "none";
     hide_other_pages();
-    home_page.style.display = "none";
-    login_page.style.display = "flex";
+    safe_show("login_page", "flex");
+    
+    const loginButton = document.getElementById("admin-login");
+    if (loginButton) {
+        loginButton.style.display = "none";
+    }
 
     hide_other_navs();
 }
@@ -173,30 +204,35 @@ function button_admin_login() {
 function admin_home() {
     hide_other_pages();
     hide_other_navs();
-
-    var admin_page = document.getElementById("admin_page");
+    
+    safe_show("admin_page", "block");
+    
     let nav = document.getElementById("admin-nav");
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
 
-    nav.style.display = "flex";
-    nav.style.justifyContent = "center";
-    admin_page.style.display = "block";
-
-    document.getElementById("admin-home-btn").style.display = "none";
+    const adminHomeBtn = document.getElementById("admin-home-btn");
+    if (adminHomeBtn) {
+        adminHomeBtn.style.display = "none";
+    }
 }
 
 function button_verify_login() {
-    // Login button calls this function
     let admin_user = "admin";
     let admin_password = "123";
     let username = document.getElementById("admin_username").value;
     let password = document.getElementById("admin_password").value;
     let warning1 = document.getElementById("warning1");
     let warning2 = document.getElementById("warning2");
+    
     warning1.textContent = " ";
     warning2.textContent = " ";
 
     if (admin_user == username) {
         if (admin_password == password) {
+            showToast('Welcome back!', 'success');
             admin_home();
         } else {
             warning2.textContent = "Password invalid.";
@@ -208,290 +244,208 @@ function button_verify_login() {
 
 function button_manage_testimonials() {
     hide_other_pages();
-    document.getElementById("manage_testimonials").style.display = "block";
+    safe_show("manage_testimonials", "block");
 
     let nav = document.getElementById("admin-nav");
-    nav.style.display = "flex";
-    nav.style.justifyContent = "center";
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
 
-    document.getElementById("admin-home-btn").style.display = "inline-flex";
-
+    const adminHomeBtn = document.getElementById("admin-home-btn");
+    if (adminHomeBtn) {
+        adminHomeBtn.style.display = "inline-flex";
+    }
 }
 
 function button_manage_past_events() {
     hide_other_pages();
-    document.getElementById("manage_past_events").style.display = "block";
+    safe_show("manage_past_events", "block");
 
     let nav = document.getElementById("admin-nav");
-    nav.style.display = "flex";
-    nav.style.justifyContent = "center";
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
 
-    document.getElementById("admin-home-btn").style.display = "block";
+    const adminHomeBtn = document.getElementById("admin-home-btn");
+    if (adminHomeBtn) {
+        adminHomeBtn.style.display = "block";
+    }
 }
 
 function button_manage_upcoming_events() {
     hide_other_pages();
-    document.getElementById("manage_upcoming_events").style.display = "block";
+    safe_show("manage_upcoming_events", "block");
 
     let nav = document.getElementById("admin-nav");
-    nav.style.display = "flex";
-    nav.style.justifyContent = "center";
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
 
-    document.getElementById("admin-home-btn").style.display = "block";
+    const adminHomeBtn = document.getElementById("admin-home-btn");
+    if (adminHomeBtn) {
+        adminHomeBtn.style.display = "block";
+    }
 }
 
 function button_manage_partners() {
     hide_other_pages();
-    document.getElementById("manage_partners").style.display = "block";
+    safe_show("manage_partners", "block");
 
     let nav = document.getElementById("admin-nav");
-    nav.style.display = "flex";
-    nav.style.justifyContent = "center";
+    if (nav) {
+        nav.style.display = "flex";
+        nav.style.justifyContent = "center";
+    }
 
-    document.getElementById("admin-home-btn").style.display = "inline-flex";
-}
-
-function button_edit_home() {
-    var login_page = document.getElementById("login_page");
-    var edit_home_page = document.getElementById("edit_home_page");
-    login_page.style.display = "none";
-    edit_home_page.style.display = "block";
+    const adminHomeBtn = document.getElementById("admin-home-btn");
+    if (adminHomeBtn) {
+        adminHomeBtn.style.display = "inline-flex";
+    }
 }
 
 // ========================================
-// OTHER FUNCTIONS
+// MODAL SYSTEM
 // ========================================
 
-function button_contact() {
-    var what_we_do = document.getElementById("what_we_do");
-    var who_we_are = document.getElementById("who_we_are");
-    var past_events = document.getElementById("past_events");
-    var upcoming_events = document.getElementById("upcoming_events");
-    what_we_do.style.display = "none";
-    past_events.style.display = "none";
-    upcoming_events.style.display = "none";
-    who_we_are.style.display = "block";
+function open_modal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
 }
 
-//backend
-function button_verify_login() {
-    //login button calls this fn. if login fields are validated, go to admin home
-    //init placeholder verification values
-    let admin_user = "admin";
-    let admin_password = "123";
-    let username = document.getElementById("admin_username").value;
-    let password = document.getElementById("admin_password").value;
-    let warning1 = document.getElementById("warning1");
-    let warning2 = document.getElementById("warning2");
-    warning1.textContent = " ";
-    warning2.textContent = " ";
-
-    if (admin_user == username) {
-        if (admin_password == password) {
-            admin_home();
-        } else { warning2.textContent = "Password invalid." }
-    } else { warning1.textContent = "Enter a valid username" }
-}
-/* =========================================================
-LOGOUT CONFIRM 
-- Admin clicks "Logout" => opens confirm modal
-- Confirm => logout + go to HOME user page
-- Cancel/Close => stay where you are
-   ========================================================= */
-
-function button_logout() {
-    open_modal("modal-logout-confirm");
+function close_modal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
 }
 
-function confirm_logout() {
-    // clear any admin-only UI state
-    clear_unsaved_changes();
-    pending_navigation_action = null;
+// ========================================
+// EXTERNAL LINK MODAL
+// ========================================
 
-    // close the modal
-    close_modal("modal-logout-confirm");
-
-    // go to public home page
-    button_home();
-
-    // optional: friendly toast
-    show_toast("Logged out successfully!");
-}
-
-function cancel_logout() {
-    close_modal("modal-logout-confirm");
-}
-
-//* =========================================================EXTERNAL LINKS====================================================*//
-
-function open_whatsapp() {
-    const whatsapp_link = "https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb";
-    window.open(whatsapp_link, "_blank");
+function openExternalLink(url) {
+    pending_external_url = url;
+    open_modal('modal-external-warning');
+    
+    document.getElementById('external-link-confirm').onclick = function() {
+        window.open(pending_external_url, '_blank');
+        close_modal('modal-external-warning');
+        pending_external_url = null;
+    };
 }
 
 function open_instagram() {
-    const instagram_link = "https://www.instagram.com/saltypadel/";
-    window.open(instagram_link, "_blank");
+    openExternalLink('https://www.instagram.com/saltypadel/');
 }
 
-/* Open shop ONLY after user confirms in modal */
 function open_shop_with_warning() {
-    pending_external_url = "https://vx3.co.uk/collections/salty-padel";
-    show_toast("Opening shop link…");
-    open_modal("modal-external-warning");
+    openExternalLink('https://vx3.co.uk/collections/salty-padel');
 }
 
-function open_external_link_with_warning(url) {
-    pending_external_url = url;
-    show_toast("Opening shop link…");
-    open_modal("modal-external-warning");
+// ========================================
+// ADMIN LOGOUT MODAL
+// ========================================
+
+function trigger_logout() {
+    open_modal('modal-logout-confirm');
 }
 
-function setup_external_warning_modal_buttons() {
-    const confirm_button = document.getElementById("external-link-confirm");
-    if (!confirm_button) return;
+function cancel_logout() {
+    close_modal('modal-logout-confirm');
+}
 
-    confirm_button.onclick = function(event) {
-        if (event) event.preventDefault();
+function confirm_logout() {
+    close_modal('modal-logout-confirm');
+    showToast('Logged out successfully', 'success');
+    
+    setTimeout(function() {
+        button_home();
+    }, 500);
+}
 
-        if (pending_external_url) {
-            const new_tab = window.open(pending_external_url, "_blank");
+// ========================================
+// DELETE CONFIRMATION MODAL
+// ========================================
 
-            // if popups blocked, tell the user
-            if (!new_tab) {
-                show_toast("Pop-up blocked. Please allow pop-ups for this site.", "error");
-            } else {
-                show_toast("Opened in a new tab!");
+function confirmDelete(itemName, deleteCallback) {
+    const modalBody = document.querySelector('#modal-confirm-delete .modal-body');
+    if (modalBody) {
+        modalBody.textContent = `Delete "${itemName}"? This can't be undone.`;
+    }
+    
+    pendingDeleteAction = deleteCallback;
+    open_modal('modal-confirm-delete');
+    
+    const deleteBtn = document.getElementById('delete-confirm-btn');
+    if (deleteBtn) {
+        deleteBtn.onclick = function() {
+            if (pendingDeleteAction) {
+                pendingDeleteAction();
+                showToast('Item deleted successfully', 'success');
+                close_modal('modal-confirm-delete');
+                pendingDeleteAction = null;
             }
-
-            pending_external_url = null;
-        }
-
-        close_modal("modal-external-warning");
-    };
-
-    // OPTIONAL: if you want cancel button to also clear pending url
-    if (cancel_button) {
-        cancel_button.onclick = function(event) {
-            if (event) event.preventDefault();
-            pending_external_url = null;
-            close_modal("modal-external-warning");
-            show_toast("Cancelled.");
         };
     }
 }
 
-/* =========================================================
-MODALS
-   ========================================================= */
+// ========================================
+// TOAST SYSTEM
+// ========================================
 
-/* Prevent crash if mobile menu not implemented yet */
-function close_mobile_menu() {
-    // no mobile menu yet - safe empty function
-}
-
-function open_modal(modal_id) {
-    const modal = document.getElementById(modal_id);
-    if (!modal) return;
-
-    modal.classList.add("active");
-    document.body.classList.add("modal-open");
-
-    close_mobile_menu();
-}
-
-function close_modal(modal_id) {
-    const modal = document.getElementById(modal_id);
-    if (!modal) return;
-
-    modal.classList.remove("active");
-    document.body.classList.remove("modal-open");
-}
-
-function setup_modal_click_outside() {
-    const overlays = document.querySelectorAll(".modal-overlay");
-    overlays.forEach((overlay) => {
-        overlay.addEventListener("click", function(event) {
-            if (event.target === overlay) {
-                close_modal(overlay.id);
-            }
-        });
-    });
-}
-
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Escape") {
-        const active_modals = document.querySelectorAll(".modal-overlay.active");
-        active_modals.forEach((modal) => close_modal(modal.id));
-    }
-});
-
-/* =========================================================
-TOASTS
-   ========================================================= */
-function show_toast(message, type = "default") {
-    const area = document.getElementById("toast-area");
-    if (!area) return;
-
-    const toast = document.createElement("div");
-    toast.className = "toast" + (type === "error" ? " toast-error" : "");
-
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    
     toast.innerHTML = `
-    <div>
-        <div class="toast-title">${type === "error" ? "Error" : "Notice"}</div>
-        <div class="toast-msg">${message}</div>
-    </div>
-    <button class="toast-close" aria-label="Close">&times;</button>
-`;
-
-    area.appendChild(toast);
-
-    const close_btn = toast.querySelector(".toast-close");
-    if (close_btn) close_btn.onclick = () => toast.remove();
-
-    setTimeout(() => {
-        if (toast && toast.parentNode) toast.remove();
+        <div>
+            <div class="toast-title">${type === 'success' ? 'Success' : 'Error'}</div>
+            <div class="toast-msg">${message}</div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+    `;
+    
+    const toastArea = document.getElementById('toast-area');
+    if (toastArea) {
+        toastArea.appendChild(toast);
+    }
+    
+    setTimeout(function() {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(400px)';
+        setTimeout(function() {
+            toast.remove();
+        }, 300);
     }, 3000);
 }
 
-/* =========================================================
-UPLOAD TESTIMONIAL (placeholder)
-- Requires in HTML:
-textarea id="testimonial_text"
-- Add oninput="mark_unsaved_changes()" on the textarea
-   ========================================================= */
-function upload_testimonial() {
-    const text_el = document.getElementById("testimonial_text");
-    const text = text_el ? text_el.value.trim() : "";
-
-    if (text === "") {
-        show_toast("Please fill all required fields", "error");
-        return;
-    }
-
-    // Simulate saving
-    clear_unsaved_changes();
-    show_toast("Changes saved successfully!");
+function showSuccessToast(message) {
+    showToast(message, 'success');
 }
 
-// =======================================================
-// SINGLE INIT (IMPORTANT: only one DOMContentLoaded)
-// =======================================================
-document.addEventListener("DOMContentLoaded", function() {
+function showErrorToast(message) {
+    showToast(message, 'error');
+}
 
-    // Setup modal systems
-    setup_modal_click_outside();
-    setup_unsaved_modal_buttons();
-    setup_external_warning_modal_buttons();
+function toastLoginSuccess() {
+    showToast('Welcome back!', 'success');
+}
 
-    // Default page OR hash page
-    hide_other_pages();
-    hide_other_navs();
+function toastSaveSuccess() {
+    showToast('Changes saved', 'success');
+}
 
-    if (location.hash === '#who') {
-        button_who_we_are();
-    } else {
-        document.getElementById("home_page").style.display = "block";
-        document.getElementById("main-nav").style.display = "flex";
-    }
-});
+function toastUploadSuccess() {
+    showToast('Upload complete', 'success');
+}
+
+function toastError() {
+    showToast('Something went wrong. Please try again.', 'error');
+}
