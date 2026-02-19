@@ -1,38 +1,6 @@
-tml, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-size: 14px;
-    font-family: 'Inter', Arial, sans-serif;
-}
+/* Styles migrated into `Style.css` — file intentionally left blank. */
 
-/* REQUIRED background layer */
-.bg-black { 
-    background-color: #000000; 
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 150px; 
-    position: absolute;
-    z-index: 0;
-    inset: 0;
 
-               /* smaller height from Figma */
-
-   
-}
-
-.bg-yellow { 
-    background-color: #F0FF70;
-    position: absolute;
-    top: -200px;
-    left: 0;
-    width: 100vw;
-    height: 130vh;
-    z-index: -1;
- }
-
-.bg-white {
     background-color: #FFF9FC; /*#FFF9FC */
     position:absolute;
     top: 670px;
