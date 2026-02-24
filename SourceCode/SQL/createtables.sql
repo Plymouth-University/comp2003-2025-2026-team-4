@@ -12,18 +12,14 @@ CREATE TABLE Partner (
         REFERENCES Image(imageID)
 );
 
-CREATE TABLE EventImages (
-    eventIndex INT AUTO_INCREMENT PRIMARY KEY,
-    eventID INT NOT NULL,
-    imageID INT NOT NULL,
-    showOnPast BOOLEAN DEFAULT FALSE,
-    showOnFuture BOOLEAN DEFAULT FALSE,
-    CONSTRAINT event_event_fk
-        FOREIGN KEY (eventID)
-        REFERENCES Event(eventID),
-    CONSTRAINT event_image_fk
-        FOREIGN KEY (imageID)
-        REFERENCES Image(imageID)
+CREATE TABLE Event (
+    eventID INT AUTO_INCREMENT PRIMARY KEY,
+    eventName VARCHAR(50) NOT NULL,
+    eventLocation VARCHAR(200) NOT NULL,
+    eventDate DATE NOT NULL,
+    eventTime TIME NOT NULL
+    showOnPast BOOLEAN,
+    showOnFuture BOOLEAN
 );
 
 CREATE TABLE EventImages (
@@ -51,4 +47,5 @@ CREATE TABLE Testimonial (
     testimonialText VARCHAR(500) NOT NULL,
     showOnPage BOOLEAN DEFAULT FALSE
 );
+
 
