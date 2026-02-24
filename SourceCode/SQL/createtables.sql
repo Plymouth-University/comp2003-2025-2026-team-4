@@ -17,7 +17,7 @@ CREATE TABLE Event (
     eventName VARCHAR(50) NOT NULL,
     eventLocation VARCHAR(200) NOT NULL,
     eventDate DATE NOT NULL,
-    eventTime TIME NOT NULL
+    eventTime TIME NOT NULL,
     showOnPast BOOLEAN,
     showOnFuture BOOLEAN
 );
@@ -47,5 +47,6 @@ CREATE TABLE Testimonial (
     testimonialText VARCHAR(500) NOT NULL,
     showOnPage BOOLEAN DEFAULT FALSE
 );
+
 
 
