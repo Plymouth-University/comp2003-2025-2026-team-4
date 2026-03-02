@@ -1,135 +1,196 @@
 <?php
-declare(strict_types=1);
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-require_once __DIR__ . "/../helpers/response.php";
-require_once __DIR__ . "/../config/db.php";
-require_once __DIR__ . "/../middleware/auth_check.php";
+require_once __DIR__ . '/../config/db.php';
 
-$pdo = getPdo();
-$method = $_SERVER["REQUEST_METHOD"];
+$method = $_SERVER['REQUEST_METHOD'];
+$input = json_decode(file_get_contents('php://input'), true);
 
-$path = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");
-$route = substr($path, strpos($path, "api/v1/") + strlen("api/v1/"));
-$parts = explode("/", $route);
+// ── GET ── Return all visible testimonials
+if ($method === 'GET') {
+    $pdo = getDB();
+    $stmt = $pdo->query(
+        'SELECT
+            id AS testimonialId,
+            quote_text AS quoteText,
+            author_name AS authorName,
+            author_role AS authorRole,
+            is_visible AS isVisible
+        FROM testimonials
+        WHERE is_visible = 1
+        ORDER BY id ASC'
+    );
+    $testimonials = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$id = $parts[1] ?? null;
-$query = $_GET ?? [];
-
-function rowToTestimonial(array $r): array {
-    return [
-        "testimonialId" => (int)$r["id"],
-        "quoteText"     => (string)$r["quote_text"],
-        "authorName"    => (string)$r["author_name"],
-        "authorRole"    => $r["author_role"],
-        "isVisible"     => (int)$r["is_visible"] === 1,
-        "createdAt"     => (string)$r["created_at"],
-    ];
+    echo json_encode([
+        'success' => true,
+        'data' => $testimonials
+    ]);
+    exit;
 }
 
-$body = json_decode(file_get_contents("php://input"), true) ?? [];
-
-if ($method === "GET" && $id === null) {
-    $all = isset($query["all"]) && (string)$query["all"] === "1";
-
-    if ($all) {
-        requireAuth();
-        $stmt = $pdo->query("SELECT * FROM testimonials ORDER BY created_at DESC");
-    } else {
-        $stmt = $pdo->query("SELECT * FROM testimonials WHERE is_visible = 1 ORDER BY created_at DESC");
-    }
-
-    $rows = $stmt->fetchAll();
-    ok(array_map("rowToTestimonial", $rows));
-}
-
-if ($method === "POST" && $id === null) {
-    requireAuth();
+// ── POST ── Create new testimonial
+if ($method === 'POST') {
+    $quoteText  = $input['quoteText'] ?? '';
+    $authorName = $input['authorName'] ?? '';
+    $authorRole = $input['authorRole'] ?? null;
+    $isVisible  = $input['isVisible'] ?? 1;
 
     $errors = [];
-
-    $quoteText  = trim((string)($body["quoteText"] ?? ""));
-    $authorName = trim((string)($body["authorName"] ?? ""));
-    $authorRole = isset($body["authorRole"]) ? trim((string)$body["authorRole"]) : null;
-    $isVisible  = array_key_exists("isVisible", $body) ? (bool)$body["isVisible"] : true;
-
-    if ($quoteText === "")  $errors[] = "quoteText is required";
-    if ($authorName === "") $errors[] = "authorName is required";
+    if (empty($quoteText))  $errors[] = 'quoteText is required';
+    if (empty($authorName)) $errors[] = 'authorName is required';
 
     if (!empty($errors)) {
-        errorResponse("VALIDATION_ERROR", "Invalid fields", $errors, 400);
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error' => [
+                'code' => 'VALIDATION_ERROR',
+                'message' => 'One or more fields are invalid',
+                'details' => $errors
+            ]
+        ]);
+        exit;
     }
 
-    $stmt = $pdo->prepare("
-        INSERT INTO testimonials (quote_text, author_name, author_role, is_visible)
-        VALUES (:q, :a, :r, :v)
-    ");
-    $stmt->execute([
-        ":q" => $quoteText,
-        ":a" => $authorName,
-        ":r" => ($authorRole === "" ? null : $authorRole),
-        ":v" => $isVisible ? 1 : 0,
-    ]);
+    $pdo = getDB();
+    $stmt = $pdo->prepare(
+        'INSERT INTO testimonials 
+        (quote_text, author_name, author_role, is_visible)
+        VALUES (?, ?, ?, ?)'
+    );
+    $stmt->execute([$quoteText, $authorName, $authorRole, $isVisible]);
 
-    ok(["testimonialId" => (int)$pdo->lastInsertId(), "message" => "Testimonial created"], 201);
+    http_response_code(201);
+    echo json_encode([
+        'success' => true,
+        'data' => [
+            'testimonialId' => $pdo->lastInsertId(),
+            'message' => 'Testimonial created'
+        ]
+    ]);
+    exit;
 }
 
-if ($method === "PUT" && $id !== null) {
-    requireAuth();
-    $testimonialId = (int)$id;
+// ── PUT ── Update testimonial
+if ($method === 'PUT') {
+    $testimonialId = $_GET['id'] ?? null;
 
-    // Check exists
-    $chk = $pdo->prepare("SELECT id FROM testimonials WHERE id = :id");
-    $chk->execute([":id" => $testimonialId]);
-    if (!$chk->fetch()) {
-        errorResponse("NOT_FOUND", "Testimonial not found", [], 404);
+    if (!$testimonialId) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error' => [
+                'code' => 'VALIDATION_ERROR',
+                'message' => 'Testimonial ID is required',
+                'details' => []
+            ]
+        ]);
+        exit;
+    }
+
+    $pdo = getDB();
+    $check = $pdo->prepare('SELECT id FROM testimonials WHERE id = ?');
+    $check->execute([$testimonialId]);
+    if (!$check->fetch()) {
+        http_response_code(404);
+        echo json_encode([
+            'success' => false,
+            'error' => [
+                'code' => 'NOT_FOUND',
+                'message' => 'Testimonial not found',
+                'details' => []
+            ]
+        ]);
+        exit;
     }
 
     $fields = [];
-    $params = [":id" => $testimonialId];
+    $values = [];
 
-    $map = [
-        "quoteText"  => "quote_text",
-        "authorName" => "author_name",
-        "authorRole" => "author_role",
-        "isVisible"  => "is_visible",
-    ];
-
-    foreach ($map as $jsonKey => $dbCol) {
-        if (array_key_exists($jsonKey, $body)) {
-            $fields[] = "{$dbCol} = :{$jsonKey}";
-
-            if ($jsonKey === "isVisible") {
-                $params[":{$jsonKey}"] = ((bool)$body[$jsonKey]) ? 1 : 0;
-            } else {
-                $val = $body[$jsonKey];
-                $params[":{$jsonKey}"] = ($val === "" ? null : $val);
-            }
-        }
-    }
+    if (isset($input['quoteText']))  { $fields[] = 'quote_text = ?';  $values[] = $input['quoteText']; }
+    if (isset($input['authorName'])) { $fields[] = 'author_name = ?'; $values[] = $input['authorName']; }
+    if (isset($input['authorRole'])) { $fields[] = 'author_role = ?'; $values[] = $input['authorRole']; }
+    if (isset($input['isVisible']))  { $fields[] = 'is_visible = ?';  $values[] = $input['isVisible']; }
 
     if (empty($fields)) {
-        errorResponse("VALIDATION_ERROR", "No fields provided", ["Provide at least one field to update"], 400);
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error' => [
+                'code' => 'VALIDATION_ERROR',
+                'message' => 'No fields provided to update',
+                'details' => []
+            ]
+        ]);
+        exit;
     }
 
-    $sql = "UPDATE testimonials SET " . implode(", ", $fields) . " WHERE id = :id";
+    $values[] = $testimonialId;
+    $sql = 'UPDATE testimonials SET ' . implode(', ', $fields) . ' WHERE id = ?';
     $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
+    $stmt->execute($values);
 
-    ok(["message" => "Testimonial updated"]);
+    echo json_encode([
+        'success' => true,
+        'data' => ['message' => 'Testimonial updated']
+    ]);
+    exit;
 }
 
-if ($method === "DELETE" && $id !== null) {
-    requireAuth();
-    $testimonialId = (int)$id;
+// ── DELETE ── Delete a testimonial
+if ($method === 'DELETE') {
+    $testimonialId = $_GET['id'] ?? null;
 
-    $stmt = $pdo->prepare("DELETE FROM testimonials WHERE id = :id");
-    $stmt->execute([":id" => $testimonialId]);
-
-    if ($stmt->rowCount() === 0) {
-        errorResponse("NOT_FOUND", "Testimonial not found", [], 404);
+    if (!$testimonialId) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error' => [
+                'code' => 'VALIDATION_ERROR',
+                'message' => 'Testimonial ID is required',
+                'details' => []
+            ]
+        ]);
+        exit;
     }
 
-    ok(["message" => "Testimonial deleted"]);
+    $pdo = getDB();
+    $check = $pdo->prepare('SELECT id FROM testimonials WHERE id = ?');
+    $check->execute([$testimonialId]);
+    if (!$check->fetch()) {
+        http_response_code(404);
+        echo json_encode([
+            'success' => false,
+            'error' => [
+                'code' => 'NOT_FOUND',
+                'message' => 'Testimonial not found',
+                'details' => []
+            ]
+        ]);
+        exit;
+    }
+
+    $stmt = $pdo->prepare('DELETE FROM testimonials WHERE id = ?');
+    $stmt->execute([$testimonialId]);
+
+    echo json_encode([
+        'success' => true,
+        'data' => ['message' => 'Testimonial deleted']
+    ]);
+    exit;
 }
 
-errorResponse("METHOD_NOT_ALLOWED", "Endpoint not supported", [], 405);
+// ── Method not allowed ← ALWAYS LAST
+http_response_code(405);
+echo json_encode([
+    'success' => false,
+    'error' => [
+        'code' => 'METHOD_NOT_ALLOWED',
+        'message' => 'Method not allowed',
+        'details' => []
+    ]
+]);
