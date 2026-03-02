@@ -1,60 +1,92 @@
 <?php
-declare(strict_types=1);
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, PUT');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-require_once __DIR__ . "/../helpers/response.php";
-require_once __DIR__ . "/../config/db.php";
-require_once __DIR__ . "/../middleware/auth_check.php";
+require_once __DIR__ . '/../config/db.php';
 
-$pdo = getPdo();
-$method = $_SERVER["REQUEST_METHOD"];
+$method = $_SERVER['REQUEST_METHOD'];
+$input = json_decode(file_get_contents('php://input'), true);
 
-if ($method === "GET") {
-    // Public - return all settings as key/value object
-    $stmt = $pdo->query("SELECT setting_key, setting_value FROM site_settings");
-    $rows = $stmt->fetchAll();
+// ── GET ── Return all site settings
+if ($method === 'GET') {
+    $pdo = getDB();
+    $stmt = $pdo->query('SELECT setting_key, setting_value FROM site_settings');
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Convert to key-value object
     $settings = [];
-    foreach ($rows as $r) {
-        $settings[(string)$r["setting_key"]] = (string)$r["setting_value"];
+    foreach ($rows as $row) {
+        $settings[$row['setting_key']] = $row['setting_value'];
     }
 
-    ok($settings);
+    echo json_encode([
+        'success' => true,
+        'data' => $settings
+    ]);
+    exit;
 }
 
-if ($method === "PUT") {
-    // Protected - update one or multiple settings
-    requireAuth();
+// ── PUT ── Update site settings
+if ($method === 'PUT') {
+    $allowed = [
+        'whatsappUrl',
+        'instagramUrl', 
+        'merchandiseUrl',
+        'heroHeading',
+        'heroSubtext'
+    ];
 
-    $body = json_decode(file_get_contents("php://input"), true);
-    if (!is_array($body) || empty($body)) {
-        errorResponse("VALIDATION_ERROR", "Invalid fields", ["Body must be a JSON object of settings"], 400);
-    }
-
-    // Validate keys/values
     $errors = [];
-    foreach ($body as $k => $v) {
-        if (!is_string($k) || trim($k) === "") $errors[] = "setting key must be a non-empty string";
-        if (!is_string($v)) $errors[] = "setting_value for '{$k}' must be a string";
+
+    // Validate URLs
+    foreach (['whatsappUrl', 'instagramUrl', 'merchandiseUrl'] as $key) {
+        if (isset($input[$key]) && !filter_var($input[$key], FILTER_VALIDATE_URL)) {
+            $errors[] = $key . ' must be a valid URL';
+        }
     }
+
     if (!empty($errors)) {
-        errorResponse("VALIDATION_ERROR", "Invalid fields", $errors, 400);
-    }
-
-    // Upsert settings (insert if missing, update if exists)
-    $stmt = $pdo->prepare("
-        INSERT INTO site_settings (setting_key, setting_value)
-        VALUES (:k, :v)
-        ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)
-    ");
-
-    foreach ($body as $k => $v) {
-        $stmt->execute([
-            ":k" => $k,
-            ":v" => $v
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error' => [
+                'code' => 'VALIDATION_ERROR',
+                'message' => 'One or more fields are invalid',
+                'details' => $errors
+            ]
         ]);
+        exit;
     }
 
-    ok(["message" => "Settings updated"]);
+    $pdo = getDB();
+
+    // Only update fields that were sent
+    foreach ($allowed as $key) {
+        if (isset($input[$key])) {
+            $stmt = $pdo->prepare(
+                'UPDATE site_settings SET setting_value = ? 
+                WHERE setting_key = ?'
+            );
+            $stmt->execute([$input[$key], $key]);
+        }
+    }
+
+    echo json_encode([
+        'success' => true,
+        'data' => ['message' => 'Settings updated']
+    ]);
+    exit;
 }
 
-errorResponse("METHOD_NOT_ALLOWED", "Endpoint not supported", [], 405);
+// ── Method not allowed ← ALWAYS LAST
+http_response_code(405);
+echo json_encode([
+    'success' => false,
+    'error' => [
+        'code' => 'METHOD_NOT_ALLOWED',
+        'message' => 'Method not allowed',
+        'details' => []
+    ]
+])
