@@ -1,75 +1,128 @@
 <?php
-declare(strict_types=1);
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
-require_once __DIR__ . "/../helpers/response.php";
-require_once __DIR__ . "/../config/db.php";
-require_once __DIR__ . "/../middleware/auth_check.php";
+require_once __DIR__ . '/../config/db.php';
 
-$pdo = getPdo();
-$method = $_SERVER["REQUEST_METHOD"];
+$method = $_SERVER['REQUEST_METHOD'];
+$input = json_decode(file_get_contents('php://input'), true);
 
-$path = trim(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), "/");
-$route = substr($path, strpos($path, "api/v1/") + strlen("api/v1/"));
-$parts = explode("/", $route);
+// ── GET ── Return all past events
+if ($method === 'GET') {
+    $pdo = getDB();
+    $stmt = $pdo->query(
+        'SELECT 
+            id AS eventId,
+            event_name AS eventName,
+            event_date AS eventDate,
+            image_path AS imagePath
+        FROM past_events
+        ORDER BY event_date DESC'
+    );
+    $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$id = $parts[1] ?? null;
-$body = json_decode(file_get_contents("php://input"), true) ?? [];
-
-function rowToPastEvent(array $r): array {
-    return [
-        "eventId" => (int)$r["id"],
-        "eventName" => (string)$r["event_name"],
-        "eventDate" => (string)$r["event_date"],
-        "imagePath" => $r["image_path"],
-    ];
+    echo json_encode([
+        'success' => true,
+        'data' => $events
+    ]);
+    exit;
 }
 
-if ($method === "GET" && $id === null) {
-    $stmt = $pdo->query("SELECT * FROM past_events ORDER BY event_date DESC");
-    $rows = $stmt->fetchAll();
-    ok(array_map("rowToPastEvent", $rows));
-}
-
-if ($method === "POST" && $id === null) {
-    requireAuth();
+// ── POST ── Create new past event
+if ($method === 'POST') {
+    $eventName = $input['eventName'] ?? '';
+    $eventDate = $input['eventDate'] ?? '';
 
     $errors = [];
-    $eventName = trim((string)($body["eventName"] ?? ""));
-    $eventDate = (string)($body["eventDate"] ?? "");
-
-    if ($eventName === "") $errors[] = "eventName is required";
-    if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $eventDate)) $errors[] = "eventDate must be YYYY-MM-DD";
-
-    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $eventDate)) {
-        if (strtotime($eventDate) > strtotime(date("Y-m-d"))) $errors[] = "eventDate must be in the past";
+    if (empty($eventName)) $errors[] = 'eventName is required';
+    if (empty($eventDate)) $errors[] = 'eventDate is required';
+    if ($eventDate && $eventDate > date('Y-m-d')) {
+        $errors[] = 'eventDate must be in the past';
     }
 
     if (!empty($errors)) {
-        errorResponse("VALIDATION_ERROR", "Invalid fields", $errors, 400);
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error' => [
+                'code' => 'VALIDATION_ERROR',
+                'message' => 'One or more fields are invalid',
+                'details' => $errors
+            ]
+        ]);
+        exit;
     }
 
-    $stmt = $pdo->prepare("INSERT INTO past_events (event_name, event_date) VALUES (:n, :d)");
-    $stmt->execute([
-        ":n" => $eventName,
-        ":d" => $eventDate
+    $pdo = getDB();
+    $stmt = $pdo->prepare(
+        'INSERT INTO past_events (event_name, event_date)
+        VALUES (?, ?)'
+    );
+    $stmt->execute([$eventName, $eventDate]);
+
+    http_response_code(201);
+    echo json_encode([
+        'success' => true,
+        'data' => [
+            'eventId' => $pdo->lastInsertId(),
+            'message' => 'Past event created'
+        ]
     ]);
-
-    ok(["eventId" => (int)$pdo->lastInsertId(), "message" => "Past event created"], 201);
+    exit;
 }
 
-if ($method === "DELETE" && $id !== null) {
-    requireAuth();
+// ── DELETE ── Delete a past event
+if ($method === 'DELETE') {
+    $eventId = $_GET['id'] ?? null;
 
-    $eventId = (int)$id;
-
-    $stmt = $pdo->prepare("DELETE FROM past_events WHERE id = :id");
-    $stmt->execute([":id" => $eventId]);
-
-    if ($stmt->rowCount() === 0) {
-        errorResponse("NOT_FOUND", "Event not found", [], 404);
+    if (!$eventId) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error' => [
+                'code' => 'VALIDATION_ERROR',
+                'message' => 'Event ID is required',
+                'details' => []
+            ]
+        ]);
+        exit;
     }
 
-    ok(["message" => "Past event deleted"]);
+    $pdo = getDB();
+    $check = $pdo->prepare('SELECT id FROM past_events WHERE id = ?');
+    $check->execute([$eventId]);
+    if (!$check->fetch()) {
+        http_response_code(404);
+        echo json_encode([
+            'success' => false,
+            'error' => [
+                'code' => 'NOT_FOUND',
+                'message' => 'Event not found',
+                'details' => []
+            ]
+        ]);
+        exit;
+    }
+
+    $stmt = $pdo->prepare('DELETE FROM past_events WHERE id = ?');
+    $stmt->execute([$eventId]);
+
+    echo json_encode([
+        'success' => true,
+        'data' => ['message' => 'Past event deleted']
+    ]);
+    exit;
 }
 
-errorResponse("METHOD_NOT_ALLOWED", "Endpoint not supported", [], 405);
+// ── Method not allowed ← ALWAYS LAST
+http_response_code(405);
+echo json_encode([
+    'success' => false,
+    'error' => [
+        'code' => 'METHOD_NOT_ALLOWED',
+        'message' => 'Method not allowed',
+        'details' => []
+    ]
+]);
