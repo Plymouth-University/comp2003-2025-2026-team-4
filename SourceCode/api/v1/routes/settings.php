@@ -92,4 +92,4 @@ echo json_encode([
         'message' => 'Method not allowed',
         'details' => []
     ]
-])
+]);
