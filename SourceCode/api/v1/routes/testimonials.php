@@ -5,6 +5,7 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../middleware/auth_check.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $input = json_decode(file_get_contents('php://input'), true);
@@ -31,6 +32,9 @@ if ($method === 'GET') {
     ]);
     exit;
 }
+
+// ── Protect everything ──
+require_auth();
 
 // ── POST ── Create new testimonial
 if ($method === 'POST') {

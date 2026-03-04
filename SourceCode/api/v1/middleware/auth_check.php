@@ -1,65 +1,107 @@
 <?php
-declare(strict_types=1);
 
-require_once __DIR__ . "/../helpers/response.php";
+// auth_check.php
+// Middleware: validates Bearer token on protected routes (POST / PUT / DELETE)
+// Include at the top of any endpoint that requires admin authentication.
 
-function base64UrlEncode(string $data): string {
-    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
-}
+require_once __DIR__ . '/../config/db.php';
 
-function base64UrlDecode(string $data): string {
-    $remainder = strlen($data) % 4;
-    if ($remainder) {
-        $data .= str_repeat('=', 4 - $remainder);
-    }
-    return base64_decode(strtr($data, '-_', '+/'));
-}
+function require_auth() {
+    $headers = getallheaders();
 
-function jwtEncode(array $payload, string $secret): string {
-    $header = ["alg" => "HS256", "typ" => "JWT"];
-
-    $segments = [
-        base64UrlEncode(json_encode($header)),
-        base64UrlEncode(json_encode($payload)),
-    ];
-
-    $signingInput = implode(".", $segments);
-    $signature = hash_hmac("sha256", $signingInput, $secret, true);
-
-    $segments[] = base64UrlEncode($signature);
-    return implode(".", $segments);
-}
-
-function jwtDecode(string $jwt, string $secret): ?array {
-    $parts = explode(".", $jwt);
-    if (count($parts) !== 3) return null;
-
-    [$h, $p, $s] = $parts;
-
-    $signingInput = $h . "." . $p;
-    $expected = base64UrlEncode(hash_hmac("sha256", $signingInput, $secret, true));
-    if (!hash_equals($expected, $s)) return null;
-
-    $payload = json_decode(base64UrlDecode($p), true);
-    if (!is_array($payload)) return null;
-
-    if (isset($payload["exp"]) && time() >= (int)$payload["exp"]) return null;
-
-    return $payload;
-}
-
-function requireAuth(): array {
-    $cfg = require __DIR__ . "/../config/config.php";
-
-    $auth = $_SERVER["HTTP_AUTHORIZATION"] ?? "";
-    if (!preg_match('/Bearer\s(\S+)/', $auth, $matches)) {
-        errorResponse("UNAUTHORISED", "Missing token", [], 401);
+    // Check Authorization header exists
+    if (!isset($headers['Authorization']) && !isset($headers['authorization'])) {
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'errors' => [
+                [
+                    'code'    => 'UNAUTHORIZED',
+                    'message' => 'Authorization header missing',
+                    'details' => []
+                ]
+            ]
+        ]);
+        exit;
     }
 
-    $payload = jwtDecode($matches[1], $cfg["jwt_secret"]);
-    if ($payload === null) {
-        errorResponse("UNAUTHORISED", "Invalid token", [], 401);
+    $auth_header = $headers['Authorization'] ?? $headers['authorization'];
+
+    // Must be a Bearer token
+    if (!str_starts_with($auth_header, 'Bearer ')) {
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'errors' => [
+                [
+                    'code'    => 'UNAUTHORIZED',
+                    'message' => 'Invalid token format. Expected: Bearer <token>',
+                    'details' => []
+                ]
+            ]
+        ]);
+        exit;
     }
 
-    return $payload;
+    $token = trim(substr($auth_header, 7));
+
+    if (empty($token)) {
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'errors' => [
+                [
+                    'code'    => 'UNAUTHORIZED',
+                    'message' => 'Token is empty',
+                    'details' => []
+                ]
+            ]
+        ]);
+        exit;
+    }
+
+    // Validate token directly against the admins table
+    $pdo  = getDB();
+    $stmt = $pdo->prepare(
+        'SELECT id, username, token_expires_at
+        FROM admins
+        WHERE token = :token
+        LIMIT 1'
+    );
+    $stmt->execute([':token' => $token]);
+    $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$admin) {
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'errors'  => [
+                [
+                    'code'    => 'UNAUTHORIZED',
+                    'message' => 'Invalid or expired token',
+                    'details' => []
+                ]
+            ]
+        ]);
+        exit;
+    }
+
+    // Check token has not expired
+    if (strtotime($admin['token_expires_at']) < time()) {
+        http_response_code(401);
+        echo json_encode([
+            'success' => false,
+            'errors'  => [
+                [
+                    'code'    => 'TOKEN_EXPIRED',
+                    'message' => 'Session has expired. Please log in again.',
+                    'details' => []
+                ]
+            ]
+        ]);
+        exit;
+    }
+
+    // Token is valid — return username so the endpoint can use it if needed
+    return $admin['username'];
 }
