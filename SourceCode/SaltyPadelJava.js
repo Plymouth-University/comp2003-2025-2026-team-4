@@ -53,8 +53,7 @@ function hide_other_pages() {
     safe_hide("admin_page");
     safe_hide("manage_testimonials");
     safe_hide("manage_partners");
-    safe_hide("manage_past_events");
-    safe_hide("manage_upcoming_events");
+    safe_hide("manage_events");
     safe_hide("manage_whatsapp"); 
 }
 
@@ -157,8 +156,8 @@ function button_what_we_do() {
 
     update_mobile_nav('what_we_do');
 }
-
 function button_past_events() {
+    document.body.classList.remove('admin-mode'); // safety
     hide_other_pages();
     safe_show("past_events", "block");
 
@@ -170,9 +169,11 @@ function button_past_events() {
     }
 
     update_mobile_nav('past_events');
+    close_mobile_menu();
 }
 
 function button_upcoming_events() {
+    document.body.classList.remove('admin-mode'); // safety
     hide_other_pages();
     safe_show("upcoming_events", "block");
 
@@ -184,8 +185,8 @@ function button_upcoming_events() {
     }
 
     update_mobile_nav('upcoming_events');
+    close_mobile_menu();
 }
-
 // ========================================
 // ADMIN FUNCTIONS
 // ========================================
@@ -262,25 +263,9 @@ function button_manage_testimonials() {
     }
 }
 
-function button_manage_past_events() {
+function button_manage_events() {
     hide_other_pages();
-    safe_show("manage_past_events", "block");
-
-    let nav = document.getElementById("admin-nav");
-    if (nav) {
-        nav.style.display = "flex";
-        nav.style.justifyContent = "center";
-    }
-
-    const adminHomeBtn = document.getElementById("admin-home-btn");
-    if (adminHomeBtn) {
-        adminHomeBtn.style.display = "block";
-    }
-}
-
-function button_manage_upcoming_events() {
-    hide_other_pages();
-    safe_show("manage_upcoming_events", "block");
+    safe_show("manage_events", "block");
 
     let nav = document.getElementById("admin-nav");
     if (nav) {

@@ -81,7 +81,7 @@
     <!-- Home Page -->
     <div id="home_page">
         <!-- Hero Section -->
-        <section id="hero" class="bg-yellow">
+        <section class="hero bg-yellow">
             <p class="hero-subtitle">Grow your game. Join the movement.</p>
             <h1 class="hero-title">Where energy, competition and community meet.</h1>
             <div class="hero-buttons">
@@ -143,7 +143,7 @@
     <!-- Who We Are Page -->
     <div id="who_we_are" style="display:none">
         <!-- Hero Section -->
-        <section id="hero" class="bg-yellow">
+        <section class="hero bg-yellow">
             <h1>Meet the owner</h1>
             <div class="who-intro">
                 <img src="assets/unknownface.png" class="unknownface" alt="Owner">
@@ -172,7 +172,7 @@
     <!-- What We Do Page -->
     <div id="what_we_do" style="display:none">
         <!-- Hero Section -->
-        <section id="hero" class="bg-yellow">
+        <section class="hero bg-yellow">
             <h1>What we do</h1>
             <div class="what-we-do-image">
                 <img src="assets/what-we-do-placeholder.png" alt="SaltyPadel community">
@@ -227,59 +227,37 @@
     <div id="upcoming_events" style="display:none">
 
         <!-- Hero Section -->
-        <section id="hero" class="bg-yellow">
+        <section class="hero bg-yellow">
             <h1>Upcoming events</h1>
-        </section>
-        <!-- Events -->
-        <main class="upcoming-events-main">
-            <section class="gallery">
-                <!-- Figure's can't be combined as one figcaption belongs to one figure -->
-                <figure class="gallery-item">
-                    <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
-                    <div class="status-badge status-open">Open for Booking</div>
-                    <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
-                </figure>
-
-        <section class="page-banner bg-yellow">
-            <h1>Upcoming Events</h1>
         </section>
         <main class="upcoming-events-main">
             <section class="gallery">
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder2.png" alt="Upcoming event 2">
-                    <div class="status-badge status-full">Fully Booked</div>
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder3.png" alt="Upcoming event 3">
-                    <div class="status-badge status-cancelled">Cancelled</div>
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
                 </figure>
 
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder4.png" alt="Upcoming event 4">
-                    <div class="status-badge status-open">Open for Booking</div>
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
                 </figure>
             </section>
 
             <div class="join-page">
                 <button class="join-page-animation" onclick="button_join_our_whatsapp_group()">Join our WhatsApp Group</button>
             </div>
-
-            <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
         </main>
     </div>
 
     <!-- Past Events Page -->
     <div id="past_events" style="display:none">
         <!-- Hero Section -->
-        <section id="hero" class="bg-yellow">
+        <section class="hero bg-yellow">
             <h1>Past Events Gallery</h1>
         </section>
         <main class="past-events-main">
@@ -336,8 +314,7 @@
         </section>
         <section id="management_buttons" class="bg-white">
             <button class="btn btn-management" onclick="button_manage_testimonials()">Manage Testimonials</button>
-            <button class="btn btn-management" onclick="button_manage_past_events()">Manage Past Events</button>
-            <button class="btn btn-management" onclick="button_manage_upcoming_events()">Manage Upcoming Events</button>
+            <button class="btn btn-management" onclick="button_manage_events()">Manage Events</button>
             <button class="btn btn-management" onclick="button_manage_partners()">Manage Partners</button>
         </section>
     </div>
@@ -386,43 +363,24 @@
         </section>
     </div>
 
-    <!-- Manage Past Events -->
-    <div id="manage_past_events" style="display:none">
-        <section id="hero" class="bg-yellow">
-            <h1>Manage Past Events</h1>
+    <!-- Manage Event -->
+    <div id="manage_events" style="display:none">
+        <section class="hero bg-yellow">
+            <h1>Manage Events</h1>
         </section>
         <section class="gallery">
             <figure class="gallery-item">
-                <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
-                <div class="button-row">
-                    <button class="btn btn-nav">Photo</button>
-                    <button class="btn btn-nav">Name</button>
-                    <button class="btn btn-nav">Date</button>
-                </div>
-                <div class="testimonial-action-buttons">
-                    <button class="btn btn-nav">Upload Past Event</button>
-                </div>
-            </figure>
-        </section>
-    </div>
+            <img src="assets/event-placeholder1.png" alt="Event poster">
 
-    <!-- Manage Upcoming Events -->
-    <div id="manage_upcoming_events" style="display:none">
-        <section id="hero" class="bg-yellow">
-            <h1>Manager Upcoming Events</h1>
-        </section>
-        <section class="gallery">
-            <figure class="gallery-item">
-                <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
-                <div class="button-row">
-                    <button class="btn btn-nav">Photo</button>
-                    <button class="btn btn-nav">Name</button>
-                    <button class="btn btn-nav">Time/Date</button>
-                    <button class="btn btn-nav">Location</button>
-                </div>
-                <div class="testimonial-action-buttons">
-                    <button class="btn btn-nav">Upload Upcoming Event</button>
-                </div>
+            <div class="button-row">
+                <button class="btn btn-nav">Add poster</button>
+                <button class="btn btn-nav">Title and location</button>
+                <button class="btn btn-nav">Add date</button>
+            </div>
+
+            <div class="testimonial-action-buttons">
+                <button class="btn btn-management" onclick="button_manage_events()">Upload Event</button>
+            </div>
             </figure>
         </section>
     </div>
