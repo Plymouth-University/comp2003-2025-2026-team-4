@@ -5,24 +5,25 @@ CREATE TABLE Image (
 
 CREATE TABLE Partner (
     sponsorID INT AUTO_INCREMENT PRIMARY KEY,
-    imageID INT NOT NULL,
-    sponsorName VARCHAR(100) NOT NULL,
-    CONSTRAINT sponsorFK
-        FOREIGN KEY (imageID)
-        REFERENCES Image(imageID)
-);
+    partner_name VARCHAR(100) NOT NULL,
+    logo_path VARCHAR(255) NULL,
+    website_url VARCHAR(255) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
 
 CREATE TABLE Event (
     eventID INT AUTO_INCREMENT PRIMARY KEY,
-    eventName VARCHAR(50) NOT NULL,
-    eventLocation VARCHAR(200) NOT NULL,
-    eventDate DATE NOT NULL,
-    eventTime TIME NOT NULL,
-    showOnPast BOOLEAN,
-    showOnFuture BOOLEAN
-);
+    event_name VARCHAR(100) NOT NULL,
+    event_location VARCHAR(255) NOT NULL,
+    event_date DATE NOT NULL,
+    event_time TIME NOT NULL,
+    booking_status ENUM('OPEN','FULL','CANCELLED') DEFAULT 'OPEN',
+    booking_url VARCHAR(255) NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
 
-CREATE TABLE EventImages (
+
+CREATE TABLE EventImage (
     eventIndex INT AUTO_INCREMENT PRIMARY KEY,
     eventID INT NOT NULL,
     imageID INT NOT NULL,
@@ -32,21 +33,32 @@ CREATE TABLE EventImages (
     CONSTRAINT event_image_fk
         FOREIGN KEY (imageID)
         REFERENCES Image(imageID)
-);
+)ENGINE=InnoDB;
 
 CREATE TABLE Admin (
     adminID INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(20) NOT NULL UNIQUE,
+    username VARCHAR(20) NOT NULL,
     hashedPassword VARCHAR(255) NOT NULL,
-    email VARCHAR(100)
-);
+   failed_attempts INT DEFAULT 0,
+   locked_until DATETIME NULL,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
 
 CREATE TABLE Testimonial (
     testimonialID INT AUTO_INCREMENT PRIMARY KEY,
-    authorName VARCHAR(50) NOT NULL,
-    testimonialText VARCHAR(500) NOT NULL,
-    showOnPage BOOLEAN DEFAULT FALSE
-);
+    quote_text TEXT NOT NULL,
+author_name VARCHAR(100) NOT NULL,
+author_role VARCHAR(100) NULL,
+is_visible TINYINT(1) DEFAULT 1,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE site_settings (
+setting_key VARCHAR(100) PRIMARY KEY,
+setting_value TEXT NOT NULL,
+updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
 
 
 
