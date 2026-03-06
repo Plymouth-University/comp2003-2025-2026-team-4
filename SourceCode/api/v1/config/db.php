@@ -1,9 +1,9 @@
 <?php
 function getDB() {
-    $host = 'localhost';
-    $dbname = 'saltypadel_db';
-    $username = 'root';
-    $password = '';
+    $host = 'db5019942979.hosting-data.io';
+    $dbname = 'dbs15399296';
+    $username = 'dbu4083026';
+    $password = 'Saltypadel123!';
 
     try {
         $pdo = new PDO(
