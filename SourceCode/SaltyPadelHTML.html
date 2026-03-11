@@ -327,12 +327,29 @@
         <section class="gallery">
             <!-- Figure's can't be combined as one figcaption belongs to one figure -->
             <figure class="gallery-item">
-                <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">testimonial text</p>
+                    <div class="testimonial-author-block">
+                        <div class="testimonial-icon" id="testimonial-image-preview"></div>
+                        <div>
+                            <p class="testimonial-author" id="testimonial-name-preview">Author1</p>
+                            <p class="testimonial-role" id="testimonial-competition-preview">Author Competition</p>
+                        </div>
+                    </div>
+                </div>
                 <div class="button-row">
-                    <button class="btn btn-nav">Photo</button>
-                    <button class="btn btn-nav">Name</button>
-                    <button class="btn btn-nav">Competition</button>
+                    <button class="btn btn-nav" onclick="button_testimonial_photo()">Photo</button>
+                    <button class="btn btn-nav" onclick="button_testimonial_name()">Name</button>
+                    <button class="btn btn-nav" onclick="button_testimonial_competition()">Competition</button>
                     <!-- What competition did this person compete in? -->
+                </div>
+                <div style="display: none" class="input_detail" id="testimonial-competition-input">
+                    <input type="text" class="admin-input-field" id="testimonial-competition-textInput" placeholder="Competition">
+                    <button class="btn btn-nav" onclick="button_confirm_testimonial_competition()">Confirm</button>
+                </div>
+                <div style="display: none" class="input_detail" id="testimonial-name-input">
+                    <input type="text" class="admin-input-field" id="testimonial-name-textInput" placeholder="Name">
+                    <button class="btn btn-nav" onclick="button_confirm_testimonial_name()">Confirm</button>
                 </div>
                 <textarea class="testimonial-textbox" placeholder="Add testimonial text"></textarea>
                 <div class="testimonial-action-buttons">
@@ -351,9 +368,14 @@
         <section class="gallery">
             <figure class="gallery-item">
                 <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
+                <h1 id="partner-name-preview"></h1>
                 <div class="button-row">
-                    <button class="btn btn-nav">Logo</button>
-                    <button class="btn btn-nav">Name</button>
+                    <button class="btn btn-nav" onclick="button_partner_photo()">Logo</button>
+                    <button class="btn btn-nav" onclick="button_partner_name()">Name</button>
+                </div>
+                <div id="partner-name-input" style="display: none" class="input_detail">
+                    <input type="text" class="admin-input-field" id="partner-name-textInput" placeholder="Name">
+                    <button class="btn btn-nav" onclick="button_confirm_partner_name()">Confirm</button>
                 </div>
                 <div class="testimonial-action-buttons">
                     <button class="btn btn-nav">Upload Partner</button>
@@ -370,18 +392,28 @@
         </section>
         <section class="gallery">
             <figure class="gallery-item">
-            <img src="assets/event-placeholder1.png" alt="Event poster">
-
-            <div class="button-row">
-                <button class="btn btn-nav">Add poster</button>
-                <button class="btn btn-nav">Title and location</button>
-                <button class="btn btn-nav">Add date</button>
-            </div>
-
-            <div class="testimonial-action-buttons">
-                <button class="btn btn-management" onclick="button_manage_events()">Upload Event</button>
-            </div>
-            </figure>
+                <img src="assets/event-placeholder1.png" alt="Event poster">
+                <h1 id="event-title-preview"></h1>
+                <h1 id="event-location-preview"></h1>
+                <h1 id="event-date-preview"></h1>
+                <div class="button-row">
+                    <button class="btn btn-nav" onclick="button_event_photo()">Add poster</button>
+                    <button class="btn btn-nav" onclick="button_event_title_location()">Title and location</button>
+                    <button class="btn btn-nav" onclick="button_event_date()">Add date</button>
+                </div>
+                <div id="event-title-location-input" style="display: none" class="input_detail">
+                    <input type="text" class="admin-input-field" id="event-title-textInput" placeholder="Title">
+                    <input type="text" class="admin-input-field" id="event-location-textInput" placeholder="Location">
+                    <button class="btn btn-nav" onclick="button_confirm_event_title_location()">Confirm</button>
+                </div>
+                <div id="event-date-input" style="display: none" class="input_detail">
+                    <input type="date" class="admin-input-field" id="event-date-dateInput" placeholder="Event date">
+                    <button class="btn btn-nav" onclick="button_confirm_event_date()">Confirm</button>
+                </div>
+                <div class="testimonial-action-buttons">
+                    <button class="btn btn-management" onclick="button_manage_events()">Upload Event</button>
+                </div>
+</figure>
         </section>
     </div>
 

@@ -261,6 +261,227 @@ function button_manage_testimonials() {
     if (adminHomeBtn) {
         adminHomeBtn.style.display = "inline-flex";
     }
+
+}
+
+
+//====================
+// Testimonial upload
+//====================
+function uploads_hide_helper(targetDiv) {
+    const divsToHide = document.querySelectorAll(".input_detail");
+    if (divsToHide) {
+        divsToHide.forEach(div => {
+            div.style.display = "none";
+        });
+    }
+    if (targetDiv) {
+        targetDiv.style.display = "flex";
+    }
+}
+function button_testimonial_name() {
+    targetDiv = document.getElementById("testimonial-name-input");
+    uploads_hide_helper(targetDiv)
+}
+function button_confirm_testimonial_name() {
+    const name = document.getElementById('testimonial-name-textInput').value;
+    const namePreview = document.getElementById('testimonial-name-preview');
+    namePreview.textContent = name;
+    sessionStorage.setItem('testimonial-name', name);
+    uploads_hide_helper();
+}
+
+function button_testimonial_competition() {
+    targetDiv = document.getElementById("testimonial-competition-input");
+    uploads_hide_helper(targetDiv)
+}
+
+function button_confirm_testimonial_competition() {
+    const competition = document.getElementById('testimonial-competition-textInput').value;
+    const competitionPreview = document.getElementById('testimonial-competition-preview');
+    competitionPreview.textContent = competition;
+    sessionStorage.setItem('testimonial-competition', competition);
+    uploads_hide_helper();
+}
+function button_testimonial_upload() {
+    const testimonialCompetition = sessionStorage.getItem('testimonial-competition');
+    const testimonialName = sessionStorage.getItem('testimonial-name');
+    const testimonialPhoto = sessionStorage.getItem('testimonial-photo');
+    const testimonialTextInput = document.getElementById('testimonial-text-input').value;
+    if (!testimonialCompetition || !testimonialName || !testimonialPhoto || !testimonialTextInput) {
+        // POST
+    }
+}
+
+function button_confirm_testimonial_variable() {
+    const name = document.getElementById('partner-name-textInput').value;
+    const namePreview = document.getElementById('partner-name-preview');
+    namePreview.textContent = name;
+    sessionStorage.setItem('partner-name', name);
+    testimonials_hide_helper();
+}
+
+function button_testimonial_photo() {
+    let fileInput = document.getElementById('testimonial-photo-input');
+    if (!fileInput) {
+        fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.id = 'testimonial-photo-input';
+        fileInput.accept = 'image/*';
+        fileInput.style.display = 'none';
+        fileInput.onchange = handle_testimonial_photo;
+        document.body.appendChild(fileInput);
+    }
+    fileInput.click();
+}
+
+function handle_testimonial_photo(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const previewImg = document.getElementById('testimonial-image-preview');
+            if (previewImg) {
+                previewImg.style.backgroundImage = `url('${e.target.result}')`;
+                previewImg.style.backgroundSize = 'cover';
+                previewImg.style.backgroundPosition = 'center';
+                showToast('Photo uploaded successfully', 'success');
+            }
+            sessionStorage.setItem('testimonial-photo', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        showToast('Please select a valid image file', 'error');
+    }
+}
+//====================
+// Event upload
+//====================
+
+function button_event_title_location() {
+    targetDiv = document.getElementById("event-title-location-input");
+    uploads_hide_helper(targetDiv);
+}
+
+function button_confirm_event_title_location() {
+    const title = document.getElementById('event-title-textInput').value;
+    const location = document.getElementById('event-location-textInput').value;
+    const titlePreview = document.getElementById('event-title-preview');
+    const locationPreview = document.getElementById('event-location-preview');
+    titlePreview.textContent = title;
+    locationPreview.textContent = location;
+    sessionStorage.setItem('event-title', title);
+    sessionStorage.setItem('event-location', location);
+    uploads_hide_helper();
+}
+
+function button_event_date() {
+    targetDiv = document.getElementById("event-date-input");
+    uploads_hide_helper(targetDiv);
+}
+
+function button_confirm_event_date() {
+    const date = document.getElementById('event-date-dateInput').value;
+    const datePreview = document.getElementById('event-date-preview');
+    datePreview.textContent = date;
+    sessionStorage.setItem('event-date', date);
+    uploads_hide_helper();
+}
+
+function button_event_photo() {
+    let fileInput = document.getElementById('event-photo-input');
+    if (!fileInput) {
+        fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.id = 'event-photo-input';
+        fileInput.accept = 'image/*';
+        fileInput.style.display = 'none';
+        fileInput.onchange = handle_event_photo;
+        document.body.appendChild(fileInput);
+    }
+    fileInput.click();
+}
+function handle_event_photo(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const previewImg = document.querySelector('#manage_events .gallery-item img');
+            if (previewImg) {
+                previewImg.src = e.target.result;
+                showToast('Event poster uploaded successfully', 'success');
+            }
+            sessionStorage.setItem('event-poster', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        showToast('Please select a valid image file', 'error');
+    }
+}
+
+function button_upload_event() {
+    const eventTitle = sessionStorage.getItem('event-title');
+    const eventLocation = sessionStorage.getItem('event-location');
+    const eventDate = sessionStorage.getItem('event-date');
+    const eventPoster = sessionStorage.getItem('event-poster');
+    if (!eventTitle || !eventLocation || !eventDate || !eventPoster) {
+        // POST
+    }
+}
+
+//====================
+// Partner upload
+//====================
+
+function button_partner_name() {
+    targetDiv = document.getElementById("partner-name-input");
+    uploads_hide_helper(targetDiv)
+}
+
+function button_confirm_partner_name() {
+    const name = document.getElementById('partner-name-textInput').value;
+    const namePreview = document.getElementById('partner-name-preview');
+    namePreview.textContent = name;
+    sessionStorage.setItem('partner-name', name);
+    uploads_hide_helper();
+}
+function button_partner_photo() {
+    let fileInput = document.getElementById('partner-photo-input');
+    if (!fileInput) {
+        fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.id = 'partner-photo-input';
+        fileInput.accept = 'image/*';
+        fileInput.style.display = 'none';
+        fileInput.onchange = handle_partner_photo;
+        document.body.appendChild(fileInput);
+    }
+    fileInput.click();
+}
+
+function button_upload_partner() {
+    const partnerName = sessionStorage.getItem('partner-name');
+    const partnerPhoto = sessionStorage.getItem('partner-photo');
+    if (!partnerName || !partnerPhoto) {
+        // POST
+    }
+}
+function handle_partner_photo(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const previewImg = document.querySelector('#manage_partners .gallery-item img');
+            if (previewImg) {
+                previewImg.src = e.target.result;
+                showToast('Partner logo uploaded successfully', 'success');
+            }
+            sessionStorage.setItem('partner-logo', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        showToast('Please select a valid image file', 'error');
+    }
 }
 
 function button_manage_events() {
