@@ -223,7 +223,7 @@ function admin_home() {
     }
 }
 
-function button_verify_login() {
+async function button_verify_login() {
     let admin_user = "admin";
     let admin_password = "123";
     let username = document.getElementById("admin_username").value;
@@ -244,6 +244,43 @@ function button_verify_login() {
         }
     } else {
         warning1.textContent = "Enter a valid username";
+    }
+
+    try {
+        const API_URL = 'http://localhost/api/v1/login';
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: document.getElementById("admin_username").value,
+                password: document.getElementById("admin_password").value
+            })
+        });
+
+        const result = await response.json();
+        
+        if (response.ok && result.success && result.data && result.data.token) {
+            const token = result.data.token;
+            sessionStorage.setItem('auth-token', token);
+            document.body.classList.add('admin-mode');
+            showToast('Welcome back!', 'success');
+            admin_home();
+        }
+    }
+    catch (error) {
+        console.error('Error:', error);
+        const status = error.status
+
+        if (status == 400 || status == 404) {
+            showToast("Invalid credentials. Please try again.");
+            warning2.textContent = "Invalid credentials";
+        }
+        else if (status == 429) {
+            showToast("Too many repeated attempts. Please try again later.");
+        }
+        else {showToast("Server error. Please try again later.");}
     }
 }
 
@@ -309,7 +346,23 @@ function button_testimonial_upload() {
     const testimonialPhoto = sessionStorage.getItem('testimonial-photo');
     const testimonialTextInput = document.getElementById('testimonial-text-input').value;
     if (!testimonialCompetition || !testimonialName || !testimonialPhoto || !testimonialTextInput) {
-        // POST
+        try {
+            // POST
+            const status = error.status;
+            if (status == 201) {
+                showToast("Testimonial uploaded successfully!", "success");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            const status = error.status;
+            if (status == 403) {
+                showToast("Forbidden. You do not have permission to perform this action.");
+            }
+            else if (status == 401) {
+                showToast("Unauthorized. Your token may have expired. Try logging in again.");
+            }
+            else { showToast("Server error. Please try again later."); }
+        }
     }
 }
 
@@ -425,7 +478,24 @@ function button_upload_event() {
     const eventDate = sessionStorage.getItem('event-date');
     const eventPoster = sessionStorage.getItem('event-poster');
     if (!eventTitle || !eventLocation || !eventDate || !eventPoster) {
-        // POST
+        try {
+            // POST
+            const status = error.status;
+            if (status == 201) {
+                showToast("Event uploaded successfully!", "success");
+                //go to home
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            const status = error.status;
+            if (status == 403) {
+                showToast("Forbidden. You do not have permission to perform this action.");
+            }
+            else if (status == 401) {
+                showToast("Unauthorized. Your token may have expired. Try logging in again.");
+            }
+            else { showToast("Server error. Please try again later."); }
+        }
     }
 }
 
@@ -463,7 +533,23 @@ function button_upload_partner() {
     const partnerName = sessionStorage.getItem('partner-name');
     const partnerPhoto = sessionStorage.getItem('partner-photo');
     if (!partnerName || !partnerPhoto) {
-        // POST
+        try {
+            // POST
+            const status = error.status;
+            if (status == 201) {
+                showToast("Partner uploaded successfully!", "success");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            const status = error.status;
+            if (status == 403) {
+                showToast("Forbidden. You do not have permission to perform this action.");
+            }
+            else if (status == 401) {
+                showToast("Unauthorized. Your token may have expired. Try logging in again.");
+            }
+            else { showToast("Server error. Please try again later."); }
+        }
     }
 }
 function handle_partner_photo(event) {

@@ -65,7 +65,7 @@ if ($method === 'POST') {
     $pdo  = getDB();
     $stmt = $pdo->prepare(
         'INSERT INTO events (event_name, event_location, event_date, event_time)
-         VALUES (?, ?, ?, ?)'
+        VALUES (?, ?, ?, ?)'
     );
     $stmt->execute([$eventName, $eventLocation, $eventDate, $eventTime]);
 
