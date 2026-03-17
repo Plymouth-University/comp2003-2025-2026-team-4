@@ -224,30 +224,9 @@ function admin_home() {
 }
 
 async function button_verify_login() {
-    let admin_user = "admin";
-    let admin_password = "123";
-    let username = document.getElementById("admin_username").value;
-    let password = document.getElementById("admin_password").value;
-    let warning1 = document.getElementById("warning1");
-    let warning2 = document.getElementById("warning2");
     
-    warning1.textContent = " ";
-    warning2.textContent = " ";
-
-    if (admin_user == username) {
-        if (admin_password == password) {
-            document.body.classList.add('admin-mode');
-            showToast('Welcome back!', 'success');
-            admin_home();
-        } else {
-            warning2.textContent = "Password invalid.";
-        }
-    } else {
-        warning1.textContent = "Enter a valid username";
-    }
-
     try {
-        const API_URL = 'http://localhost/api/v1/login';
+        const API_URL = 'http://saltypadel.co.uk/api/v1/routes/auth.php';
         const response = await fetch(API_URL, {
             method: 'POST',
             headers: {
@@ -264,6 +243,7 @@ async function button_verify_login() {
         if (response.ok && result.success && result.data && result.data.token) {
             const token = result.data.token;
             sessionStorage.setItem('auth-token', token);
+            console.log('Login successful, token stored:', token);
             document.body.classList.add('admin-mode');
             showToast('Welcome back!', 'success');
             admin_home();
@@ -340,29 +320,43 @@ function button_confirm_testimonial_competition() {
     sessionStorage.setItem('testimonial-competition', competition);
     uploads_hide_helper();
 }
-function button_testimonial_upload() {
+async function button_testimonial_upload() {
     const testimonialCompetition = sessionStorage.getItem('testimonial-competition');
     const testimonialName = sessionStorage.getItem('testimonial-name');
     const testimonialPhoto = sessionStorage.getItem('testimonial-photo');
     const testimonialTextInput = document.getElementById('testimonial-text-input').value;
-    if (!testimonialCompetition || !testimonialName || !testimonialPhoto || !testimonialTextInput) {
+    if (testimonialCompetition && testimonialName && testimonialPhoto && testimonialTextInput) {
         try {
-            // POST
-            const status = error.status;
-            if (status == 201) {
+            const API_URL = 'http://saltypadel.co.uk/api/v1/routes/testimonials.php';
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': sessionStorage.getItem('auth-token')
+                },
+                body: JSON.stringify({
+                    'quoteText': testimonialTextInput,
+                    'authorName': testimonialName,
+                    'authorRole': testimonialCompetition,
+                    'isVisible': true,
+                })
+            });
+            if (response.status === 201) {
                 showToast("Testimonial uploaded successfully!", "success");
+            } else if (response.status === 403) {
+                showToast("Forbidden. You do not have permission to perform this action.", "error");
+            } else if (response.status === 401) {
+                showToast("Unauthorized. Your token may have expired. Try logging in again.", "error");
+            } else {
+                showToast("Server error. Please try again later.", "error");
             }
         } catch (error) {
             console.error('Error:', error);
-            const status = error.status;
-            if (status == 403) {
-                showToast("Forbidden. You do not have permission to perform this action.");
-            }
-            else if (status == 401) {
-                showToast("Unauthorized. Your token may have expired. Try logging in again.");
-            }
-            else { showToast("Server error. Please try again later."); }
+            showToast("Network error. Please check your connection.", "error");
         }
+    }
+    else {
+        showToast("Please fill in all fields before submitting.", "error");
     }
 }
 
