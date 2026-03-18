@@ -326,6 +326,8 @@ async function button_testimonial_upload() {
     const testimonialPhoto = sessionStorage.getItem('testimonial-photo');
     const testimonialTextInput = document.getElementById('testimonial-text-input').value;
     if (testimonialCompetition && testimonialName && testimonialPhoto && testimonialTextInput) {
+        //need to upload image to ionos filestore, and get url, submit url as imagepath
+
         try {
             console.log('Using token:', sessionStorage.getItem('auth-token'))
             const API_URL = 'http://saltypadel.co.uk/api/v1/routes/testimonials.php';
@@ -431,9 +433,12 @@ function button_event_date() {
 
 function button_confirm_event_date() {
     const date = document.getElementById('event-date-dateInput').value;
+    const time = document.getElementById('event-date-timeInput').value;
     const datePreview = document.getElementById('event-date-preview');
+    const timePreview = document.getElementById('event-time-preview');
     datePreview.textContent = date;
     sessionStorage.setItem('event-date', date);
+    sessionStorage.setItem('event-time', time);
     uploads_hide_helper();
 }
 
@@ -468,30 +473,47 @@ function handle_event_photo(event) {
     }
 }
 
-function button_upload_event() {
+async function button_upload_event() {
     const eventTitle = sessionStorage.getItem('event-title');
     const eventLocation = sessionStorage.getItem('event-location');
     const eventDate = sessionStorage.getItem('event-date');
     const eventPoster = sessionStorage.getItem('event-poster');
-    if (!eventTitle || !eventLocation || !eventDate || !eventPoster) {
+    const eventTime = sessionStorage.getItem('event-time');
+    if (eventTitle && eventLocation && eventDate && eventPoster && eventTime) {
         try {
-            // POST
-            const status = error.status;
-            if (status == 201) {
+            console.log('Using token:', sessionStorage.getItem('auth-token'));
+            const API_URL = 'http://saltypadel.co.uk/api/v1/routes/upcoming_events.php';
+            const token = sessionStorage.getItem('auth-token');
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+                body: JSON.stringify({
+                    'title': eventTitle,
+                    'location': eventLocation,
+                    'eventDate': eventDate,
+                    'posterImage': eventPoster,
+                    'eventTime': eventTime,
+                    'isVisible': true,
+                })
+            });
+            if (response.status === 201) {
                 showToast("Event uploaded successfully!", "success");
-                //go to home
+            } else if (response.status === 403) {
+                showToast("Forbidden. You do not have permission to perform this action.", "error");
+            } else if (response.status === 401) {
+                showToast("Unauthorized. Your token may have expired. Try logging in again.", "error");
+            } else {
+                showToast("Server error. Please try again later.", "error");
             }
         } catch (error) {
             console.error('Error:', error);
-            const status = error.status;
-            if (status == 403) {
-                showToast("Forbidden. You do not have permission to perform this action.");
-            }
-            else if (status == 401) {
-                showToast("Unauthorized. Your token may have expired. Try logging in again.");
-            }
-            else { showToast("Server error. Please try again later."); }
+            showToast("Network error. Please check your connection.", "error");
         }
+    } else {
+        showToast("Please fill in all fields before submitting.", "error");
     }
 }
 
@@ -525,27 +547,42 @@ function button_partner_photo() {
     fileInput.click();
 }
 
-function button_upload_partner() {
+async function button_upload_partner() {
     const partnerName = sessionStorage.getItem('partner-name');
-    const partnerPhoto = sessionStorage.getItem('partner-photo');
-    if (!partnerName || !partnerPhoto) {
+    const partnerPhoto = sessionStorage.getItem('partner-logo');
+    if (partnerName && partnerPhoto) {
         try {
-            // POST
-            const status = error.status;
-            if (status == 201) {
+            console.log('Using token:', sessionStorage.getItem('auth-token'));
+            const API_URL = 'http://saltypadel.co.uk/api/v1/routes/partners.php';
+            const token = sessionStorage.getItem('auth-token');
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+                body: JSON.stringify({
+                    'name': partnerName,
+                    'logoPath': 'x',
+                    'isVisible': true,
+                })
+            });
+
+            if (response.status === 201) {
                 showToast("Partner uploaded successfully!", "success");
+            } else if (response.status === 403) {
+                showToast("Forbidden. You do not have permission to perform this action.", "error");
+            } else if (response.status === 401) {
+                showToast("Unauthorized. Your token may have expired. Try logging in again.", "error");
+            } else {
+                showToast("Server error. Please try again later.", "error");
             }
         } catch (error) {
             console.error('Error:', error);
-            const status = error.status;
-            if (status == 403) {
-                showToast("Forbidden. You do not have permission to perform this action.");
-            }
-            else if (status == 401) {
-                showToast("Unauthorized. Your token may have expired. Try logging in again.");
-            }
-            else { showToast("Server error. Please try again later."); }
+            showToast("Network error. Please check your connection.", "error");
         }
+    } else {
+        showToast("Please fill in all fields before submitting.", "error");
     }
 }
 function handle_partner_photo(event) {

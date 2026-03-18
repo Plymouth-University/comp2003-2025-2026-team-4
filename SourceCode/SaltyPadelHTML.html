@@ -378,7 +378,7 @@
                     <button class="btn btn-nav" onclick="button_confirm_partner_name()">Confirm</button>
                 </div>
                 <div class="testimonial-action-buttons">
-                    <button class="btn btn-nav">Upload Partner</button>
+                    <button class="btn btn-nav" onclick="button_upload_partner()">Upload Partner</button>
                     <button class="btn btn-nav">Check Partners</button>
                 </div>
             </figure>
@@ -396,10 +396,11 @@
                 <h1 id="event-title-preview"></h1>
                 <h1 id="event-location-preview"></h1>
                 <h1 id="event-date-preview"></h1>
+                <h1 id="event-time-preview"></h1>
                 <div class="button-row">
                     <button class="btn btn-nav" onclick="button_event_photo()">Add poster</button>
                     <button class="btn btn-nav" onclick="button_event_title_location()">Title and location</button>
-                    <button class="btn btn-nav" onclick="button_event_date()">Add date</button>
+                    <button class="btn btn-nav" onclick="button_event_date()">Date and time</button>
                 </div>
                 <div id="event-title-location-input" style="display: none" class="input_detail">
                     <input type="text" class="admin-input-field" id="event-title-textInput" placeholder="Title">
@@ -408,10 +409,12 @@
                 </div>
                 <div id="event-date-input" style="display: none" class="input_detail">
                     <input type="date" class="admin-input-field" id="event-date-dateInput" placeholder="Event date">
+                    <input type="time" class="admin-input-field" id="event-date-timeInput" placeholder="Event time">
                     <button class="btn btn-nav" onclick="button_confirm_event_date()">Confirm</button>
                 </div>
                 <div class="testimonial-action-buttons">
-                    <button class="btn btn-management" onclick="button_manage_events()">Upload Event</button>
+                    <button class="btn btn-management" onclick="button_upload_event()">Upload Event</button>
+                    <button class="btn btn-management" onclick="button_manage_events()">Manage Events</button>
                 </div>
 </figure>
         </section>
