@@ -156,8 +156,8 @@ function button_what_we_do() {
 
     update_mobile_nav('what_we_do');
 }
-function button_past_events() {
-    document.body.classList.remove('admin-mode'); // safety
+async function button_past_events() {
+    document.body.classList.remove('admin-mode');
     hide_other_pages();
     safe_show("past_events", "block");
 
@@ -170,10 +170,38 @@ function button_past_events() {
 
     update_mobile_nav('past_events');
     close_mobile_menu();
+
+    // Fetch past events from API
+    const container = document.getElementById("past_events_container");
+    if (!container) return;
+
+    container.innerHTML = "<p>Loading events...</p>";
+
+    try {
+        const response = await fetch("http://saltypadel.co.uk/api/v1/routes/past_events.php");
+        const result = await response.json();
+
+        if (result.success && result.data.length > 0) {
+            container.innerHTML = "";
+            result.data.forEach(event => {
+                container.innerHTML += `
+                    <figure class="gallery-item">
+                        <img src="${event.imagePath || 'assets/event-placeholder1.png'}" alt="${event.eventName}">
+                        <figcaption>${event.eventName} - ${event.eventDate}</figcaption>
+                    </figure>`;
+            });
+        } else {
+            container.innerHTML = "<p>No past events yet.</p>";
+        }
+
+    } catch (error) {
+        console.error("Failed to load past events:", error);
+        container.innerHTML = "<p>Could not load events. Please try again later.</p>";
+    }
 }
 
-function button_upcoming_events() {
-    document.body.classList.remove('admin-mode'); // safety
+async function button_upcoming_events() {
+    document.body.classList.remove('admin-mode');
     hide_other_pages();
     safe_show("upcoming_events", "block");
 
@@ -186,6 +214,34 @@ function button_upcoming_events() {
 
     update_mobile_nav('upcoming_events');
     close_mobile_menu();
+
+    // Fetch upcoming events from API
+    const container = document.getElementById("upcoming_events_container");
+    if (!container) return;
+
+    container.innerHTML = "<p>Loading events...</p>";
+
+    try {
+        const response = await fetch("http://saltypadel.co.uk/api/v1/routes/upcoming_events.php");
+        const result = await response.json();
+
+        if (result.success && result.data.length > 0) {
+            container.innerHTML = "";
+            result.data.forEach(event => {
+                container.innerHTML += `
+                    <figure class="gallery-item">
+                        <img src="${event.imagePath || 'assets/event-placeholder2.png'}" alt="${event.eventName}">
+                        <figcaption>${event.eventName} - ${event.eventDate} - ${event.eventTime} - ${event.eventLocation}</figcaption>
+                    </figure>`;
+            });
+        } else {
+            container.innerHTML = "<p>No upcoming events at the moment.</p>";
+        }
+
+    } catch (error) {
+        console.error("Failed to load upcoming events:", error);
+        container.innerHTML = "<p>Could not load events. Please try again later.</p>";
+    }
 }
 // ========================================
 // ADMIN FUNCTIONS
@@ -281,7 +337,6 @@ function button_manage_testimonials() {
 
 }
 
-
 //====================
 // Testimonial upload
 //====================
@@ -326,8 +381,6 @@ async function button_testimonial_upload() {
     const testimonialPhoto = sessionStorage.getItem('testimonial-photo');
     const testimonialTextInput = document.getElementById('testimonial-text-input').value;
     if (testimonialCompetition && testimonialName && testimonialPhoto && testimonialTextInput) {
-        //need to upload image to ionos filestore, and get url, submit url as imagepath
-
         try {
             console.log('Using token:', sessionStorage.getItem('auth-token'))
             const API_URL = 'http://saltypadel.co.uk/api/v1/routes/testimonials.php';
@@ -433,12 +486,9 @@ function button_event_date() {
 
 function button_confirm_event_date() {
     const date = document.getElementById('event-date-dateInput').value;
-    const time = document.getElementById('event-date-timeInput').value;
     const datePreview = document.getElementById('event-date-preview');
-    const timePreview = document.getElementById('event-time-preview');
     datePreview.textContent = date;
     sessionStorage.setItem('event-date', date);
-    sessionStorage.setItem('event-time', time);
     uploads_hide_helper();
 }
 
@@ -473,47 +523,30 @@ function handle_event_photo(event) {
     }
 }
 
-async function button_upload_event() {
+function button_upload_event() {
     const eventTitle = sessionStorage.getItem('event-title');
     const eventLocation = sessionStorage.getItem('event-location');
     const eventDate = sessionStorage.getItem('event-date');
     const eventPoster = sessionStorage.getItem('event-poster');
-    const eventTime = sessionStorage.getItem('event-time');
-    if (eventTitle && eventLocation && eventDate && eventPoster && eventTime) {
+    if (!eventTitle || !eventLocation || !eventDate || !eventPoster) {
         try {
-            console.log('Using token:', sessionStorage.getItem('auth-token'));
-            const API_URL = 'http://saltypadel.co.uk/api/v1/routes/upcoming_events.php';
-            const token = sessionStorage.getItem('auth-token');
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token
-                },
-                body: JSON.stringify({
-                    'title': eventTitle,
-                    'location': eventLocation,
-                    'eventDate': eventDate,
-                    'posterImage': eventPoster,
-                    'eventTime': eventTime,
-                    'isVisible': true,
-                })
-            });
-            if (response.status === 201) {
+            // POST
+            const status = error.status;
+            if (status == 201) {
                 showToast("Event uploaded successfully!", "success");
-            } else if (response.status === 403) {
-                showToast("Forbidden. You do not have permission to perform this action.", "error");
-            } else if (response.status === 401) {
-                showToast("Unauthorized. Your token may have expired. Try logging in again.", "error");
-            } else {
-                showToast("Server error. Please try again later.", "error");
+                //go to home
             }
         } catch (error) {
             console.error('Error:', error);
-            showToast("Network error. Please check your connection.", "error");
+            const status = error.status;
+            if (status == 403) {
+                showToast("Forbidden. You do not have permission to perform this action.");
+            }
+            else if (status == 401) {
+                showToast("Unauthorized. Your token may have expired. Try logging in again.");
+            }
+            else { showToast("Server error. Please try again later."); }
         }
-    } else {
-        showToast("Please fill in all fields before submitting.", "error");
     }
 }
 
@@ -547,42 +580,27 @@ function button_partner_photo() {
     fileInput.click();
 }
 
-async function button_upload_partner() {
+function button_upload_partner() {
     const partnerName = sessionStorage.getItem('partner-name');
-    const partnerPhoto = sessionStorage.getItem('partner-logo');
-    if (partnerName && partnerPhoto) {
+    const partnerPhoto = sessionStorage.getItem('partner-photo');
+    if (!partnerName || !partnerPhoto) {
         try {
-            console.log('Using token:', sessionStorage.getItem('auth-token'));
-            const API_URL = 'http://saltypadel.co.uk/api/v1/routes/partners.php';
-            const token = sessionStorage.getItem('auth-token');
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token
-                },
-                body: JSON.stringify({
-                    'name': partnerName,
-                    'logoPath': 'x',
-                    'isVisible': true,
-                })
-            });
-
-            if (response.status === 201) {
+            // POST
+            const status = error.status;
+            if (status == 201) {
                 showToast("Partner uploaded successfully!", "success");
-            } else if (response.status === 403) {
-                showToast("Forbidden. You do not have permission to perform this action.", "error");
-            } else if (response.status === 401) {
-                showToast("Unauthorized. Your token may have expired. Try logging in again.", "error");
-            } else {
-                showToast("Server error. Please try again later.", "error");
             }
         } catch (error) {
             console.error('Error:', error);
-            showToast("Network error. Please check your connection.", "error");
+            const status = error.status;
+            if (status == 403) {
+                showToast("Forbidden. You do not have permission to perform this action.");
+            }
+            else if (status == 401) {
+                showToast("Unauthorized. Your token may have expired. Try logging in again.");
+            }
+            else { showToast("Server error. Please try again later."); }
         }
-    } else {
-        showToast("Please fill in all fields before submitting.", "error");
     }
 }
 function handle_partner_photo(event) {
