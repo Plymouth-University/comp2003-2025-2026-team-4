@@ -231,7 +231,7 @@
             <h1>Upcoming events</h1>
         </section>
         <main class="upcoming-events-main">
-            <section class="gallery">
+            <section class="gallery" id="upcoming_events_container">
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder2.png" alt="Upcoming event 2">
                     <figcaption>Event name - date - time - location</figcaption>
@@ -261,7 +261,7 @@
             <h1>Past Events Gallery</h1>
         </section>
         <main class="past-events-main">
-            <section class="gallery">
+            <section class="gallery" id="past_events_container">
                 <!-- Figure's can't be combined as one figcaption belongs to one figure -->
                 <figure class="gallery-item">
                     <img src="assets/event-placeholder4.png" alt="Past event 1">
@@ -378,7 +378,7 @@
                     <button class="btn btn-nav" onclick="button_confirm_partner_name()">Confirm</button>
                 </div>
                 <div class="testimonial-action-buttons">
-                    <button class="btn btn-nav" onclick="button_upload_partner()">Upload Partner</button>
+                    <button class="btn btn-nav">Upload Partner</button>
                     <button class="btn btn-nav">Check Partners</button>
                 </div>
             </figure>
@@ -400,7 +400,8 @@
                 <div class="button-row">
                     <button class="btn btn-nav" onclick="button_event_photo()">Add poster</button>
                     <button class="btn btn-nav" onclick="button_event_title_location()">Title and location</button>
-                    <button class="btn btn-nav" onclick="button_event_date()">Date and time</button>
+                    <button class="btn btn-nav" onclick="button_event_date()">Add date</button>
+                    <button class="btn btn-nav" onclick="button_event_time()">Add time</button>
                 </div>
                 <div id="event-title-location-input" style="display: none" class="input_detail">
                     <input type="text" class="admin-input-field" id="event-title-textInput" placeholder="Title">
@@ -409,12 +410,14 @@
                 </div>
                 <div id="event-date-input" style="display: none" class="input_detail">
                     <input type="date" class="admin-input-field" id="event-date-dateInput" placeholder="Event date">
-                    <input type="time" class="admin-input-field" id="event-date-timeInput" placeholder="Event time">
                     <button class="btn btn-nav" onclick="button_confirm_event_date()">Confirm</button>
                 </div>
+                <div id="event-time-input" style="display: none" class="input_detail">
+                    <input type="time" class="admin-input-field" id="event-time-timeInput" placeholder="Event time">
+                    <button class="btn btn-nav" onclick="button_confirm_event_time()">Confirm</button>
+                </div>
                 <div class="testimonial-action-buttons">
-                    <button class="btn btn-management" onclick="button_upload_event()">Upload Event</button>
-                    <button class="btn btn-management" onclick="button_manage_events()">Manage Events</button>
+                    <button class="btn btn-management" onclick="button_upload_events()">Upload Event</button>
                 </div>
 </figure>
         </section>

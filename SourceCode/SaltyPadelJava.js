@@ -490,6 +490,19 @@ function button_confirm_event_date() {
     uploads_hide_helper();
 }
 
+function button_event_time() {
+    targetDiv = document.getElementById("event-time-input");
+    uploads_hide_helper(targetDiv);
+}
+
+function button_confirm_event_time() {
+    const time = document.getElementById('event-time-timeInput').value;
+    const timePreview = document.getElementById('event-time-preview');
+    timePreview.textContent = time;
+    sessionStorage.setItem('event-time', time);
+    uploads_hide_helper();
+}
+
 function button_event_photo() {
     let fileInput = document.getElementById('event-photo-input');
     if (!fileInput) {
@@ -521,33 +534,89 @@ function handle_event_photo(event) {
     }
 }
 
-function button_upload_event() {
+async function button_upload_event() {
     const eventTitle = sessionStorage.getItem('event-title');
     const eventLocation = sessionStorage.getItem('event-location');
     const eventDate = sessionStorage.getItem('event-date');
     const eventPoster = sessionStorage.getItem('event-poster');
+    const eventTime = sessionStorage.getItem('event-time');
+    const token = sessionStorage.getItem('auth-token');
+
     if (!eventTitle || !eventLocation || !eventDate || !eventPoster) {
-        try {
-            // POST
-            const status = error.status;
-            if (status == 201) {
-                showToast("Event uploaded successfully!", "success");
-                //go to home
+        showToast("Please fill in all fields before submitting.", "error");
+        return;
+    }
+
+    try {
+        // Step 1 — Upload the image first
+        const fileInput = document.getElementById('event-photo-input');
+        const file = fileInput ? fileInput.files[0] : null;
+
+        let imagePath = null;
+
+        if (file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('category', 'events');
+
+            const uploadResponse = await fetch("http://saltypadel.co.uk/api/v1/routes/uploads.php", {
+                method: "POST",
+                headers: {
+                    "Authorization": token
+                },
+                body: formData
+            });
+
+            const uploadResult = await uploadResponse.json();
+
+            if (!uploadResult.success) {
+                showToast("Image upload failed. Please try again.", "error");
+                return;
             }
-        } catch (error) {
-            console.error('Error:', error);
-            const status = error.status;
-            if (status == 403) {
-                showToast("Forbidden. You do not have permission to perform this action.");
-            }
-            else if (status == 401) {
-                showToast("Unauthorized. Your token may have expired. Try logging in again.");
-            }
-            else { showToast("Server error. Please try again later."); }
+
+            imagePath = uploadResult.data.imagePath;
         }
+
+        // Step 2 — Create the event
+        const eventResponse = await fetch("http://saltypadel.co.uk/api/v1/routes/upcoming_events.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({
+                eventName: eventTitle,
+                eventLocation: eventLocation,
+                eventDate: eventDate,
+                eventTime: eventTime || "09:00:00",
+                imagePath: imagePath
+            })
+        });
+
+        const eventResult = await eventResponse.json();
+
+        if (eventResponse.status === 201 && eventResult.success) {
+            showToast("Event uploaded successfully!", "success");
+            sessionStorage.removeItem('event-title');
+            sessionStorage.removeItem('event-location');
+            sessionStorage.removeItem('event-date');
+            sessionStorage.removeItem('event-poster');
+            sessionStorage.removeItem('event-time');
+            setTimeout(function() { button_manage_events(); }, 1000);
+
+        } else if (eventResponse.status === 401) {
+            showToast("Unauthorized. Please log in again.", "error");
+        } else if (eventResponse.status === 403) {
+            showToast("Forbidden. You don't have permission.", "error");
+        } else {
+            showToast("Server error. Please try again.", "error");
+        }
+
+    } catch (error) {
+        console.error("Event upload error:", error);
+        showToast("Network error. Please check your connection.", "error");
     }
 }
-
 //====================
 // Partner upload
 //====================
