@@ -1,7 +1,8 @@
 <?php
 
 // auth_check.php
-// Middleware: validates Bearer token on protected routes (POST / PUT / DELETE)
+// Middleware: validates token on protected routes (POST / PUT / DELETE)
+// Accepts both raw token and Bearer <token> format in Authorization header.
 // Include at the top of any endpoint that requires admin authentication.
 
 require_once __DIR__ . '/../config/db.php';
@@ -27,23 +28,12 @@ function require_auth() {
 
     $auth_header = $headers['Authorization'] ?? $headers['authorization'];
 
-    // Must be a Bearer token
-    if (!str_starts_with($auth_header, 'Bearer ')) {
-        http_response_code(401);
-        echo json_encode([
-            'success' => false,
-            'errors' => [
-                [
-                    'code'    => 'UNAUTHORIZED',
-                    'message' => 'Invalid token format. Expected: Bearer <token>',
-                    'details' => []
-                ]
-            ]
-        ]);
-        exit;
+    // Accept both "Bearer <token>" and raw token
+    if (str_starts_with($auth_header, 'Bearer ')) {
+        $token = trim(substr($auth_header, 7));
+    } else {
+        $token = trim($auth_header);
     }
-
-    $token = trim(substr($auth_header, 7));
 
     if (empty($token)) {
         http_response_code(401);

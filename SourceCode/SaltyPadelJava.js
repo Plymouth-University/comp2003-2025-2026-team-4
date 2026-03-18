@@ -562,7 +562,7 @@ async function button_upload_event() {
             const uploadResponse = await fetch("http://saltypadel.co.uk/api/v1/routes/uploads.php", {
                 method: "POST",
                 headers: {
-                    "Authorization": "Bearer " + token
+                    "Authorization": token
                 },
                 body: formData
             });
@@ -582,7 +582,7 @@ async function button_upload_event() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": token
             },
             body: JSON.stringify({
                 eventName: eventTitle,
@@ -822,7 +822,7 @@ async function confirm_logout() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": token
             },
             body: JSON.stringify({ action: "logout" })
         });
