@@ -327,12 +327,14 @@ async function button_testimonial_upload() {
     const testimonialTextInput = document.getElementById('testimonial-text-input').value;
     if (testimonialCompetition && testimonialName && testimonialPhoto && testimonialTextInput) {
         try {
+            console.log('Using token:', sessionStorage.getItem('auth-token'))
             const API_URL = 'http://saltypadel.co.uk/api/v1/routes/testimonials.php';
+            const token = sessionStorage.getItem('auth-token');
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'token': sessionStorage.getItem('auth-token')
+                    'Authorization': token
                 },
                 body: JSON.stringify({
                     'quoteText': testimonialTextInput,
@@ -693,7 +695,11 @@ function confirm_logout() {
     close_modal('modal-logout-confirm');
     document.body.classList.remove('admin-mode');
     showToast('Logged out successfully', 'success');
-    
+    sessionStorage.removeItem('auth-token');
+    try {
+        const API_URL = 'http://saltypadel.co.uk/api/v1/routes/auth.php';
+
+    } catch (error) { console.error('Error during logout:', error); }
     setTimeout(function() {
         button_home();
     }, 500);
