@@ -387,7 +387,7 @@ async function button_testimonial_upload() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
+                    'Authorization': token
                 },
                 body: JSON.stringify({
                     'quoteText': testimonialTextInput,
