@@ -387,7 +387,7 @@ async function button_testimonial_upload() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token
+                    'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify({
                     'quoteText': testimonialTextInput,
@@ -562,7 +562,7 @@ async function button_upload_event() {
             const uploadResponse = await fetch("http://saltypadel.co.uk/api/v1/routes/uploads.php", {
                 method: "POST",
                 headers: {
-                    "Authorization": token
+                    "Authorization": "Bearer " + token
                 },
                 body: formData
             });
@@ -582,7 +582,7 @@ async function button_upload_event() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": token
+                "Authorization": "Bearer " + token
             },
             body: JSON.stringify({
                 eventName: eventTitle,
@@ -822,7 +822,7 @@ async function confirm_logout() {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": token
+                "Authorization": "Bearer " + token
             },
             body: JSON.stringify({ action: "logout" })
         });
