@@ -280,43 +280,41 @@ function admin_home() {
 }
 
 async function button_verify_login() {
-    
+    const username = document.getElementById("admin_username").value;
+    const password = document.getElementById("admin_password").value;
+
+    if (!username || !password) {
+        showToast("Please enter username and password.", "error");
+        return;
+    }
+
     try {
-        const API_URL = 'http://saltypadel.co.uk/api/v1/routes/auth.php';
-        const response = await fetch(API_URL, {
-            method: 'POST',
+        const response = await fetch("http://saltypadel.co.uk/api/v1/routes/auth.php", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                username: document.getElementById("admin_username").value,
-                password: document.getElementById("admin_password").value
-            })
+            body: JSON.stringify({ username: username, password: password })
         });
 
         const result = await response.json();
-        
-        if (response.ok && result.success && result.data && result.data.token) {
-            const token = result.data.token;
-            sessionStorage.setItem('auth-token', token);
-            console.log('Login successful, token stored:', token);
-            document.body.classList.add('admin-mode');
-            showToast('Welcome back!', 'success');
-            admin_home();
-        }
-    }
-    catch (error) {
-        console.error('Error:', error);
-        const status = error.status
 
-        if (status == 400 || status == 404) {
-            showToast("Invalid credentials. Please try again.");
-            warning2.textContent = "Invalid credentials";
+        if (response.ok && result.success && result.data && result.data.token) {
+            sessionStorage.setItem("auth-token", result.data.token);
+            document.body.classList.add("admin-mode");
+            showToast("Welcome back!", "success");
+            admin_home();
+
+        } else if (response.status === 429) {
+            showToast("Too many attempts. Try again in 15 minutes.", "error");
+
+        } else {
+            showToast("Invalid username or password.", "error");
         }
-        else if (status == 429) {
-            showToast("Too many repeated attempts. Please try again later.");
-        }
-        else {showToast("Server error. Please try again later.");}
+
+    } catch (error) {
+        console.error("Login error:", error);
+        showToast("Network error. Please check your connection.", "error");
     }
 }
 
@@ -746,15 +744,27 @@ function cancel_logout() {
     close_modal('modal-logout-confirm');
 }
 
-function confirm_logout() {
+async function confirm_logout() {
     close_modal('modal-logout-confirm');
+
+    try {
+        const token = sessionStorage.getItem('auth-token');
+        await fetch("http://saltypadel.co.uk/api/v1/routes/auth.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({ action: "logout" })
+        });
+    } catch (error) {
+        console.error("Logout error:", error);
+    }
+
+    sessionStorage.removeItem('auth-token');
     document.body.classList.remove('admin-mode');
     showToast('Logged out successfully', 'success');
-    sessionStorage.removeItem('auth-token');
-    try {
-        const API_URL = 'http://saltypadel.co.uk/api/v1/routes/auth.php';
-
-    } catch (error) { console.error('Error during logout:', error); }
+    
     setTimeout(function() {
         button_home();
     }, 500);
