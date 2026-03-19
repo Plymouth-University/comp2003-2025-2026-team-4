@@ -778,27 +778,43 @@ function button_manage_whatsapp() {
     }
 }
 
-function save_whatsapp_link() {
+async function save_whatsapp_link() {
     const input = document.getElementById('whatsapp-link-input');
     const newLink = input.value.trim();
-    
-    // Basic validation
+    const token = sessionStorage.getItem('auth-token');
+
     if (!newLink) {
         showToast('Please enter a WhatsApp link', 'error');
         return;
     }
-    
+
     if (!newLink.includes('whatsapp.com')) {
         showToast('Please enter a valid WhatsApp link', 'error');
         return;
     }
-    
-    // Here you would normally save to database
-    // For now, just show success message
-    showToast('WhatsApp link updated successfully!', 'success');
-    
-    console.log('New WhatsApp link:', newLink);
-    // TODO: Add backend integration to actually save the link
+
+    try {
+        const response = await fetch('http://saltypadel.co.uk/api/v1/routes/settings.php', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify({ whatsappUrl: newLink })
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            showToast('WhatsApp link updated successfully!', 'success');
+        } else {
+            showToast('Failed to update. Please try again.', 'error');
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('Network error. Please check your connection.', 'error');
+    }
 }
 
 // ========================================
