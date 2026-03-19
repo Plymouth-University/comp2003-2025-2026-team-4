@@ -11,6 +11,7 @@ let pendingDeleteAction = null;
 // ========================================
 document.addEventListener('DOMContentLoaded', function() {
     button_load_testimonials();
+    button_load_partners();
     
     // Modal close on outside click
     document.addEventListener('click', function(event) {
@@ -129,6 +130,7 @@ function button_home() {
     // Update mobile navigation
     update_mobile_nav('home');
     button_load_testimonials();
+    button_load_partners();
 }
 
 function button_who_we_are() {
@@ -634,28 +636,25 @@ function button_partner_photo() {
     }
     fileInput.click();
 }
+async function button_load_partners() {
+    const container = document.getElementById('partners_container');
+    if (!container) return;
 
-function button_upload_partner() {
-    const partnerName = sessionStorage.getItem('partner-name');
-    const partnerPhoto = sessionStorage.getItem('partner-photo');
-    if (!partnerName || !partnerPhoto) {
-        try {
-            // POST
-            const status = error.status;
-            if (status == 201) {
-                showToast("Partner uploaded successfully!", "success");
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            const status = error.status;
-            if (status == 403) {
-                showToast("Forbidden. You do not have permission to perform this action.");
-            }
-            else if (status == 401) {
-                showToast("Unauthorized. Your token may have expired. Try logging in again.");
-            }
-            else { showToast("Server error. Please try again later."); }
+    try {
+        const response = await fetch('http://saltypadel.co.uk/api/v1/routes/partners.php');
+        const result = await response.json();
+
+        if (result.success && result.data.length > 0) {
+            container.innerHTML = '';
+            result.data.forEach(p => {
+                container.innerHTML += `
+                    <img src="${p.logoPath}" 
+                        alt="${p.partnerName}" 
+                        class="partner-logo">`;
+            });
         }
+    } catch (error) {
+        console.error('Failed to load partners:', error);
     }
 }
 function handle_partner_photo(event) {
@@ -668,11 +667,67 @@ function handle_partner_photo(event) {
                 previewImg.src = e.target.result;
                 showToast('Partner logo uploaded successfully', 'success');
             }
-            sessionStorage.setItem('partner-logo', e.target.result);
+            sessionStorage.setItem('partner-photo', e.target.result);
         };
         reader.readAsDataURL(file);
     } else {
         showToast('Please select a valid image file', 'error');
+    }
+}
+
+async function button_upload_partner() {
+    const partnerName = sessionStorage.getItem('partner-name');
+    const token = sessionStorage.getItem('auth-token');
+    const fileInput = document.getElementById('partner-photo-input');
+    const file = fileInput ? fileInput.files[0] : null;
+
+    if (!partnerName || !file) {
+        showToast("Please add a name and logo before uploading.", "error");
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('category', 'partners');
+
+        const uploadResponse = await fetch("http://saltypadel.co.uk/api/v1/routes/uploads.php", {
+            method: "POST",
+            headers: { "Authorization": token },
+            body: formData
+        });
+
+        const uploadResult = await uploadResponse.json();
+
+        if (!uploadResult.success) {
+            showToast("Logo upload failed.", "error");
+            return;
+        }
+
+        const partnerResponse = await fetch("http://saltypadel.co.uk/api/v1/routes/partners.php", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({
+                partnerName: partnerName,
+                logoPath: uploadResult.data.imagePath
+            })
+        });
+
+        const partnerResult = await partnerResponse.json();
+
+        if (partnerResponse.status === 201 && partnerResult.success) {
+            showToast("Partner added successfully!", "success");
+            sessionStorage.removeItem('partner-name');
+        } else {
+            showToast("Server error. Please try again.", "error");
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        showToast("Network error. Please check your connection.", "error");
     }
 }
 
