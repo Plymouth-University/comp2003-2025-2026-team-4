@@ -657,6 +657,14 @@ async function button_load_partners() {
 
         if (result.success && result.data.length > 0) {
             container.innerHTML = '';
+            // First loop — real logos
+            result.data.forEach(p => {
+                container.innerHTML += `
+                    <img src="${p.logoPath}" 
+                        alt="${p.partnerName}" 
+                        class="partner-logo">`;
+            });
+            // Second loop — duplicate for seamless marquee
             result.data.forEach(p => {
                 container.innerHTML += `
                     <img src="${p.logoPath}" 

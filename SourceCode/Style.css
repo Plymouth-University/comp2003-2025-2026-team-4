@@ -485,6 +485,27 @@ MOBILE RESPONSIVE
     object-fit: contain;
 }
 
+/* Partners marquee */
+.partners-list {
+    display: flex;
+    gap: 48px;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+}
+
+.partners-track {
+    display: flex;
+    gap: 48px;
+    align-items: center;
+    animation: marquee 10s linear infinite;
+    white-space: nowrap;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
 
 /* FOOTER */
 #site-footer {
