@@ -1,0 +1,25 @@
+name: Deploy SaltyPadel to IONOS
+
+on:
+    push:
+    branches:
+    - main
+
+jobs:
+    deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+        - name: Checkout sources
+        uses: actions/checkout@v4
+        
+        - name: Deploy via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+        server: ${{ secrets.SFTP_HOST }}
+        username: ${{ secrets.SFTP_USERNAME }}
+        password: ${{ secrets.SFTP_PASSWORD }}
+        port: 22
+        local_path: './SourceCode/*'
+        remote_path: '/'
+        sftp_only: true
