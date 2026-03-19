@@ -10,6 +10,7 @@ let pendingDeleteAction = null;
 // DOM READY - INITIALIZE EVERYTHING
 // ========================================
 document.addEventListener('DOMContentLoaded', function() {
+    button_load_testimonials();
     
     // Modal close on outside click
     document.addEventListener('click', function(event) {
@@ -127,6 +128,7 @@ function button_home() {
 
     // Update mobile navigation
     update_mobile_nav('home');
+    button_load_testimonials();
 }
 
 function button_who_we_are() {
@@ -361,24 +363,23 @@ function button_confirm_testimonial_name() {
     uploads_hide_helper();
 }
 
-function button_testimonial_competition() {
-    targetDiv = document.getElementById("testimonial-competition-input");
+function button_testimonial_role() {
+    targetDiv = document.getElementById("testimonial-role-input");
     uploads_hide_helper(targetDiv)
 }
 
-function button_confirm_testimonial_competition() {
-    const competition = document.getElementById('testimonial-competition-textInput').value;
-    const competitionPreview = document.getElementById('testimonial-competition-preview');
-    competitionPreview.textContent = competition;
-    sessionStorage.setItem('testimonial-competition', competition);
+function button_confirm_testimonial_role() {
+    const role = document.getElementById('testimonial-role-textInput').value;
+    const rolePreview = document.getElementById('testimonial-role-preview');
+    rolePreview.textContent = role;
+    sessionStorage.setItem('testimonial-role', role);
     uploads_hide_helper();
 }
 async function button_testimonial_upload() {
-    const testimonialCompetition = sessionStorage.getItem('testimonial-competition');
+    const testimonialRole = sessionStorage.getItem('testimonial-role');
     const testimonialName = sessionStorage.getItem('testimonial-name');
-    const testimonialPhoto = sessionStorage.getItem('testimonial-photo');
     const testimonialTextInput = document.getElementById('testimonial-text-input').value;
-    if (testimonialCompetition && testimonialName && testimonialPhoto && testimonialTextInput) {
+    if (testimonialRole && testimonialName && testimonialTextInput) {
         try {
             console.log('Using token:', sessionStorage.getItem('auth-token'))
             const API_URL = 'http://saltypadel.co.uk/api/v1/routes/testimonials.php';
@@ -392,7 +393,7 @@ async function button_testimonial_upload() {
                 body: JSON.stringify({
                     'quoteText': testimonialTextInput,
                     'authorName': testimonialName,
-                    'authorRole': testimonialCompetition,
+                    'authorRole': testimonialRole,
                     'isVisible': true,
                 })
             });
@@ -414,48 +415,35 @@ async function button_testimonial_upload() {
         showToast("Please fill in all fields before submitting.", "error");
     }
 }
+async function button_load_testimonials() {
+    const container = document.getElementById('testimonials_container');
+    if (!container) return;
 
-function button_confirm_testimonial_variable() {
-    const name = document.getElementById('partner-name-textInput').value;
-    const namePreview = document.getElementById('partner-name-preview');
-    namePreview.textContent = name;
-    sessionStorage.setItem('partner-name', name);
-    testimonials_hide_helper();
-}
+    try {
+        const response = await fetch('http://saltypadel.co.uk/api/v1/routes/testimonials.php');
+        const result = await response.json();
 
-function button_testimonial_photo() {
-    let fileInput = document.getElementById('testimonial-photo-input');
-    if (!fileInput) {
-        fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.id = 'testimonial-photo-input';
-        fileInput.accept = 'image/*';
-        fileInput.style.display = 'none';
-        fileInput.onchange = handle_testimonial_photo;
-        document.body.appendChild(fileInput);
-    }
-    fileInput.click();
-}
-
-function handle_testimonial_photo(event) {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const previewImg = document.getElementById('testimonial-image-preview');
-            if (previewImg) {
-                previewImg.style.backgroundImage = `url('${e.target.result}')`;
-                previewImg.style.backgroundSize = 'cover';
-                previewImg.style.backgroundPosition = 'center';
-                showToast('Photo uploaded successfully', 'success');
-            }
-            sessionStorage.setItem('testimonial-photo', e.target.result);
-        };
-        reader.readAsDataURL(file);
-    } else {
-        showToast('Please select a valid image file', 'error');
+        if (result.success && result.data.length > 0) {
+            container.innerHTML = '';
+            result.data.forEach(t => {
+                container.innerHTML += `
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">${t.quoteText}</p>
+                        <div class="testimonial-author-block">
+                            <div class="testimonial-icon"></div>
+                            <div>
+                                <p class="testimonial-author">${t.authorName}</p>
+                                <p class="testimonial-role">${t.authorRole}</p>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        }
+    } catch (error) {
+        console.error('Failed to load testimonials:', error);
     }
 }
+
 //====================
 // Event upload
 //====================

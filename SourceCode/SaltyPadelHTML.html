@@ -95,37 +95,7 @@
         <section id="testimonials" class="bg-pink">
             <h2 class="testimonials-title">Testimonials</h2>
             <p class="testimonials-subtitle">Here's what people are saying</p>
-            <div class="testimonials-list">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">testimonial 1</p>
-                    <div class="testimonial-author-block">
-                        <div class="testimonial-icon"></div>
-                        <div>
-                            <p class="testimonial-author">Author1</p>
-                            <p class="testimonial-role">AuthorRole1</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">testimonial 2</p>
-                    <div class="testimonial-author-block">
-                        <div class="testimonial-icon"></div>
-                        <div>
-                            <p class="testimonial-author">Author2</p>
-                            <p class="testimonial-role">AuthoreRole2</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">testimonial 3</p>
-                    <div class="testimonial-author-block">
-                        <div class="testimonial-icon"></div>
-                        <div>
-                            <p class="testimonial-author">Author3</p>
-                            <p class="testimonial-role">AuthorRole3.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="testimonials-list" id="testimonials_container">
             </div>
         </section>
 
@@ -333,19 +303,17 @@
                         <div class="testimonial-icon" id="testimonial-image-preview"></div>
                         <div>
                             <p class="testimonial-author" id="testimonial-name-preview">Author1</p>
-                            <p class="testimonial-role" id="testimonial-competition-preview">Author Competition</p>
+                            <p class="testimonial-role" id="testimonial-role-preview">Author Role</p>
                         </div>
                     </div>
                 </div>
                 <div class="button-row">
-                    <button class="btn btn-nav" onclick="button_testimonial_photo()">Photo</button>
                     <button class="btn btn-nav" onclick="button_testimonial_name()">Name</button>
-                    <button class="btn btn-nav" onclick="button_testimonial_competition()">Competition</button>
-                    <!-- What competition did this person compete in? -->
+                    <button class="btn btn-nav" onclick="button_testimonial_role()">Role</button>
                 </div>
-                <div style="display: none" class="input_detail" id="testimonial-competition-input">
-                    <input type="text" class="admin-input-field" id="testimonial-competition-textInput" placeholder="Competition">
-                    <button class="btn btn-nav" onclick="button_confirm_testimonial_competition()">Confirm</button>
+                <div style="display: none" class="input_detail" id="testimonial-role-input">
+                    <input type="text" class="admin-input-field" id="testimonial-role-textInput" placeholder="Role">
+                    <button class="btn btn-nav" onclick="button_confirm_testimonial_role()">Confirm</button>
                 </div>
                 <div style="display: none" class="input_detail" id="testimonial-name-input">
                     <input type="text" class="admin-input-field" id="testimonial-name-textInput" placeholder="Name">
@@ -354,7 +322,6 @@
                 <textarea class="testimonial-textbox" id="testimonial-text-input" placeholder="Add testimonial text"></textarea>
                 <div class="testimonial-action-buttons">
                     <button class="btn btn-nav" onclick="button_testimonial_upload()">Upload testimonial</button>
-                    <button class="btn btn-nav">Check testimonials</button>
                 </div>
             </figure>
         </section>
