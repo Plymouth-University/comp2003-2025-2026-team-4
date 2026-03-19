@@ -247,6 +247,17 @@ async function button_upcoming_events() {
         container.innerHTML = "<p>Could not load events. Please try again later.</p>";
     }
 }
+
+async function button_join_our_whatsapp_group() {
+    try {
+        const response = await fetch('http://saltypadel.co.uk/api/v1/routes/settings.php');
+        const result = await response.json();
+        const url = result.data?.whatsappUrl || 'https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb';
+        openExternalLink(url);
+    } catch (error) {
+        openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb');
+    }
+}
 // ========================================
 // ADMIN FUNCTIONS
 // ========================================
