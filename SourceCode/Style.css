@@ -733,12 +733,16 @@ MOBILE RESPONSIVE
 .gallery {
     padding: 30px 60px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(200px, 350px));
     gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+    justify-content: center;
 }
 
 .gallery img {
     width: 100%;
+    max-width: 350px;
     aspect-ratio: 9 / 16; /* Instagram Reels-style vertical */
     object-fit: cover;
     border-radius: 18px;
@@ -923,7 +927,6 @@ MOBILE RESPONSIVE
 #manage_events .gallery img {
     width: 100%;
     max-width: 420px;
-    height: auto;
     object-fit: contain;
 }
 

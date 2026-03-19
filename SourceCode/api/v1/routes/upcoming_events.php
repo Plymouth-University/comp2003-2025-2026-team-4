@@ -63,11 +63,13 @@ if ($method === 'POST') {
     }
 
     $pdo  = getDB();
+    $imagePath = $input['imagePath'] ?? null;
+
     $stmt = $pdo->prepare(
-        'INSERT INTO events (event_name, event_location, event_date, event_time)
-        VALUES (?, ?, ?, ?)'
+        'INSERT INTO events (event_name, event_location, event_date, event_time, image_path)
+        VALUES (?, ?, ?, ?, ?)'
     );
-    $stmt->execute([$eventName, $eventLocation, $eventDate, $eventTime]);
+    $stmt->execute([$eventName, $eventLocation, $eventDate, $eventTime, $imagePath]);
 
     http_response_code(201);
     echo json_encode([

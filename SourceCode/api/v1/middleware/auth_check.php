@@ -10,6 +10,15 @@ require_once __DIR__ . '/../config/db.php';
 function require_auth() {
     $headers = getallheaders();
 
+    // IONOS fallback — getallheaders() sometimes misses Authorization
+if (!isset($headers['Authorization']) && !isset($headers['authorization'])) {
+    if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
+        $headers['Authorization'] = $_SERVER['HTTP_AUTHORIZATION'];
+    } elseif (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])) {
+        $headers['Authorization'] = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+    }
+}
+
     // Check Authorization header exists
     if (!isset($headers['Authorization']) && !isset($headers['authorization'])) {
         http_response_code(401);

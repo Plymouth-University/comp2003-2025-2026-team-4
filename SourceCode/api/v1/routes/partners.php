@@ -95,7 +95,7 @@ if ($method === 'PUT') {
     exit;
 }
 
-// ── Method not allowed ← ALWAYS LAST
+// Method not allowed 
 http_response_code(405);
 echo json_encode([
     'success' => false,
