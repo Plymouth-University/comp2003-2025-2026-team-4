@@ -652,11 +652,12 @@ async function button_load_partners() {
     if (!container) return;
 
     try {
-        const response = await fetch('http://saltypadel.co.uk/api/v1/routes/partners.php');
+        const response = await fetch(`${API_BASE}/routes/partners.php`);
         const result = await response.json();
 
         if (result.success && result.data.length > 0) {
             container.innerHTML = '';
+
             // First loop — real logos
             result.data.forEach(p => {
                 container.innerHTML += `
@@ -664,12 +665,14 @@ async function button_load_partners() {
                         alt="${p.partnerName}" 
                         class="partner-logo">`;
             });
-            // Second loop — duplicate for seamless marquee
+
+            // Second loop — duplicates for seamless marquee scroll
             result.data.forEach(p => {
                 container.innerHTML += `
                     <img src="${p.logoPath}" 
                         alt="${p.partnerName}" 
-                        class="partner-logo">`;
+                        class="partner-logo"
+                        aria-hidden="true">`;
             });
         }
     } catch (error) {
