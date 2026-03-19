@@ -6,6 +6,8 @@ let pending_navigation_action = null;
 let pending_external_url = null;
 let pendingDeleteAction = null;
 
+const API_BASE = 'https://saltypadel.co.uk/api/v1'; 
+
 // ========================================
 // DOM READY - INITIALIZE EVERYTHING
 // ========================================
