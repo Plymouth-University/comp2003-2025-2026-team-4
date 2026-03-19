@@ -22,7 +22,7 @@ if ($method === 'GET') {
             event_time AS eventTime,
             image_path AS imagePath
         FROM events
-        WHERE event_date >= CURDATE()
+        WHERE CONCAT(event_date," ", event_time) >= NOW()
         ORDER BY event_date ASC'
     );
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
