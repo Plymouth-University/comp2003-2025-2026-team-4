@@ -412,17 +412,24 @@ MOBILE RESPONSIVE
 }
 
 .testimonials-list {
+    width: 100%;
+    max-width: 500px;
+    overflow: hidden;
+    position: relative;
+}
+
+.testimonials-track {
     display: flex;
-    gap: 32px;
-    justify-content: center;
+    transition: transform 0.5s ease;
 }
 
 .testimonial-card {
-    width: 390px;
+    min-width: 100%;
     padding: 24px;
     background-color: #FFFFFF;
     border-radius: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
 }
 
 .testimonial-text {
