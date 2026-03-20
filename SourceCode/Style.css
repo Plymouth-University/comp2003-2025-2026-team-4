@@ -398,6 +398,7 @@ MOBILE RESPONSIVE
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 }
 
 .testimonials-title {
@@ -413,23 +414,35 @@ MOBILE RESPONSIVE
 
 .testimonials-list {
     width: 100%;
-    max-width: 500px;
     overflow: hidden;
     position: relative;
 }
 
 .testimonials-track {
-    display: flex;
-    transition: transform 0.5s ease;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 32px;
+    width: max-content;
+    min-width: max-content;
+    animation: marquee-reverse 25s linear infinite;
+    will-change: transform;
 }
 
 .testimonial-card {
-    min-width: 100%;
+    min-width: 390px;
+    max-width: 390px;
     padding: 24px;
     background-color: #FFFFFF;
     border-radius: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
+    flex: 0 0 auto;
+}
+
+@keyframes marquee-reverse {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
 }
 
 .testimonial-text {

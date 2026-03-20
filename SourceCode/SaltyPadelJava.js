@@ -439,10 +439,10 @@ async function button_load_testimonials() {
         const result = await response.json();
 
         if (result.success && result.data.length > 0) {
-            // Build track
             container.innerHTML = '<div class="testimonials-track" id="testimonials_track"></div>';
             const track = document.getElementById('testimonials_track');
 
+            // First loop — real cards
             result.data.forEach(t => {
                 track.innerHTML += `
                     <div class="testimonial-card">
@@ -457,14 +457,20 @@ async function button_load_testimonials() {
                     </div>`;
             });
 
-            // Start carousel
-            let current = 0;
-            const total = result.data.length;
-
-            setInterval(function() {
-                current = (current + 1) % total;
-                track.style.transform = `translateX(-${current * 100}%)`;
-            }, 4000);
+            // Second loop — duplicates for seamless loop
+            result.data.forEach(t => {
+                track.innerHTML += `
+                    <div class="testimonial-card" aria-hidden="true">
+                        <p class="testimonial-text">${t.quoteText}</p>
+                        <div class="testimonial-author-block">
+                            <div class="testimonial-icon"></div>
+                            <div>
+                                <p class="testimonial-author">${t.authorName}</p>
+                                <p class="testimonial-role">${t.authorRole}</p>
+                            </div>
+                        </div>
+                    </div>`;
+            });
         }
     } catch (error) {
         console.error('Failed to load testimonials:', error);
