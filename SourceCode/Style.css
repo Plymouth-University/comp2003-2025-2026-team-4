@@ -499,11 +499,12 @@ MOBILE RESPONSIVE
 }
 
 .partner-logo {
+    display: inline-block;
     width: 80px;
     height: 60px;
     object-fit: contain;
-    display: block;
-    flex: 0 0 auto;
+    aspect-ratio: unset;
+    border-radius: 0;
 }
 
 @keyframes marquee {
