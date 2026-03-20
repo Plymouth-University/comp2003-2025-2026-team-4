@@ -6,7 +6,7 @@ let pending_navigation_action = null;
 let pending_external_url = null;
 let pendingDeleteAction = null;
 
-const API_BASE = 'https://saltypadel.co.uk/api/v1'; 
+const API_BASE = 'http://saltypadel.co.uk/api/v1'; 
 
 // ========================================
 // DOM READY - INITIALIZE EVERYTHING
@@ -184,7 +184,7 @@ async function button_past_events() {
     container.innerHTML = "<p>Loading events...</p>";
 
     try {
-        const response = await fetch("http://saltypadel.co.uk/api/v1/routes/past_events.php");
+        const response = await fetch(`${API_BASE}/routes/past_events.php`);
         const result = await response.json();
 
         if (result.success && result.data.length > 0) {
@@ -228,7 +228,7 @@ async function button_upcoming_events() {
     container.innerHTML = "<p>Loading events...</p>";
 
     try {
-        const response = await fetch("http://saltypadel.co.uk/api/v1/routes/upcoming_events.php");
+        const response = await fetch(`${API_BASE}/routes/upcoming_events.php`);
         const result = await response.json();
 
         if (result.success && result.data.length > 0) {
@@ -252,7 +252,7 @@ async function button_upcoming_events() {
 
 async function button_join_our_whatsapp_group() {
     try {
-        const response = await fetch('http://saltypadel.co.uk/api/v1/routes/settings.php');
+        const response = await fetch(`${API_BASE}/routes/settings.php`);
         const result = await response.json();
         const url = result.data?.whatsappUrl || 'https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb';
         openExternalLink(url);
@@ -306,7 +306,7 @@ async function button_verify_login() {
     }
 
     try {
-        const response = await fetch("http://saltypadel.co.uk/api/v1/routes/auth.php", {
+        const response = await fetch(`${API_BASE}/routes/auth.php`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -397,7 +397,7 @@ async function button_testimonial_upload() {
     if (testimonialRole && testimonialName && testimonialTextInput) {
         try {
             console.log('Using token:', sessionStorage.getItem('auth-token'))
-            const API_URL = 'http://saltypadel.co.uk/api/v1/routes/testimonials.php';
+            const API_URL = `${API_BASE}/routes/testimonials.php`;
             const token = sessionStorage.getItem('auth-token');
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -435,7 +435,7 @@ async function button_load_testimonials() {
     if (!container) return;
 
     try {
-        const response = await fetch('http://saltypadel.co.uk/api/v1/routes/testimonials.php');
+        const response = await fetch(`${API_BASE}/routes/testimonials.php`);
         const result = await response.json();
 
         if (result.success && result.data.length > 0) {
@@ -562,7 +562,7 @@ async function button_upload_event() {
             formData.append('image', file);
             formData.append('category', 'events');
 
-            const uploadResponse = await fetch("http://saltypadel.co.uk/api/v1/routes/uploads.php", {
+            const uploadResponse = await fetch(`${API_BASE}/routes/uploads.php`, {
                 method: "POST",
                 headers: {
                     "Authorization": token
@@ -581,7 +581,7 @@ async function button_upload_event() {
         }
 
         // Step 2 — Create the event
-        const eventResponse = await fetch("http://saltypadel.co.uk/api/v1/routes/upcoming_events.php", {
+        const eventResponse = await fetch(`${API_BASE}/routes/upcoming_events.php`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -654,7 +654,7 @@ async function button_load_partners() {
     if (!container) return;
 
     try {
-        const response = await fetch(`${API_BASE}/routes/partners.php`);
+        const response = await fetch(`${API_BASE}/routes/partners.php`);  
         const result = await response.json();
 
         if (result.success && result.data.length > 0) {
@@ -676,7 +676,7 @@ async function button_load_partners() {
                         class="partner-logo"
                         aria-hidden="true">`;
             });
-        }
+        }  // ← changed }) to just }
     } catch (error) {
         console.error('Failed to load partners:', error);
     }
@@ -715,7 +715,7 @@ async function button_upload_partner() {
         formData.append('image', file);
         formData.append('category', 'partners');
 
-        const uploadResponse = await fetch("http://saltypadel.co.uk/api/v1/routes/uploads.php", {
+        const uploadResponse = await fetch(`${API_BASE}/routes/uploads.php`, {
             method: "POST",
             headers: { "Authorization": token },
             body: formData
@@ -728,7 +728,7 @@ async function button_upload_partner() {
             return;
         }
 
-        const partnerResponse = await fetch("http://saltypadel.co.uk/api/v1/routes/partners.php", {
+        const partnerResponse = await fetch(`${API_BASE}/routes/partners.php`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -818,7 +818,7 @@ async function save_whatsapp_link() {
     }
 
     try {
-        const response = await fetch('http://saltypadel.co.uk/api/v1/routes/settings.php', {
+        const response = await fetch(`${API_BASE}/routes/settings.php`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -901,7 +901,7 @@ async function confirm_logout() {
 
     try {
         const token = sessionStorage.getItem('auth-token');
-        await fetch("http://saltypadel.co.uk/api/v1/routes/auth.php", {
+        await fetch(`${API_BASE}/routes/auth.php`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
