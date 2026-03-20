@@ -474,29 +474,35 @@ MOBILE RESPONSIVE
 }
 
 .partners-list {
-    overflow: hidden;
     width: 100%;
-    padding: 0;
+    overflow: hidden;
+    position: relative;
 }
 
 .partners-track {
     display: flex;
-    gap: 48px;
     align-items: center;
-    animation: marquee 10s linear infinite;
+    gap: 48px;
     width: max-content;
+    animation: marquee 24s linear infinite;
+    will-change: transform;
 }
 
 .partner-logo {
     width: 80px;
     height: 60px;
     object-fit: contain;
-    flex-shrink: 0;
+    flex: 0 0 auto;
+    display: block;
 }
 
 @keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
 }
 
 /* FOOTER */

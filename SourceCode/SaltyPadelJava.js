@@ -654,29 +654,30 @@ async function button_load_partners() {
     if (!container) return;
 
     try {
-        const response = await fetch(`${API_BASE}/routes/partners.php`);  
+        const response = await fetch(`${API_BASE}/routes/partners.php`);
         const result = await response.json();
 
         if (result.success && result.data.length > 0) {
             container.innerHTML = '';
 
-            // First loop — real logos
-            result.data.forEach(p => {
-                container.innerHTML += `
-                    <img src="${p.logoPath}" 
-                        alt="${p.partnerName}" 
-                        class="partner-logo">`;
-            });
+            // Make the row long enough for desktop marquee
+            const marqueePartners = [
+                ...result.data,
+                ...result.data,
+                ...result.data,
+                ...result.data
+            ];
 
-            // Second loop — duplicates for seamless marquee scroll
-            result.data.forEach(p => {
+            marqueePartners.forEach((p, index) => {
                 container.innerHTML += `
-                    <img src="${p.logoPath}" 
+                    <img 
+                        src="${p.logoPath}" 
                         alt="${p.partnerName}" 
                         class="partner-logo"
-                        aria-hidden="true">`;
+                        ${index >= result.data.length * 2 ? 'aria-hidden="true"' : ''}
+                    >`;
             });
-        }  // ← changed }) to just }
+        }
     } catch (error) {
         console.error('Failed to load partners:', error);
     }
