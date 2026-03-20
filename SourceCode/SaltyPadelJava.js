@@ -660,7 +660,6 @@ async function button_load_partners() {
         if (result.success && result.data.length > 0) {
             container.innerHTML = '';
 
-            // Make the row long enough for desktop marquee
             const marqueePartners = [
                 ...result.data,
                 ...result.data,
@@ -669,13 +668,20 @@ async function button_load_partners() {
             ];
 
             marqueePartners.forEach((p, index) => {
-                container.innerHTML += `
-                    <img 
-                        src="${p.logoPath}" 
-                        alt="${p.partnerName}" 
-                        class="partner-logo"
-                        ${index >= result.data.length * 2 ? 'aria-hidden="true"' : ''}
-                    >`;
+                const item = document.createElement('div');
+                item.className = 'partner-logo-item';
+
+                const img = document.createElement('img');
+                img.src = p.logoPath;
+                img.alt = p.partnerName;
+                img.className = 'partner-logo';
+
+                if (index >= result.data.length * 2) {
+                    img.setAttribute('aria-hidden', 'true');
+                }
+
+                item.appendChild(img);
+                container.appendChild(item);
             });
         }
     } catch (error) {

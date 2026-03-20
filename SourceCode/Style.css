@@ -480,20 +480,30 @@ MOBILE RESPONSIVE
 }
 
 .partners-track {
-    display: flex;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 48px;
     width: max-content;
-    animation: marquee 24s linear infinite;
+    min-width: max-content;
+    animation: marquee 18s linear infinite;
     will-change: transform;
+}
+
+.partner-logo-item {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .partner-logo {
     width: 80px;
     height: 60px;
     object-fit: contain;
-    flex: 0 0 auto;
     display: block;
+    flex: 0 0 auto;
 }
 
 @keyframes marquee {
