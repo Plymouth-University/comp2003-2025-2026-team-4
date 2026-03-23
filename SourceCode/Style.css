@@ -68,6 +68,13 @@ body {
     justify-content: flex-end;
 }
 
+#who_we_are .hero,
+#upcoming_events .hero,
+#past_events .hero {
+    align-items: flex-start;
+    text-align: left;
+}
+
 .brand-title {
     color: #FFFFFF;
     font-size: 18px;
@@ -338,7 +345,7 @@ MOBILE RESPONSIVE
 
 /* HERO SECTION */
 
-#hero {
+.hero {
     width: 100%;
     padding: 64px 24px;
     display: flex;
@@ -376,9 +383,9 @@ MOBILE RESPONSIVE
 
 
 /* Make non-home page text align left */
-#who_we_are #hero,
-#upcoming_events #hero,
-#past_events #hero {
+#who_we_are .hero,
+#upcoming_events .hero,
+#past_events .hero {
     align-items: flex-start;
     text-align: left;
 }
@@ -391,6 +398,7 @@ MOBILE RESPONSIVE
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 }
 
 .testimonials-title {
@@ -405,17 +413,36 @@ MOBILE RESPONSIVE
 }
 
 .testimonials-list {
-    display: flex;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.testimonials-track {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
     gap: 32px;
-    justify-content: center;
+    width: max-content;
+    min-width: max-content;
+    animation: marquee-reverse 25s linear infinite;
+    will-change: transform;
 }
 
 .testimonial-card {
-    width: 390px;
+    min-width: 390px;
+    max-width: 390px;
     padding: 24px;
     background-color: #FFFFFF;
     border-radius: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    flex: 0 0 auto;
+}
+
+@keyframes marquee-reverse {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
 }
 
 .testimonial-text {
@@ -451,14 +478,14 @@ MOBILE RESPONSIVE
 }
 
 
-/* PARTNERS*/
-
+/* PARTNERS */
 #partners {
     width: 100%;
     padding: 40px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
 }
 
 .partners-title {
@@ -467,17 +494,47 @@ MOBILE RESPONSIVE
 }
 
 .partners-list {
-    display: flex;
-    gap: 24px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.partners-track {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-items: center;
+    gap: 48px;
+    width: max-content;
+    min-width: max-content;
+    animation: marquee 18s linear infinite;
+    will-change: transform;
+}
+
+.partner-logo-item {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .partner-logo {
+    display: inline-block;
     width: 80px;
     height: 60px;
     object-fit: contain;
+    aspect-ratio: unset;
+    border-radius: 0;
 }
 
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
 
 /* FOOTER */
 #site-footer {
@@ -671,6 +728,34 @@ MOBILE RESPONSIVE
     min-height: 50vh;
 }
 
+.input_detail {
+    display: flex important;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 0;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+.admin-input-field {
+    padding: 12px 24px;
+    max-width: 200px;
+    height: 48px;
+    border-radius: 999px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.preview-stack {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
 @media (max-width: 480px) {
     .login-card {
         padding: 40px 24px 32px;
@@ -698,12 +783,16 @@ MOBILE RESPONSIVE
 .gallery {
     padding: 30px 60px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(200px, 350px));
     gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+    justify-content: center;
 }
 
 .gallery img {
     width: 100%;
+    max-width: 350px;
     aspect-ratio: 9 / 16; /* Instagram Reels-style vertical */
     object-fit: cover;
     border-radius: 18px;
@@ -719,24 +808,6 @@ MOBILE RESPONSIVE
     margin-top: 12px;
     font-size: 14px;
     font-weight: 500;
-}
-
-.ticket-btn {
-    margin-top: 12px;
-    align-self: center;
-    padding: 10px 18px;
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    border-radius: 999px;
-    background-color: #F0FF70;
-    color: #000;
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.ticket-btn:hover {
-    background-color: #F0FF70;
 }
 
 .join-page {
@@ -875,8 +946,7 @@ MOBILE RESPONSIVE
 
 #manage_testimonials .gallery,
 #manage_partners .gallery,
-#manage_past_events .gallery,
-#manage_upcoming_events .gallery {
+#manage_events .gallery {
     display: flex;
     justify-content: center;
     padding: 0;
@@ -904,19 +974,24 @@ MOBILE RESPONSIVE
 
 #manage_testimonials .gallery img,
 #manage_partners .gallery img,
-#manage_past_events .gallery img,
-#manage_upcoming_events .gallery img {
+#manage_events .gallery img {
     width: 100%;
     max-width: 420px;
-    height: auto;
     object-fit: contain;
 }
 
 #manage_testimonials .gallery-item,
 #manage_partners .gallery-item,
-#manage_past_events .gallery-item,
-#manage_upcoming_events .gallery-item {
+#manage_events .gallery-item {
     padding: 24px 0;
+}
+.events-filter{
+    margin-top: 8px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.2);
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 15px;
 }
 
 .button-row {
@@ -1190,37 +1265,6 @@ body.modal-open {
     cursor: pointer;
     line-height: 1;
     color: #666;
-}
-
-
-/* ==========STATUS BADGES (for event cards)============= */
-
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 32px;
-    border-radius: 16px;
-    font-family: 'Inter', Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: #FFFFFF;
-    padding: 0 14px;
-}
-
-.status-open {
-    width: 140px;
-    background: #28A745;
-}
-
-.status-full {
-    width: 120px;
-    background: #DC3545;
-}
-
-.status-cancelled {
-    width: 100px;
-    background: #6C757D;
 }
 
 /* ==========ADMIN-SPECIFIC STYLES============= */

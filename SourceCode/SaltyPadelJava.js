@@ -6,10 +6,14 @@ let pending_navigation_action = null;
 let pending_external_url = null;
 let pendingDeleteAction = null;
 
+const API_BASE = 'http://saltypadel.co.uk/api/v1'; 
+
 // ========================================
 // DOM READY - INITIALIZE EVERYTHING
 // ========================================
 document.addEventListener('DOMContentLoaded', function() {
+    button_load_testimonials();
+    button_load_partners();
     
     // Modal close on outside click
     document.addEventListener('click', function(event) {
@@ -53,8 +57,7 @@ function hide_other_pages() {
     safe_hide("admin_page");
     safe_hide("manage_testimonials");
     safe_hide("manage_partners");
-    safe_hide("manage_past_events");
-    safe_hide("manage_upcoming_events");
+    safe_hide("manage_events");
     safe_hide("manage_whatsapp"); 
 }
 
@@ -128,6 +131,8 @@ function button_home() {
 
     // Update mobile navigation
     update_mobile_nav('home');
+    button_load_testimonials();
+    button_load_partners();
 }
 
 function button_who_we_are() {
@@ -157,8 +162,8 @@ function button_what_we_do() {
 
     update_mobile_nav('what_we_do');
 }
-
-function button_past_events() {
+async function button_past_events() {
+    document.body.classList.remove('admin-mode');
     hide_other_pages();
     safe_show("past_events", "block");
 
@@ -170,9 +175,39 @@ function button_past_events() {
     }
 
     update_mobile_nav('past_events');
+    close_mobile_menu();
+
+    // Fetch past events from API
+    const container = document.getElementById("past_events_container");
+    if (!container) return;
+
+    container.innerHTML = "<p>Loading events...</p>";
+
+    try {
+        const response = await fetch(`${API_BASE}/routes/past_events.php`);
+        const result = await response.json();
+
+        if (result.success && result.data.length > 0) {
+            container.innerHTML = "";
+            result.data.forEach(event => {
+                container.innerHTML += `
+                    <figure class="gallery-item">
+                        <img src="${event.imagePath || 'assets/event-placeholder1.png'}" alt="${event.eventName}">
+                        <figcaption>${event.eventName} - ${event.eventDate}</figcaption>
+                    </figure>`;
+            });
+        } else {
+            container.innerHTML = "<p>No past events yet.</p>";
+        }
+
+    } catch (error) {
+        console.error("Failed to load past events:", error);
+        container.innerHTML = "<p>Could not load events. Please try again later.</p>";
+    }
 }
 
-function button_upcoming_events() {
+async function button_upcoming_events() {
+    document.body.classList.remove('admin-mode');
     hide_other_pages();
     safe_show("upcoming_events", "block");
 
@@ -184,8 +219,47 @@ function button_upcoming_events() {
     }
 
     update_mobile_nav('upcoming_events');
+    close_mobile_menu();
+
+    // Fetch upcoming events from API
+    const container = document.getElementById("upcoming_events_container");
+    if (!container) return;
+
+    container.innerHTML = "<p>Loading events...</p>";
+
+    try {
+        const response = await fetch(`${API_BASE}/routes/upcoming_events.php`);
+        const result = await response.json();
+
+        if (result.success && result.data.length > 0) {
+            container.innerHTML = "";
+            result.data.forEach(event => {
+                container.innerHTML += `
+                    <figure class="gallery-item">
+                        <img src="${event.imagePath || 'assets/event-placeholder2.png'}" alt="${event.eventName}">
+                        <figcaption>${event.eventName} - ${event.eventDate} - ${event.eventTime} - ${event.eventLocation}</figcaption>
+                    </figure>`;
+            });
+        } else {
+            container.innerHTML = "<p>No upcoming events at the moment.</p>";
+        }
+
+    } catch (error) {
+        console.error("Failed to load upcoming events:", error);
+        container.innerHTML = "<p>Could not load events. Please try again later.</p>";
+    }
 }
 
+async function button_join_our_whatsapp_group() {
+    try {
+        const response = await fetch(`${API_BASE}/routes/settings.php`);
+        const result = await response.json();
+        const url = result.data?.whatsappUrl || 'https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb';
+        openExternalLink(url);
+    } catch (error) {
+        openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb');
+    }
+}
 // ========================================
 // ADMIN FUNCTIONS
 // ========================================
@@ -222,27 +296,42 @@ function admin_home() {
     }
 }
 
-function button_verify_login() {
-    let admin_user = "admin";
-    let admin_password = "123";
-    let username = document.getElementById("admin_username").value;
-    let password = document.getElementById("admin_password").value;
-    let warning1 = document.getElementById("warning1");
-    let warning2 = document.getElementById("warning2");
-    
-    warning1.textContent = " ";
-    warning2.textContent = " ";
+async function button_verify_login() {
+    const username = document.getElementById("admin_username").value;
+    const password = document.getElementById("admin_password").value;
 
-    if (admin_user == username) {
-        if (admin_password == password) {
-            document.body.classList.add('admin-mode');
-            showToast('Welcome back!', 'success');
+    if (!username || !password) {
+        showToast("Please enter username and password.", "error");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE}/routes/auth.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username: username, password: password })
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success && result.data && result.data.token) {
+            sessionStorage.setItem("auth-token", result.data.token);
+            document.body.classList.add("admin-mode");
+            showToast("Welcome back!", "success");
             admin_home();
+
+        } else if (response.status === 429) {
+            showToast("Too many attempts. Try again in 15 minutes.", "error");
+
         } else {
-            warning2.textContent = "Password invalid.";
+            showToast("Invalid username or password.", "error");
         }
-    } else {
-        warning1.textContent = "Enter a valid username";
+
+    } catch (error) {
+        console.error("Login error:", error);
+        showToast("Network error. Please check your connection.", "error");
     }
 }
 
@@ -260,27 +349,439 @@ function button_manage_testimonials() {
     if (adminHomeBtn) {
         adminHomeBtn.style.display = "inline-flex";
     }
+
 }
 
-function button_manage_past_events() {
-    hide_other_pages();
-    safe_show("manage_past_events", "block");
-
-    let nav = document.getElementById("admin-nav");
-    if (nav) {
-        nav.style.display = "flex";
-        nav.style.justifyContent = "center";
+//====================
+// Testimonial upload
+//====================
+function uploads_hide_helper(targetDiv) {
+    const divsToHide = document.querySelectorAll(".input_detail");
+    if (divsToHide) {
+        divsToHide.forEach(div => {
+            div.style.display = "none";
+        });
     }
+    if (targetDiv) {
+        targetDiv.style.display = "flex";
+    }
+}
+function button_testimonial_name() {
+    targetDiv = document.getElementById("testimonial-name-input");
+    uploads_hide_helper(targetDiv)
+}
+function button_confirm_testimonial_name() {
+    const name = document.getElementById('testimonial-name-textInput').value;
+    const namePreview = document.getElementById('testimonial-name-preview');
+    namePreview.textContent = name;
+    sessionStorage.setItem('testimonial-name', name);
+    uploads_hide_helper();
+}
 
-    const adminHomeBtn = document.getElementById("admin-home-btn");
-    if (adminHomeBtn) {
-        adminHomeBtn.style.display = "block";
+function button_testimonial_role() {
+    targetDiv = document.getElementById("testimonial-role-input");
+    uploads_hide_helper(targetDiv)
+}
+
+function button_confirm_testimonial_role() {
+    const role = document.getElementById('testimonial-role-textInput').value;
+    const rolePreview = document.getElementById('testimonial-role-preview');
+    rolePreview.textContent = role;
+    sessionStorage.setItem('testimonial-role', role);
+    uploads_hide_helper();
+}
+async function button_testimonial_upload() {
+    const testimonialRole = sessionStorage.getItem('testimonial-role');
+    const testimonialName = sessionStorage.getItem('testimonial-name');
+    const testimonialTextInput = document.getElementById('testimonial-text-input').value;
+    if (testimonialRole && testimonialName && testimonialTextInput) {
+        try {
+            console.log('Using token:', sessionStorage.getItem('auth-token'))
+            const API_URL = `${API_BASE}/routes/testimonials.php`;
+            const token = sessionStorage.getItem('auth-token');
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+                body: JSON.stringify({
+                    'quoteText': testimonialTextInput,
+                    'authorName': testimonialName,
+                    'authorRole': testimonialRole,
+                    'isVisible': true,
+                })
+            });
+            if (response.status === 201) {
+                showToast("Testimonial uploaded successfully!", "success");
+            } else if (response.status === 403) {
+                showToast("Forbidden. You do not have permission to perform this action.", "error");
+            } else if (response.status === 401) {
+                showToast("Unauthorized. Your token may have expired. Try logging in again.", "error");
+            } else {
+                showToast("Server error. Please try again later.", "error");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showToast("Network error. Please check your connection.", "error");
+        }
+    }
+    else {
+        showToast("Please fill in all fields before submitting.", "error");
+    }
+}
+async function button_load_testimonials() {
+    const container = document.getElementById('testimonials_container');
+    if (!container) return;
+
+    try {
+        const response = await fetch(`${API_BASE}/routes/testimonials.php`);
+        const result = await response.json();
+
+        if (result.success && result.data.length > 0) {
+            container.innerHTML = '<div class="testimonials-track" id="testimonials_track"></div>';
+            const track = document.getElementById('testimonials_track');
+
+            // First loop — real cards
+            result.data.forEach(t => {
+                track.innerHTML += `
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">${t.quoteText}</p>
+                        <div class="testimonial-author-block">
+                            <div class="testimonial-icon"></div>
+                            <div>
+                                <p class="testimonial-author">${t.authorName}</p>
+                                <p class="testimonial-role">${t.authorRole}</p>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+
+            // Second loop — duplicates for seamless loop
+            result.data.forEach(t => {
+                track.innerHTML += `
+                    <div class="testimonial-card" aria-hidden="true">
+                        <p class="testimonial-text">${t.quoteText}</p>
+                        <div class="testimonial-author-block">
+                            <div class="testimonial-icon"></div>
+                            <div>
+                                <p class="testimonial-author">${t.authorName}</p>
+                                <p class="testimonial-role">${t.authorRole}</p>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        }
+    } catch (error) {
+        console.error('Failed to load testimonials:', error);
     }
 }
 
-function button_manage_upcoming_events() {
+//====================
+// Event upload
+//====================
+
+function button_event_title_location() {
+    targetDiv = document.getElementById("event-title-location-input");
+    uploads_hide_helper(targetDiv);
+}
+
+function button_confirm_event_title_location() {
+    const title = document.getElementById('event-title-textInput').value;
+    const location = document.getElementById('event-location-textInput').value;
+    const titlePreview = document.getElementById('event-title-preview');
+    const locationPreview = document.getElementById('event-location-preview');
+    titlePreview.textContent = title;
+    locationPreview.textContent = location;
+    sessionStorage.setItem('event-title', title);
+    sessionStorage.setItem('event-location', location);
+    uploads_hide_helper();
+}
+
+function button_event_date() {
+    targetDiv = document.getElementById("event-date-input");
+    uploads_hide_helper(targetDiv);
+}
+
+function button_confirm_event_date() {
+    const date = document.getElementById('event-date-dateInput').value;
+    const datePreview = document.getElementById('event-date-preview');
+    datePreview.textContent = date;
+    sessionStorage.setItem('event-date', date);
+    uploads_hide_helper();
+}
+
+function button_event_time() {
+    targetDiv = document.getElementById("event-time-input");
+    uploads_hide_helper(targetDiv);
+}
+
+function button_confirm_event_time() {
+    const time = document.getElementById('event-time-timeInput').value;
+    const timePreview = document.getElementById('event-time-preview');
+    timePreview.textContent = time;
+    sessionStorage.setItem('event-time', time);
+    uploads_hide_helper();
+}
+
+function button_event_photo() {
+    let fileInput = document.getElementById('event-photo-input');
+    if (!fileInput) {
+        fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.id = 'event-photo-input';
+        fileInput.accept = 'image/*';
+        fileInput.style.display = 'none';
+        fileInput.onchange = handle_event_photo;
+        document.body.appendChild(fileInput);
+    }
+    fileInput.click();
+}
+function handle_event_photo(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const previewImg = document.querySelector('#manage_events .gallery-item img');
+            if (previewImg) {
+                previewImg.src = e.target.result;
+                showToast('Event poster uploaded successfully', 'success');
+            }
+            sessionStorage.setItem('event-poster', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        showToast('Please select a valid image file', 'error');
+    }
+}
+
+async function button_upload_event() {
+    const eventTitle = sessionStorage.getItem('event-title');
+    const eventLocation = sessionStorage.getItem('event-location');
+    const eventDate = sessionStorage.getItem('event-date');
+    const eventPoster = sessionStorage.getItem('event-poster');
+    const eventTime = sessionStorage.getItem('event-time');
+    const token = sessionStorage.getItem('auth-token');
+
+    if (!eventTitle || !eventLocation || !eventDate || !eventPoster) {
+        showToast("Please fill in all fields before submitting.", "error");
+        return;
+    }
+
+    try {
+        // Step 1 — Upload the image first
+        const fileInput = document.getElementById('event-photo-input');
+        const file = fileInput ? fileInput.files[0] : null;
+
+        let imagePath = null;
+
+        if (file) {
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('category', 'events');
+
+            const uploadResponse = await fetch(`${API_BASE}/routes/uploads.php`, {
+                method: "POST",
+                headers: {
+                    "Authorization": token
+                },
+                body: formData
+            });
+
+            const uploadResult = await uploadResponse.json();
+
+            if (!uploadResult.success) {
+                showToast("Image upload failed. Please try again.", "error");
+                return;
+            }
+
+            imagePath = uploadResult.data.imagePath;
+        }
+
+        // Step 2 — Create the event
+        const eventResponse = await fetch(`${API_BASE}/routes/upcoming_events.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({
+                eventName: eventTitle,
+                eventLocation: eventLocation,
+                eventDate: eventDate,
+                eventTime: eventTime || "09:00:00",
+                imagePath: imagePath
+            })
+        });
+
+        const eventResult = await eventResponse.json();
+        if (eventResponse.status === 201 && eventResult.success) {
+            showToast("Event uploaded successfully!", "success");
+            sessionStorage.removeItem('event-title');
+            sessionStorage.removeItem('event-location');
+            sessionStorage.removeItem('event-date');
+            sessionStorage.removeItem('event-poster');
+            sessionStorage.removeItem('event-time');
+            setTimeout(function() { button_manage_events(); }, 1000);
+
+        } else if (eventResponse.status === 401) {
+            showToast("Unauthorized. Please log in again.", "error");
+        } else if (eventResponse.status === 403) {
+            showToast("Forbidden. You don't have permission.", "error");
+        } else {
+            showToast("Server error. Please try again.", "error");
+        }
+
+    } catch (error) {
+        console.error("Event upload error:", error);
+        showToast("Network error. Please check your connection.", "error");
+    }
+}
+//====================
+// Partner upload
+//====================
+
+function button_partner_name() {
+    targetDiv = document.getElementById("partner-name-input");
+    uploads_hide_helper(targetDiv)
+}
+
+function button_confirm_partner_name() {
+    const name = document.getElementById('partner-name-textInput').value;
+    const namePreview = document.getElementById('partner-name-preview');
+    namePreview.textContent = name;
+    sessionStorage.setItem('partner-name', name);
+    uploads_hide_helper();
+}
+function button_partner_photo() {
+    let fileInput = document.getElementById('partner-photo-input');
+    if (!fileInput) {
+        fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.id = 'partner-photo-input';
+        fileInput.accept = 'image/*';
+        fileInput.style.display = 'none';
+        fileInput.onchange = handle_partner_photo;
+        document.body.appendChild(fileInput);
+    }
+    fileInput.click();
+}
+async function button_load_partners() {
+    const container = document.getElementById('partners_container');
+    if (!container) return;
+
+    try {
+        const response = await fetch(`${API_BASE}/routes/partners.php`);
+        const result = await response.json();
+
+        if (result.success && result.data.length > 0) {
+            container.innerHTML = '';
+
+            const marqueePartners = [
+                ...result.data,
+                ...result.data,
+                ...result.data,
+                ...result.data
+            ];
+
+            marqueePartners.forEach((p, index) => {
+                const item = document.createElement('div');
+                item.className = 'partner-logo-item';
+
+                const img = document.createElement('img');
+                img.src = p.logoPath;
+                img.alt = p.partnerName;
+                img.className = 'partner-logo';
+
+                if (index >= result.data.length * 2) {
+                    img.setAttribute('aria-hidden', 'true');
+                }
+
+                item.appendChild(img);
+                container.appendChild(item);
+            });
+        }
+    } catch (error) {
+        console.error('Failed to load partners:', error);
+    }
+}
+function handle_partner_photo(event) {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const previewImg = document.querySelector('#manage_partners .gallery-item img');
+            if (previewImg) {
+                previewImg.src = e.target.result;
+                showToast('Partner logo uploaded successfully', 'success');
+            }
+            sessionStorage.setItem('partner-photo', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    } else {
+        showToast('Please select a valid image file', 'error');
+    }
+}
+
+async function button_upload_partner() {
+    const partnerName = sessionStorage.getItem('partner-name');
+    const token = sessionStorage.getItem('auth-token');
+    const fileInput = document.getElementById('partner-photo-input');
+    const file = fileInput ? fileInput.files[0] : null;
+
+    if (!partnerName || !file) {
+        showToast("Please add a name and logo before uploading.", "error");
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('category', 'partners');
+
+        const uploadResponse = await fetch(`${API_BASE}/routes/uploads.php`, {
+            method: "POST",
+            headers: { "Authorization": token },
+            body: formData
+        });
+
+        const uploadResult = await uploadResponse.json();
+
+        if (!uploadResult.success) {
+            showToast("Logo upload failed.", "error");
+            return;
+        }
+
+        const partnerResponse = await fetch(`${API_BASE}/routes/partners.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({
+                partnerName: partnerName,
+                logoPath: uploadResult.data.imagePath
+            })
+        });
+
+        const partnerResult = await partnerResponse.json();
+
+        if (partnerResponse.status === 201 && partnerResult.success) {
+            showToast("Partner added successfully!", "success");
+            sessionStorage.removeItem('partner-name');
+        } else {
+            showToast("Server error. Please try again.", "error");
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        showToast("Network error. Please check your connection.", "error");
+    }
+}
+
+function button_manage_events() {
     hide_other_pages();
-    safe_show("manage_upcoming_events", "block");
+    safe_show("manage_events", "block");
 
     let nav = document.getElementById("admin-nav");
     if (nav) {
@@ -325,27 +826,43 @@ function button_manage_whatsapp() {
     }
 }
 
-function save_whatsapp_link() {
+async function save_whatsapp_link() {
     const input = document.getElementById('whatsapp-link-input');
     const newLink = input.value.trim();
-    
-    // Basic validation
+    const token = sessionStorage.getItem('auth-token');
+
     if (!newLink) {
         showToast('Please enter a WhatsApp link', 'error');
         return;
     }
-    
+
     if (!newLink.includes('whatsapp.com')) {
         showToast('Please enter a valid WhatsApp link', 'error');
         return;
     }
-    
-    // Here you would normally save to database
-    // For now, just show success message
-    showToast('WhatsApp link updated successfully!', 'success');
-    
-    console.log('New WhatsApp link:', newLink);
-    // TODO: Add backend integration to actually save the link
+
+    try {
+        const response = await fetch(`${API_BASE}/routes/settings.php`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify({ whatsappUrl: newLink })
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            showToast('WhatsApp link updated successfully!', 'success');
+        } else {
+            showToast('Failed to update. Please try again.', 'error');
+        }
+
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('Network error. Please check your connection.', 'error');
+    }
 }
 
 // ========================================
@@ -403,8 +920,24 @@ function cancel_logout() {
     close_modal('modal-logout-confirm');
 }
 
-function confirm_logout() {
+async function confirm_logout() {
     close_modal('modal-logout-confirm');
+
+    try {
+        const token = sessionStorage.getItem('auth-token');
+        await fetch(`${API_BASE}/routes/auth.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({ action: "logout" })
+        });
+    } catch (error) {
+        console.error("Logout error:", error);
+    }
+
+    sessionStorage.removeItem('auth-token');
     document.body.classList.remove('admin-mode');
     showToast('Logged out successfully', 'success');
     

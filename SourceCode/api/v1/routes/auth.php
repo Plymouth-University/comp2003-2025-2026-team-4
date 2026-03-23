@@ -83,8 +83,8 @@ if ($method === 'POST') {
             $locked_until = date('Y-m-d H:i:s', strtotime('+15 minutes'));
             $pdo->prepare(
                 'UPDATE admins
-                 SET failed_attempts = :attempts, locked_until = :locked
-                 WHERE id = :id'
+                SET failed_attempts = :attempts, locked_until = :locked
+                WHERE id = :id'
             )->execute([
                 ':attempts' => $new_attempts,
                 ':locked'   => $locked_until,
@@ -125,7 +125,7 @@ if ($method === 'POST') {
         exit;
     }
 
-    // ✅ Password correct — generate token and store in admins table
+    // Password correct — generate token and store in admins table
     $token      = bin2hex(random_bytes(32));
     $expires_at = date('Y-m-d H:i:s', strtotime('+2 hours'));
 

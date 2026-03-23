@@ -1,4 +1,4 @@
-INSERT INTO Partner (partner_name, website_url) VALUES
+INSERT INTO partners (partner_name, website_url) VALUES
     ('VX3', 'https://vx3.co.uk'),
     ('The Padel Directory', 'https://thepadeldirectory.co.uk'),
     ('Express Padel', 'https://expresspadel.co.uk');
@@ -10,5 +10,5 @@ INSERT INTO site_settings (setting_key, setting_value) VALUES
     ('heroHeading', 'Welcome to SaltyPadel'),
     ('heroSubtext', 'Plymouth padel community');
 
-INSERT INTO Admin (username, hashedPassword) VALUES
+INSERT INTO admins (username, password) VALUES
     ('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
