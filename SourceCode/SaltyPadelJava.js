@@ -615,8 +615,6 @@ async function button_upload_event() {
         });
 
         const eventResult = await eventResponse.json();
-        console.log("Events upload response:", eventResponse);
-
         if (eventResponse.status === 201 && eventResult.success) {
             showToast("Event uploaded successfully!", "success");
             sessionStorage.removeItem('event-title');
