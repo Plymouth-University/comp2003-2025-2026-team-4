@@ -38,13 +38,15 @@ if ($method === 'POST') {
     $eventName     = $input['eventName'] ?? '';
     $eventLocation = $input['eventLocation'] ?? '';
     $eventDate     = $input['eventDate'] ?? '';
-    $eventTime     = $input['eventTime'] ?? '';
+    $eventStartTime = $input['startTime'] ?? '';
+    $eventEndTime   = $input['endTime'] ?? '';
 
     $errors = [];
     if (empty($eventName))     $errors[] = 'eventName is required';
     if (empty($eventLocation)) $errors[] = 'eventLocation is required';
     if (empty($eventDate))     $errors[] = 'eventDate is required';
-    if (empty($eventTime))     $errors[] = 'eventTime is required';
+    if (empty($eventStartTime)) $errors[] = 'eventStartTime is required';
+    if (empty($eventEndTime))   $errors[] = 'eventEndTime is required'; 
     if ($eventDate && $eventDate < date('Y-m-d')) {
         $errors[] = 'eventDate must be a future date';
     }
@@ -66,10 +68,10 @@ if ($method === 'POST') {
     $imagePath = $input['imagePath'] ?? null;
 
     $stmt = $pdo->prepare(
-        'INSERT INTO events (event_name, event_location, event_date, event_time, image_path)
-        VALUES (?, ?, ?, ?, ?)'
+        'INSERT INTO events (event_name, event_location, event_date, event_start_time, event_end_time, image_path)
+        VALUES (?, ?, ?, ?, ?, ?)'
     );
-    $stmt->execute([$eventName, $eventLocation, $eventDate, $eventTime, $imagePath]);
+    $stmt->execute([$eventName, $eventLocation, $eventDate, $eventStartTime, $eventEndTime, $imagePath]);
 
     http_response_code(201);
     echo json_encode([
