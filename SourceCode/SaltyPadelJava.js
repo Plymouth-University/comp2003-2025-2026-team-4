@@ -237,7 +237,7 @@ async function button_upcoming_events() {
                 container.innerHTML += `
                     <figure class="gallery-item">
                         <img src="${event.imagePath || 'assets/event-placeholder2.png'}" alt="${event.eventName}">
-                        <figcaption>${event.eventName} - ${event.eventDate} - ${event.eventTime} - ${event.eventLocation}</figcaption>
+                        <figcaption>${event.eventName} - ${event.eventDate} - ${event.eventStartTime} - ${event.eventEndTime} - ${event.eventLocation}</figcaption>
                     </figure>`;
             });
         } else {
