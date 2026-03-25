@@ -517,10 +517,12 @@ function button_event_time() {
 }
 
 function button_confirm_event_time() {
-    const time = document.getElementById('event-time-timeInput').value;
+    const startTime = document.getElementById('event-startTime-timeInput').value;
+    const endTime = document.getElementById('event-endTime-timeInput').value;
     const timePreview = document.getElementById('event-time-preview');
-    timePreview.textContent = time;
-    sessionStorage.setItem('event-time', time);
+    timePreview.textContent = `${startTime} - ${endTime}`;
+    sessionStorage.setItem('event-startTime', startTime);
+    sessionStorage.setItem('event-endTime', endTime);
     uploads_hide_helper();
 }
 
@@ -560,10 +562,11 @@ async function button_upload_event() {
     const eventLocation = sessionStorage.getItem('event-location');
     const eventDate = sessionStorage.getItem('event-date');
     const eventPoster = sessionStorage.getItem('event-poster');
-    const eventTime = sessionStorage.getItem('event-time');
+    const startTime = sessionStorage.getItem('start-time');
+    const endTime = sessionStorage.getItem('end-time');
     const token = sessionStorage.getItem('auth-token');
 
-    if (!eventTitle || !eventLocation || !eventDate || !eventPoster) {
+    if (!eventTitle || !eventLocation || !eventDate || !eventPoster || !startTime || !endTime) {
         showToast("Please fill in all fields before submitting.", "error");
         return;
     }
@@ -609,7 +612,8 @@ async function button_upload_event() {
                 eventName: eventTitle,
                 eventLocation: eventLocation,
                 eventDate: eventDate,
-                eventTime: eventTime || "09:00:00",
+                startTime: startTime || "09:00:00",
+                endTime: endTime || "17:00:00",
                 imagePath: imagePath
             })
         });
@@ -621,7 +625,8 @@ async function button_upload_event() {
             sessionStorage.removeItem('event-location');
             sessionStorage.removeItem('event-date');
             sessionStorage.removeItem('event-poster');
-            sessionStorage.removeItem('event-time');
+            sessionStorage.removeItem('start-time');
+            sessionStorage.removeItem('end-time');
             setTimeout(function() { button_manage_events(); }, 1000);
 
         } else if (eventResponse.status === 401) {
