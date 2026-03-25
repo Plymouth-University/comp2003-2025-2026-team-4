@@ -6,7 +6,7 @@ let pending_navigation_action = null;
 let pending_external_url = null;
 let pendingDeleteAction = null;
 
-const API_BASE = 'http://saltypadel.co.uk/api/v1'; 
+const API_BASE = 'https://saltypadel.co.uk/api/v1'; 
 
 // ========================================
 // DOM READY - INITIALIZE EVERYTHING
@@ -254,10 +254,10 @@ async function button_join_our_whatsapp_group() {
     try {
         const response = await fetch(`${API_BASE}/routes/settings.php`);
         const result = await response.json();
-        const url = result.data?.whatsappUrl || 'https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb';
+        const url = result.data?.whatsappUrl || 'httpss://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb';
         openExternalLink(url);
     } catch (error) {
-        openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb');
+        openExternalLink('httpss://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb');
     }
 }
 // ========================================
