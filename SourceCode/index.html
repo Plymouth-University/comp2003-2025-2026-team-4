@@ -63,10 +63,10 @@
         </div>
         <!-- Mobile Menu Toggle-->
         <button class="mobile-menu-toggle" onclick="toggle_mobile_menu()">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </header>
 
     <!-- Mobile Dropdown Menu -->
@@ -263,72 +263,41 @@
                     <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
                 </figure>
 
-        <section class="page-banner bg-yellow">
-            <h1>Upcoming Events</h1>
-        </section>
-        <main class="upcoming-events-main">
-            <section class="gallery">
-                <figure class="gallery-item">
-                    <img src="assets/event-placeholder2.png" alt="Upcoming event 2">
-                    <div class="status-badge status-full">Fully Booked</div>
-                    <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
-                </figure>
+                <section class="page-banner bg-yellow">
+                    <h1>Upcoming Events</h1>
+                </section>
+                <main class="upcoming-events-main">
+                    <section class="gallery">
+                        <figure class="gallery-item">
+                            <img src="assets/event-placeholder2.png" alt="Upcoming event 2">
+                            <div class="status-badge status-full">Fully Booked</div>
+                            <figcaption>Event name - date - time - location</figcaption>
+                            <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
+                        </figure>
 
-                <figure class="gallery-item">
-                    <img src="assets/event-placeholder3.png" alt="Upcoming event 3">
-                    <div class="status-badge status-cancelled">Cancelled</div>
-                    <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
-                </figure>
+                        <figure class="gallery-item">
+                            <img src="assets/event-placeholder3.png" alt="Upcoming event 3">
+                            <div class="status-badge status-cancelled">Cancelled</div>
+                            <figcaption>Event name - date - time - location</figcaption>
+                            <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
+                        </figure>
 
-                <figure class="gallery-item">
-                    <img src="assets/event-placeholder4.png" alt="Upcoming event 4">
-                    <div class="status-badge status-open">Open for Booking</div>
-                    <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
-                </figure>
-            </section>
+                        <figure class="gallery-item">
+                            <img src="assets/event-placeholder4.png" alt="Upcoming event 4">
+                            <div class="status-badge status-open">Open for Booking</div>
+                            <figcaption>Event name - date - time - location</figcaption>
+                            <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
+                        </figure>
+                    </section>
 
-            <div class="join-page">
-                <button class="join-page-animation" onclick="button_join_our_whatsapp_group()">Join our WhatsApp Group</button>
-            </div>
+                    <div class="join-page">
+                        <button class="join-page-animation" onclick="button_join_our_whatsapp_group()">Join our WhatsApp Group</button>
+                    </div>
 
-            <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
-        </main>
+                    <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
+                </main>
     </div>
 
-    <!-- Past Events Page -->
-    <div id="past_events" style="display:none">
-        <!-- Hero Section -->
-        <section id="hero" class="bg-yellow">
-            <h1>Past Events Gallery</h1>
-        </section>
-        <main class="past-events-main">
-            <section class="gallery">
-                <!-- Figure's can't be combined as one figcaption belongs to one figure -->
-                <figure class="gallery-item">
-                    <img src="assets/event-placeholder4.png" alt="Past event 1">
-                    <figcaption>Event name - event date</figcaption>
-                </figure>
-
-                <figure class="gallery-item">
-                    <img src="assets/event-placeholder3.png" alt="Past event 2">
-                    <figcaption>Event name - event date</figcaption>
-                </figure>
-
-                <figure class="gallery-item">
-                    <img src="assets/event-placeholder2.png" alt="Past event 3">
-                    <figcaption>Event name - event date</figcaption>
-                </figure>
-
-                <figure class="gallery-item">
-                    <img src="assets/event-placeholder1.png" alt="Past event 4">
-                    <figcaption>Event name - event date</figcaption>
-                </figure>
-            </section>
-        </main>
-    </div>
 
     <!-- Admin login page-->
     <div id="login_page" style="display:none">
@@ -358,8 +327,7 @@
         </section>
         <section id="management_buttons" class="bg-white">
             <button class="btn btn-management" onclick="button_manage_testimonials()">Manage Testimonials</button>
-            <button class="btn btn-management" onclick="button_manage_past_events()">Manage Past Events</button>
-            <button class="btn btn-management" onclick="button_manage_upcoming_events()">Manage Upcoming Events</button>
+            <button class="btn btn-management" onclick="button_manage_events()">Manage Events</button>
             <button class="btn btn-management" onclick="button_manage_partners()">Manage Partners</button>
         </section>
     </div>
@@ -372,17 +340,31 @@
         <section class="gallery">
             <!-- Figure's can't be combined as one figcaption belongs to one figure -->
             <figure class="gallery-item">
-                <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
-                <div class="button-row">
-                    <button class="btn btn-nav">Photo</button>
-                    <button class="btn btn-nav">Name</button>
-                    <button class="btn btn-nav">Competition</button>
-                    <!-- What competition did this person compete in? -->
+                <div class="testimonial-card">
+                    <p class="testimonial-text">testimonial text</p>
+                    <div class="testimonial-author-block">
+                        <div class="testimonial-icon" id="testimonial-image-preview"></div>
+                        <div>
+                            <p class="testimonial-author" id="testimonial-name-preview">Author1</p>
+                            <p class="testimonial-role" id="testimonial-role-preview">Author Role</p>
+                        </div>
+                    </div>
                 </div>
-                <textarea class="testimonial-textbox" placeholder="Add testimonial text"></textarea>
+                <div class="button-row">
+                    <button class="btn btn-nav" onclick="button_testimonial_name()">Name</button>
+                    <button class="btn btn-nav" onclick="button_testimonial_role()">Role</button>
+                </div>
+                <div style="display: none" class="input_detail" id="testimonial-role-input">
+                    <input type="text" class="admin-input-field" id="testimonial-role-textInput" placeholder="Role">
+                    <button class="btn btn-nav" onclick="button_confirm_testimonial_role()">Confirm</button>
+                </div>
+                <div style="display: none" class="input_detail" id="testimonial-name-input">
+                    <input type="text" class="admin-input-field" id="testimonial-name-textInput" placeholder="Name">
+                    <button class="btn btn-nav" onclick="button_confirm_testimonial_name()">Confirm</button>
+                </div>
+                <textarea class="testimonial-textbox" id="testimonial-text-input" placeholder="Add testimonial text"></textarea>
                 <div class="testimonial-action-buttons">
-                    <button class="btn btn-nav">Upload testimonial</button>
-                    <button class="btn btn-nav">Check testimonials</button>
+                    <button class="btn btn-nav" onclick="button_testimonial_upload()">Upload testimonial</button>
                 </div>
             </figure>
         </section>
@@ -396,54 +378,55 @@
         <section class="gallery">
             <figure class="gallery-item">
                 <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
+                <h1 id="partner-name-preview"></h1>
                 <div class="button-row">
-                    <button class="btn btn-nav">Logo</button>
-                    <button class="btn btn-nav">Name</button>
+                    <button class="btn btn-nav" onclick="button_partner_photo()">Logo</button>
+                    <button class="btn btn-nav" onclick="button_partner_name()">Name</button>
+                </div>
+                <div id="partner-name-input" style="display: none" class="input_detail">
+                    <input type="text" class="admin-input-field" id="partner-name-textInput" placeholder="Name">
+                    <button class="btn btn-nav" onclick="button_confirm_partner_name()">Confirm</button>
                 </div>
                 <div class="testimonial-action-buttons">
-                    <button class="btn btn-nav">Upload Partner</button>
-                    <button class="btn btn-nav">Check Partners</button>
+                    <button class="btn btn-nav" onclick="button_upload_partner()">Upload Partner</button>
                 </div>
             </figure>
         </section>
     </div>
 
-    <!-- Manage Past Events -->
-    <div id="manage_past_events" style="display:none">
-        <section id="hero" class="bg-yellow">
-            <h1>Manage Past Events</h1>
+    <!-- Manage Event -->
+    <div id="manage_events" style="display:none">
+        <section class="hero bg-yellow">
+            <h1>Manage Events</h1>
         </section>
         <section class="gallery">
             <figure class="gallery-item">
-                <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
+                <img src="assets/event-placeholder1.png" alt="Event poster">
+                <h1 id="event-title-preview"></h1>
+                <h1 id="event-location-preview"></h1>
+                <h1 id="event-date-preview"></h1>
+                <h1 id="event-time-preview"></h1>
                 <div class="button-row">
-                    <button class="btn btn-nav">Photo</button>
-                    <button class="btn btn-nav">Name</button>
-                    <button class="btn btn-nav">Date</button>
+                    <button class="btn btn-nav" onclick="button_event_photo()">Add poster</button>
+                    <button class="btn btn-nav" onclick="button_event_title_location()">Title and location</button>
+                    <button class="btn btn-nav" onclick="button_event_date()">Add date</button>
+                    <button class="btn btn-nav" onclick="button_event_time()">Add time</button>
+                </div>
+                <div id="event-title-location-input" style="display: none" class="input_detail">
+                    <input type="text" class="admin-input-field" id="event-title-textInput" placeholder="Title">
+                    <input type="text" class="admin-input-field" id="event-location-textInput" placeholder="Location">
+                    <button class="btn btn-nav" onclick="button_confirm_event_title_location()">Confirm</button>
+                </div>
+                <div id="event-date-input" style="display: none" class="input_detail">
+                    <input type="date" class="admin-input-field" id="event-date-dateInput" placeholder="Event date">
+                    <button class="btn btn-nav" onclick="button_confirm_event_date()">Confirm</button>
+                </div>
+                <div id="event-time-input" style="display: none" class="input_detail">
+                    <input type="time" class="admin-input-field" id="event-time-timeInput" placeholder="Event time">
+                    <button class="btn btn-nav" onclick="button_confirm_event_time()">Confirm</button>
                 </div>
                 <div class="testimonial-action-buttons">
-                    <button class="btn btn-nav">Upload Past Event</button>
-                </div>
-            </figure>
-        </section>
-    </div>
-
-    <!-- Manage Upcoming Events -->
-    <div id="manage_upcoming_events" style="display:none">
-        <section id="hero" class="bg-yellow">
-            <h1>Manager Upcoming Events</h1>
-        </section>
-        <section class="gallery">
-            <figure class="gallery-item">
-                <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
-                <div class="button-row">
-                    <button class="btn btn-nav">Photo</button>
-                    <button class="btn btn-nav">Name</button>
-                    <button class="btn btn-nav">Time/Date</button>
-                    <button class="btn btn-nav">Location</button>
-                </div>
-                <div class="testimonial-action-buttons">
-                    <button class="btn btn-nav">Upload Upcoming Event</button>
+                    <button class="btn btn-management" onclick="button_upload_event()">Upload Event</button>
                 </div>
             </figure>
         </section>
@@ -468,74 +451,73 @@
 
     <!-- Footer -->
     <footer id="site-footer" class="bg-black">
-    <div class="footer-left">
-        <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo-footer">
-    </div>
-    <div class="footer-center">
-        <div onclick="open_instagram()" style="cursor: pointer;">
-            <img src="assets/icon-instagram.png" alt="Instagram" class="footer-social-icon">
+        <div class="footer-left">
+            <img src="assets/logo-saltypadel.png" alt="Salty Padel Logo" class="logo-footer">
         </div>
-    </div>
-    <div class="footer-right">
-        <button class="btn btn-admin" id="admin-login" onclick="button_admin_login()">Admin Login</button>
-    </div>
+        <div class="footer-center">
+            <div onclick="open_instagram()" style="cursor: pointer;">
+                <img src="assets/icon-instagram.png" alt="Instagram" class="footer-social-icon">
+            </div>
+        </div>
+        <div class="footer-right">
+            <button class="btn btn-admin" id="admin-login" onclick="button_admin_login()">Admin Login</button>
+        </div>
     </footer>
 
-<!-- ====================MODALS ======================= -->
+    <!-- ====================MODALS ======================= -->
+    <!-- TOAST AREA (non-blocking notifications) -->
+    <div id="toast-area" class="toast-area" aria-live="polite" aria-atomic="true"></div>
 
-<!-- TOAST AREA (non-blocking notifications) -->
-<div id="toast-area" class="toast-area" aria-live="polite" aria-atomic="true"></div>
-
-<!-- Admin Logout Confirm Modal -->
-<div id="modal-logout-confirm" class="modal-overlay">
-    <div class="modal-container">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirm Logout</h3>
-            <button class="modal-close" onclick="cancel_logout()">&times;</button>
-        </div>
-        <div class="modal-body">
-            Are you sure you want to log out?
-        </div>
-        <div class="modal-actions">
-            <button class="modal-btn-secondary" onclick="cancel_logout()">Cancel</button>
-            <button class="modal-btn-primary" onclick="confirm_logout()">Log Out</button>
+    <!-- Admin Logout Confirm Modal -->
+    <div id="modal-logout-confirm" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Logout</h3>
+                <button class="modal-close" onclick="cancel_logout()">&times;</button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to log out?
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn-secondary" onclick="cancel_logout()">Cancel</button>
+                <button class="modal-btn-primary" onclick="confirm_logout()">Log Out</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- External Redirect Warning Modal -->
-<div id="modal-external-warning" class="modal-overlay">
-    <div class="modal-container">
-        <div class="modal-header">
-            <h3 class="modal-title">Leaving Salty Padel</h3>
-            <button class="modal-close" onclick="close_modal('modal-external-warning')">&times;</button>
-        </div>
-        <div class="modal-body">
-            You're about to open an external website. Their privacy policy may differ from Salty Padel.
-        </div>
-        <div class="modal-actions">
-            <button class="modal-btn-secondary" onclick="close_modal('modal-external-warning')">Cancel</button>
-            <button class="modal-btn-primary" id="external-link-confirm">Continue</button>
+    <!-- External Redirect Warning Modal -->
+    <div id="modal-external-warning" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Leaving Salty Padel</h3>
+                <button class="modal-close" onclick="close_modal('modal-external-warning')">&times;</button>
+            </div>
+            <div class="modal-body">
+                You're about to open an external website. Their privacy policy may differ from Salty Padel.
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn-secondary" onclick="close_modal('modal-external-warning')">Cancel</button>
+                <button class="modal-btn-primary" id="external-link-confirm">Continue</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Admin Confirm Delete Modal -->
-<div id="modal-confirm-delete" class="modal-overlay">
-    <div class="modal-container">
-        <div class="modal-header">
-            <h3 class="modal-title">Confirm Delete</h3>
-            <button class="modal-close" onclick="close_modal('modal-confirm-delete')">&times;</button>
-        </div>
-        <div class="modal-body">
-            Delete this item? This can't be undone.
-        </div>
-        <div class="modal-actions">
-            <button class="modal-btn-secondary" onclick="close_modal('modal-confirm-delete')">Cancel</button>
-            <button class="modal-btn-primary" id="delete-confirm-btn">Delete</button>
+    <!-- Admin Confirm Delete Modal -->
+    <div id="modal-confirm-delete" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+                <button class="modal-close" onclick="close_modal('modal-confirm-delete')">&times;</button>
+            </div>
+            <div class="modal-body">
+                Delete this item? This can't be undone.
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn-secondary" onclick="close_modal('modal-confirm-delete')">Cancel</button>
+                <button class="modal-btn-primary" id="delete-confirm-btn">Delete</button>
+            </div>
         </div>
     </div>
-</div>
 </body>
 
 </html>
