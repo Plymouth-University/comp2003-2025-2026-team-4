@@ -521,8 +521,8 @@ function button_confirm_event_time() {
     const endTime = document.getElementById('event-endTime-timeInput').value;
     const timePreview = document.getElementById('event-time-preview');
     timePreview.textContent = `${startTime} - ${endTime}`;
-    sessionStorage.setItem('event-startTime', startTime);
-    sessionStorage.setItem('event-endTime', endTime);
+    sessionStorage.setItem('start-time', startTime);
+    sessionStorage.setItem('end-time', endTime);
     uploads_hide_helper();
 }
 
