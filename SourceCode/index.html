@@ -81,11 +81,11 @@
     <!-- Home Page -->
     <div id="home_page">
         <!-- Hero Section -->
-        <section id="hero" class="bg-yellow">
-            <p class="hero-subtitle">This</p>
-            <h1 class="hero-title">Could you show me the changes please</h1>
+        <section class="hero bg-yellow">
+            <p class="hero-subtitle">Grow your game. Join the movement.</p>
+            <h1 class="hero-title">Where energy, competition and community meet.</h1>
             <div class="hero-buttons">
-                <button class="btn btn-hero" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
+                <button class="btn btn-hero" onclick="button_join_our_whatsapp_group()">Join our WhatsApp group</button>
                 <button class="btn btn-hero" onclick="open_shop_with_warning()">Check our shop</button>
                 <button class="btn btn-hero" onclick="open_instagram()">Follow our Instagram</button>
             </div>
@@ -95,37 +95,7 @@
         <section id="testimonials" class="bg-pink">
             <h2 class="testimonials-title">Testimonials</h2>
             <p class="testimonials-subtitle">Here's what people are saying</p>
-            <div class="testimonials-list">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">testimonial 1</p>
-                    <div class="testimonial-author-block">
-                        <div class="testimonial-icon"></div>
-                        <div>
-                            <p class="testimonial-author">Author1</p>
-                            <p class="testimonial-role">AuthorRole1</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">testimonial 2</p>
-                    <div class="testimonial-author-block">
-                        <div class="testimonial-icon"></div>
-                        <div>
-                            <p class="testimonial-author">Author2</p>
-                            <p class="testimonial-role">AuthoreRole2</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">testimonial 3</p>
-                    <div class="testimonial-author-block">
-                        <div class="testimonial-icon"></div>
-                        <div>
-                            <p class="testimonial-author">Author3</p>
-                            <p class="testimonial-role">AuthorRole3.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="testimonials-list" id="testimonials_container">
             </div>
         </section>
 
@@ -133,9 +103,8 @@
         <section id="partners" class="bg-pink">
             <h2 class="partners-title">Our Proud Partners</h2>
             <div class="partners-list">
-                <img src="assets/logo-thepadeldirectory.png" alt="The Padel Directory" class="partner-logo">
-                <img src="assets/logo-expresspadel.png" alt="Express Padel" class="partner-logo">
-                <img src="assets/logo-vx3.png" alt="VX3" class="partner-logo">
+                <div class="partners-track" id="partners_container">
+                </div>
             </div>
         </section>
     </div>
@@ -143,13 +112,14 @@
     <!-- Who We Are Page -->
     <div id="who_we_are" style="display:none">
         <!-- Hero Section -->
-        <section id="hero" class="bg-yellow">
-            <h1>Who We Are</h1>
+        <section class="hero bg-yellow">
+            <h1>Meet the owner</h1>
             <div class="who-intro">
                 <img src="assets/unknownface.png" class="unknownface" alt="Owner">
-                <p class="fade">Salty Padel is a growing padel community bringing competitive and social tournaments to the South West. Our events are designed to connect players, create great experiences on court, and help grow the game across Devon and Cornwall.</p>
-                <p class="fade">Alongside organising events, Salty Padel champions all things padel — from helping players discover the sport to providing equipment such as rackets and grips. Whether it’s a friendly Americano, a larger mixed tournament, or helping someone find the right gear, the goal is always the same: to grow the game and build a welcoming community where players of all levels feel included.</p>
-                <p class="fade">From grassroots players trying padel for the first time to experienced competitors, Salty Padel is about bringing people together through the sport and creating a positive, energetic atmosphere on and off the court.</p>
+                <p class="fade">
+                    A little paragraph introduction that gives a sense of what you do, who you are, where you’re from, and why you created this website. This is the most likely part of the page to be read in full. Who’s the person behind it, really? What do they like—and
+                    what are they like? Sections like this can go a little bit longer because it’s nice to learn more about what makes someone tick.
+                </p>
             </div>
         </section>
 
@@ -157,17 +127,13 @@
             <section class="story">
                 <img src="assets/story.png" class="image" alt="My Story">
                 <h2>My Story</h2>
-                <p class="fade">Hey there, Salty Squad! I’m Philip Salter — tournament organiser, community builder, and the driving force behind Salty Padel.</p>
-                <p class="fade">I first fell in love with padel when my local facility opened in October 2024 at City Padel Exeter. Having not really come from a racket sports background, it was the perfect sport to get into. What immediately stood out to me was how inclusive and social the game is — players of all levels mixing, having fun, and building a real community.</p>
-                <p class="fade">Since Spring 2025, I’ve organised tournaments ranging from intimate 24-player events to large 96-player mixed competitions, all designed to grow the game and strengthen the padel community across Devon and Cornwall.</p>
-                <p class="fade">From scheduling matches and designing formats to making sure every player feels welcome, I’m passionate about creating high-quality events with smooth organisation, great energy, and a strong community spirit.</p>
+                <p class="fade">Phil's short story. When and why? SaltyPadel</p>
             </section>
 
             <section class="vision">
-                <img src="assets/vision.png" class="image" alt="Our Vision">
-                <h2>Our Vision</h2>
-                <p class="fade">Our vision is to continue growing the game of padel while keeping it as inclusive and accessible as possible. We aim to expand into more regions across the South West, bringing players together through well-run events and a welcoming community.</p>
-                <p class="fade">At the same time, we want Salty Padel tournaments to offer fantastic prizes, rewards, and experiences that make every event feel special — whether you’re playing your first competition or competing for the podium.</p>
+                <img src="assets/vision.png" class="image" alt="My Vision">
+                <h2>My Vision</h2>
+                <p class="fade">Phil's words about his goals</p>
             </section>
         </main>
     </div>
@@ -175,72 +141,53 @@
     <!-- What We Do Page -->
     <div id="what_we_do" style="display:none">
         <!-- Hero Section -->
-        <section id="hero" class="bg-yellow">
-            <h1>What We Do</h1>
+        <section class="hero bg-yellow">
+            <h1>What we do</h1>
             <div class="what-we-do-image">
                 <img src="assets/what-we-do-placeholder.png" alt="SaltyPadel community">
             </div>
         </section>
 
+        <!-- Text containers -->
         <section class="content-block">
-            <h2>At Salty Padel, everything we do is built around one simple goal</h2>
-            <p>Growing the game while creating a strong, welcoming community for players across the South West.</p>
+            <h2>The SaltyPadel Community</h2>
+            <p>
+                In the attraction, guests board vehicles called Time Rovers and are taken on a turbulent journey through the Cretaceous period, featuring prehistoric scenes populated with audio-animatronic dinosaurs. Originally named "Countdown to Extinction", the ride's
+                name was later changed to "Dinosaur" on May 1, 2000 to promote the Disney animated film of the same name, though the attraction and film's narratives do not merge beyond the use of the asteroid impact in the storyline. The film and ride
+                were produced at the same time, and this influenced many of the species selected for use in the attraction, particularly the Iguanodon and Carnotaurus. Early animation from the film was utilized in the pre-show to help the guests identify
+                the Iguanodon as the film's protagonist, Aladar.
+            </p>
         </section>
 
         <section class="content-block">
-            <h2>Tournaments &amp; Events</h2>
-            <p>We organise a range of padel events designed for all levels — from relaxed, social Americanos to larger competitive tournaments. Every event is carefully planned to deliver a smooth, high-quality experience, with great formats, fair play, and an energetic atmosphere on and off the court.</p>
-            <p>Whether you’re stepping into your first competition or pushing for the podium, our events are designed to be inclusive, well-organised, and genuinely enjoyable.</p>
+            <h2>Tournaments</h2>
+            <p>
+                The park, which opened on June 1, 1989, is home to the world's largest outdoor wave pool. Its theme is the "Disney legend" of a typhoon that wreaked havoc upon a formerly pristine tropical paradise. Ships, fishing gear, and surfboards are strewn about
+                where the storm flung them. Its centerpiece is Miss Tilly, a shrimp boat impaled upon a mountain named "Mount Mayday" that erupts a 50-foot (15 m) geyser of water from its smokestack every half hour, right before the bells of the watch
+                sound on it. Its mascot is Lagoona Gator who is related to Blizzard Beach's Ice Gator.
+            </p>
         </section>
 
-        <section class="content-block">
-            <h2>Building the Community</h2>
-            <p>Salty Padel is more than just tournaments — it’s a growing network of players across Devon and Cornwall.</p>
-            <p>We actively support the community by:</p>
-            <ul>
-                <li>Helping players connect with others at a similar level</li>
-                <li>Giving players a space to share and organise matches</li>
-                <li>Encouraging new players to get involved in the sport</li>
-                <li>Creating a friendly, social environment where everyone feels welcome</li>
-            </ul>
-            <p>If you’re looking for a game, our community makes it easy to find playing partners and stay active.</p>
-        </section>
-
-        <section class="content-block">
-            <h2>Equipment &amp; Advice</h2>
-            <p>Getting started in padel — or improving your game — shouldn’t be complicated.</p>
-            <p>We help players by:</p>
-            <ul>
-                <li>Offering guidance on choosing the right rackets and grips</li>
-                <li>Providing honest, practical advice based on playing experience</li>
-                <li>Supporting players who are new to the sport and unsure where to begin</li>
-            </ul>
-            <p>Whether you’re buying your first racket or upgrading your setup, we’re here to help you make the right choice.</p>
-        </section>
-
-        <section class="content-block">
-            <h2>Growing the Game</h2>
-            <p>We’re passionate about introducing more people to padel and helping the sport thrive in the South West.</p>
-            <p>Through our events, community, and support, we:</p>
-            <ul>
-                <li>Make padel accessible to beginners</li>
-                <li>Create opportunities for players to compete and improve</li>
-                <li>Build connections between clubs and players across the region</li>
-            </ul>
+        <section class="quote-block">
+            <h1>"A large, heavily bolded quote for emphasis and breaking up content"</h1>
+            <div class="testimonial-card">
+                <div class="testimonial-author-block">
+                    <div class="testimonial-icon"></div>
+                    <div>
+                        <p class="testimonial-author">Full name</p>
+                        <p class="testimonial-role">Company role</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section class="content-block">
             <h2>Partners</h2>
-            <p>We’re proud to work with partners who help elevate the Salty Padel experience for our community.</p>
-            <p>Padel Vibes support our tournaments by supplying high-quality overgrips, helping players perform at their best on court. Their grips are a favourite within the community — reliable, comfortable, and built for competitive play.</p>
-            <p>Through our partnership with Express Padel, we’re also able to offer the community access to great deals on padel equipment. From rackets to accessories, players can benefit from competitive pricing and free next-day delivery, making it easier than ever to get the gear you need.</p>
-        </section>
-
-        <section class="content-block">
-            <h2>The Salty Padel Experience</h2>
-            <p>More than a tournament — it’s the Salty Padel experience.</p>
-            <p>Everything we do is centred around creating a positive, inclusive, and well-run experience.</p>
-            <p>From your first hit to your next tournament win, Salty Padel is here to support your journey — helping you play more, meet more people, and enjoy the game to the fullest.</p>
+            <p>
+                The original incarnation of the attraction opened at Disney's Hollywood Studios in 1994 and the Paris version opened in 2007. A similar attraction that dropped the Twilight Zone theme opened at Tokyo DisneySea in Japan in 2006. One version of the ride
+                opened at Disney California Adventure at Disneyland Resort in California in 2004, but was later replaced with Guardians of the Galaxy - Mission: BREAKOUT! in 2017. Opening to rave reviews and hailed as an instant classic upon release,
+                The Twilight Zone Tower of Terror has become one of the most popular Disney attractions ever made. Its popularity even spawned a 1997 TV film, becoming the first theme park ride to have a film adaptation.
+            </p>
         </section>
     </div>
 
@@ -249,57 +196,64 @@
     <div id="upcoming_events" style="display:none">
 
         <!-- Hero Section -->
-        <section id="hero" class="bg-yellow">
+        <section class="hero bg-yellow">
             <h1>Upcoming events</h1>
         </section>
-        <!-- Events -->
         <main class="upcoming-events-main">
-            <section class="gallery">
-                <!-- Figure's can't be combined as one figcaption belongs to one figure -->
+            <section class="gallery" id="upcoming_events_container">
                 <figure class="gallery-item">
-                    <img src="assets/event-placeholder1.png" alt="Upcoming event 1">
-                    <div class="status-badge status-open">Open for Booking</div>
+                    <img src="assets/event-placeholder2.png" alt="Upcoming event 2">
                     <figcaption>Event name - date - time - location</figcaption>
-                    <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
                 </figure>
 
-                <section class="page-banner bg-yellow">
-                    <h1>Upcoming Events</h1>
-                </section>
-                <main class="upcoming-events-main">
-                    <section class="gallery">
-                        <figure class="gallery-item">
-                            <img src="assets/event-placeholder2.png" alt="Upcoming event 2">
-                            <div class="status-badge status-full">Fully Booked</div>
-                            <figcaption>Event name - date - time - location</figcaption>
-                            <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
-                        </figure>
+                <figure class="gallery-item">
+                    <img src="assets/event-placeholder3.png" alt="Upcoming event 3">
+                    <figcaption>Event name - date - time - location</figcaption>
+                </figure>
 
-                        <figure class="gallery-item">
-                            <img src="assets/event-placeholder3.png" alt="Upcoming event 3">
-                            <div class="status-badge status-cancelled">Cancelled</div>
-                            <figcaption>Event name - date - time - location</figcaption>
-                            <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
-                        </figure>
-
-                        <figure class="gallery-item">
-                            <img src="assets/event-placeholder4.png" alt="Upcoming event 4">
-                            <div class="status-badge status-open">Open for Booking</div>
-                            <figcaption>Event name - date - time - location</figcaption>
-                            <button class="ticket-btn" onclick="openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb')">Join our WhatsApp group</button>
-                        </figure>
-                    </section>
-
-                    <div class="join-page">
-                        <button class="join-page-animation" onclick="button_join_our_whatsapp_group()">Join our WhatsApp Group</button>
-                    </div>
-
-                    <button class="btn btn-nav" onclick="button_home()">Back to Home</button>
-                </main>
+                <figure class="gallery-item">
+                    <img src="assets/event-placeholder4.png" alt="Upcoming event 4">
+                    <figcaption>Event name - date - time - location</figcaption>
+                </figure>
             </section>
-        </main
+
+            <div class="join-page">
+                <button class="join-page-animation" onclick="button_join_our_whatsapp_group()">Join our WhatsApp Group</button>
+            </div>
+        </main>
     </div>
 
+    <!-- Past Events Page -->
+    <div id="past_events" style="display:none">
+        <!-- Hero Section -->
+        <section class="hero bg-yellow">
+            <h1>Past Events Gallery</h1>
+        </section>
+        <main class="past-events-main">
+            <section class="gallery" id="past_events_container">
+                <!-- Figure's can't be combined as one figcaption belongs to one figure -->
+                <figure class="gallery-item">
+                    <img src="assets/event-placeholder4.png" alt="Past event 1">
+                    <figcaption>Event name - event date</figcaption>
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="assets/event-placeholder3.png" alt="Past event 2">
+                    <figcaption>Event name - event date</figcaption>
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="assets/event-placeholder2.png" alt="Past event 3">
+                    <figcaption>Event name - event date</figcaption>
+                </figure>
+
+                <figure class="gallery-item">
+                    <img src="assets/event-placeholder1.png" alt="Past event 4">
+                    <figcaption>Event name - event date</figcaption>
+                </figure>
+            </section>
+        </main>
+    </div>
 
     <!-- Admin login page-->
     <div id="login_page" style="display:none">
