@@ -18,10 +18,11 @@ if ($method === 'GET') {
             event_name AS eventName,
             event_location AS eventLocation,
             event_date AS eventDate,
-            event_time AS eventTime,
+            event_start_time AS eventStartTime,
+            event_end_time AS eventEndTime,
             image_path AS imagePath
         FROM events
-        WHERE CONCAT(event_date," ", event_time) < NOW()
+        WHERE CONCAT(event_date," ", event_start_time) < NOW()
         ORDER BY event_date DESC'
     );
     $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
