@@ -546,6 +546,7 @@ function button_event_photo() {
         fileInput.onchange = handle_event_photo;
         document.body.appendChild(fileInput);
     }
+    fileInput.value = '';
     fileInput.click();
 }
 function handle_event_photo(event) {
@@ -575,11 +576,15 @@ async function button_upload_event() {
     const endTime = sessionStorage.getItem('end-time');
     const token = sessionStorage.getItem('auth-token');
 
-    if (!eventTitle || !eventLocation || !eventDate || !eventPoster || !startTime || !endTime) {
-        showToast("Please fill in all fields before submitting.", "error");
-        return;
+    if (!eventTitle || !eventLocation || !eventDate || !startTime || !endTime) {
+    showToast("Please fill in all fields before submitting.", "error");
+    return;
     }
 
+    if (!eventPoster) {
+    showToast("Please add an event poster image before submitting.", "error");
+    return;
+    }
     try {
         // Step 1 — Upload the image first
         const fileInput = document.getElementById('event-photo-input');
