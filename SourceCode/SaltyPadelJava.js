@@ -6,17 +6,17 @@ let pending_navigation_action = null;
 let pending_external_url = null;
 let pendingDeleteAction = null;
 
-const API_BASE = 'https://saltypadel.co.uk/api/v1'; 
+const API_BASE = 'https://saltypadel.co.uk/api/v1';
 
 // ========================================
 // DOM READY - INITIALIZE EVERYTHING
 // ========================================
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     button_load_testimonials();
     button_load_partners();
-    
+
     // Modal close on outside click
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         if (event.target.classList.contains('modal-overlay')) {
             event.target.classList.remove('active');
             document.body.classList.remove('modal-open');
@@ -58,7 +58,7 @@ function hide_other_pages() {
     safe_hide("manage_testimonials");
     safe_hide("manage_partners");
     safe_hide("manage_events");
-    safe_hide("manage_whatsapp"); 
+    safe_hide("manage_whatsapp");
 }
 
 function hide_other_navs() {
@@ -96,12 +96,12 @@ function update_mobile_nav(current_page) {
         'past_events': document.getElementById('mobile-nav-past-events'),
         'upcoming_events': document.getElementById('mobile-nav-upcoming-events')
     };
-    
+
     // Show all buttons
     Object.values(buttons).forEach(btn => {
         if (btn) btn.style.display = 'block';
     });
-    
+
     // Hide current page button
     if (buttons[current_page]) {
         buttons[current_page].style.display = 'none';
@@ -254,10 +254,10 @@ async function button_join_our_whatsapp_group() {
     try {
         const response = await fetch(`${API_BASE}/routes/settings.php`);
         const result = await response.json();
-        const url = result.data?.whatsappUrl || 'httpss://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb';
+        const url = result.data?.whatsappUrl || 'https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb';
         openExternalLink(url);
     } catch (error) {
-        openExternalLink('httpss://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb');
+        openExternalLink('https://chat.whatsapp.com/ILZKXRuiixA3yJYpq1Xteb');
     }
 }
 // ========================================
@@ -267,7 +267,7 @@ async function button_join_our_whatsapp_group() {
 function button_admin_login() {
     hide_other_pages();
     safe_show("login_page", "flex");
-    
+
     const loginButton = document.getElementById("admin-login");
     if (loginButton) {
         loginButton.style.display = "none";
@@ -281,9 +281,9 @@ function admin_home() {
     hide_other_navs();
 
     document.body.classList.add('admin-mode');
-    
+
     safe_show("admin_page", "block");
-    
+
     let nav = document.getElementById("admin-nav");
     if (nav) {
         nav.style.display = "flex";
@@ -414,6 +414,15 @@ async function button_testimonial_upload() {
             });
             if (response.status === 201) {
                 showToast("Testimonial uploaded successfully!", "success");
+                // Auto-clear form
+                document.getElementById('testimonial-name-textInput').value = '';
+                document.getElementById('testimonial-role-textInput').value = '';
+                document.getElementById('testimonial-text-input').value = '';
+                document.getElementById('testimonial-name-preview').textContent = 'Author1';
+                document.getElementById('testimonial-role-preview').textContent = 'Author Role';
+                sessionStorage.removeItem('testimonial-name');
+                sessionStorage.removeItem('testimonial-role');
+                uploads_hide_helper(null);
             } else if (response.status === 403) {
                 showToast("Forbidden. You do not have permission to perform this action.", "error");
             } else if (response.status === 401) {
@@ -621,13 +630,28 @@ async function button_upload_event() {
         const eventResult = await eventResponse.json();
         if (eventResponse.status === 201 && eventResult.success) {
             showToast("Event uploaded successfully!", "success");
+            // Auto-clear form
+            document.getElementById('event-title-textInput').value = '';
+            document.getElementById('event-location-textInput').value = '';
+            document.getElementById('event-date-dateInput').value = '';
+            document.getElementById('event-startTime-timeInput').value = '';
+            document.getElementById('event-endTime-timeInput').value = '';
+            document.getElementById('event-title-preview').textContent = '';
+            document.getElementById('event-location-preview').textContent = '';
+            document.getElementById('event-date-preview').textContent = '';
+            document.getElementById('event-time-preview').textContent = '';
+            const eventFileInput = document.getElementById('event-photo-input');
+            if (eventFileInput) eventFileInput.value = '';
+            const eventPreviewImg = document.querySelector('#manage_events .gallery-item img');
+            if (eventPreviewImg) eventPreviewImg.src = 'assets/event-placeholder1.png';
             sessionStorage.removeItem('event-title');
             sessionStorage.removeItem('event-location');
             sessionStorage.removeItem('event-date');
             sessionStorage.removeItem('event-poster');
             sessionStorage.removeItem('start-time');
             sessionStorage.removeItem('end-time');
-            setTimeout(function() { button_manage_events(); }, 1000);
+            uploads_hide_helper(null);
+            setTimeout(function () { button_manage_events(); }, 1000);
 
         } else if (eventResponse.status === 401) {
             showToast("Unauthorized. Please log in again.", "error");
@@ -682,14 +706,7 @@ async function button_load_partners() {
         if (result.success && result.data.length > 0) {
             container.innerHTML = '';
 
-            const marqueePartners = [
-                ...result.data,
-                ...result.data,
-                ...result.data,
-                ...result.data
-            ];
-
-            marqueePartners.forEach((p, index) => {
+            result.data.forEach(p => {
                 const item = document.createElement('div');
                 item.className = 'partner-logo-item';
 
@@ -697,10 +714,6 @@ async function button_load_partners() {
                 img.src = p.logoPath;
                 img.alt = p.partnerName;
                 img.className = 'partner-logo';
-
-                if (index >= result.data.length * 2) {
-                    img.setAttribute('aria-hidden', 'true');
-                }
 
                 item.appendChild(img);
                 container.appendChild(item);
@@ -773,7 +786,8 @@ async function button_upload_partner() {
 
         if (partnerResponse.status === 201 && partnerResult.success) {
             showToast("Partner added successfully!", "success");
-            sessionStorage.removeItem('partner-name');
+            reset_partner_form();
+            button_load_partners();
         } else {
             showToast("Server error. Please try again.", "error");
         }
@@ -782,6 +796,25 @@ async function button_upload_partner() {
         console.error('Error:', error);
         showToast("Network error. Please check your connection.", "error");
     }
+}
+function reset_partner_form() {
+    const previewImg = document.getElementById('partner-logo-preview');
+    if (previewImg) previewImg.src = 'assets/event-placeholder1.png';
+
+    const namePreview = document.getElementById('partner-name-preview');
+    if (namePreview) namePreview.textContent = 'No name set';
+
+    const nameInput = document.getElementById('partner-name-textInput');
+    if (nameInput) nameInput.value = '';
+
+    const fileInput = document.getElementById('partner-photo-input');
+    if (fileInput) fileInput.value = '';
+
+    sessionStorage.removeItem('partner-name');
+    sessionStorage.removeItem('partner-photo');
+
+    uploads_hide_helper(null);
+    showToast('Form reset', 'success');
 }
 
 function button_manage_events() {
@@ -897,8 +930,8 @@ function close_modal(modalId) {
 function openExternalLink(url) {
     pending_external_url = url;
     open_modal('modal-external-warning');
-    
-    document.getElementById('external-link-confirm').onclick = function() {
+
+    document.getElementById('external-link-confirm').onclick = function () {
         window.open(pending_external_url, '_blank');
         close_modal('modal-external-warning');
         pending_external_url = null;
@@ -945,8 +978,8 @@ async function confirm_logout() {
     sessionStorage.removeItem('auth-token');
     document.body.classList.remove('admin-mode');
     showToast('Logged out successfully', 'success');
-    
-    setTimeout(function() {
+
+    setTimeout(function () {
         button_home();
     }, 500);
 }
@@ -960,13 +993,13 @@ function confirmDelete(itemName, deleteCallback) {
     if (modalBody) {
         modalBody.textContent = `Delete "${itemName}"? This can't be undone.`;
     }
-    
+
     pendingDeleteAction = deleteCallback;
     open_modal('modal-confirm-delete');
-    
+
     const deleteBtn = document.getElementById('delete-confirm-btn');
     if (deleteBtn) {
-        deleteBtn.onclick = function() {
+        deleteBtn.onclick = function () {
             if (pendingDeleteAction) {
                 pendingDeleteAction();
                 showToast('Item deleted successfully', 'success');
@@ -984,7 +1017,7 @@ function confirmDelete(itemName, deleteCallback) {
 function showToast(message, type = 'success') {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    
+
     toast.innerHTML = `
         <div>
             <div class="toast-title">${type === 'success' ? 'Success' : 'Error'}</div>
@@ -992,16 +1025,16 @@ function showToast(message, type = 'success') {
         </div>
         <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
     `;
-    
+
     const toastArea = document.getElementById('toast-area');
     if (toastArea) {
         toastArea.appendChild(toast);
     }
-    
-    setTimeout(function() {
+
+    setTimeout(function () {
         toast.style.opacity = '0';
         toast.style.transform = 'translateX(400px)';
-        setTimeout(function() {
+        setTimeout(function () {
             toast.remove();
         }, 300);
     }, 3000);
