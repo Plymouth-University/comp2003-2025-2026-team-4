@@ -942,8 +942,15 @@ function open_instagram() {
     openExternalLink('https://www.instagram.com/saltypadel/');
 }
 
-function open_shop_with_warning() {
-    openExternalLink('https://vx3.co.uk/collections/salty-padel');
+async function open_shop_with_warning() {
+    try {
+        const response = await fetch(`${API_BASE}/routes/settings.php`);
+        const result = await response.json();
+        const url = result.data?.merchandiseUrl || 'https://vx-3.com/collections/salty-padel?_pos=1&_psq=salty+Padel&_ss=e&_v=1.0';
+        openExternalLink(url);
+    } catch (error) {
+        openExternalLink('https://vx-3.com/collections/salty-padel?_pos=1&_psq=salty+Padel&_ss=e&_v=1.0');
+    }
 }
 
 // ========================================
