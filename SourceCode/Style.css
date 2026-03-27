@@ -301,8 +301,8 @@ MOBILE RESPONSIVE
     }
     /* Partner logos smaller */
     .partner-logo {
-        width: 50px;
-        height: 40px;
+        width: 100px;
+        height: 70px;
     }
     /* Footer stacks vertically */
     #site-footer {
@@ -515,8 +515,8 @@ MOBILE RESPONSIVE
 
 .partner-logo {
     display: inline-block;
-    width: 80px;
-    height: 60px;
+    width: 160px;
+    height: 100px;
     object-fit: contain;
 }
 
