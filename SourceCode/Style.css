@@ -301,9 +301,16 @@ MOBILE RESPONSIVE
     }
     /* Partner logos smaller */
     .partner-logo {
-        width: 100px;
-        height: 70px;
+        width: 80px;
+        height: 50px;
     }
+    .partners-track {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+}
     /* Footer stacks vertically */
     #site-footer {
         flex-direction: column;
@@ -515,8 +522,8 @@ MOBILE RESPONSIVE
 
 .partner-logo {
     display: inline-block;
-    width: 160px;
-    height: 100px;
+    width: 180px;
+    height: 120px;
     object-fit: contain;
 }
 
