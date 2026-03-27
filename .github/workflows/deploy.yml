@@ -18,3 +18,9 @@ jobs:
           local_path: "./SourceCode/*"
           remote_path: "/"
           sftp_only: true
+
+      #  SMOKE TEST, THE SFTP STEP 
+      - name: Smoke test after deploy
+        run: |
+          sleep 10 
+          curl --fail https://saltypadel.co.uk/api/v1/test || exit 1
