@@ -885,7 +885,22 @@ MOBILE RESPONSIVE
 }
 
 .fade {
-    color: #00000075;
+    color: #000000;
+}
+
+#who_we_are .hero .fade,
+#who_we_are .who-intro .fade {
+    color: #00000099;
+}
+
+#who_we_are,
+#what_we_do {
+    color: #000000;
+}
+
+#what_we_do p,
+#what_we_do li {
+    color: #000000 !important;
 }
 
 @media (max-width: 700px) {
@@ -927,7 +942,7 @@ MOBILE RESPONSIVE
 .content-block p {
     font-size: 16px;
     line-height: 1.6;
-    color: #444
+    color: #000;
 }
 
 .quote-block {
