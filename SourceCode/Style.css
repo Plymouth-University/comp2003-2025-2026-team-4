@@ -854,18 +854,34 @@ MOBILE RESPONSIVE
 }
 
 .unknownface {
-    width: 180px;
-    height: auto;
+    width: 320px;
+    height: 320px;
     border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
     display: block;
     margin: 0 auto 12px;
 }
 
+.image-wrapper {
+    width: 100%;
+    max-width: 1232px;
+    aspect-ratio: 1232 / 200;
+    overflow: hidden;
+    border-radius: 12px;
+    margin: 20px auto;
+}
+
 .image {
     width: 100%;
-    height: auto;
-    border-radius: 12px;
-    margin: 20px 0;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+}
+
+.vision .image {
+    object-position: center 30%;
 }
 
 .fade {
@@ -875,6 +891,7 @@ MOBILE RESPONSIVE
 @media (max-width: 700px) {
     .unknownface {
         width: 120px;
+        height: 120px;
     }
 }
 
