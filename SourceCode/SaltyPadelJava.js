@@ -280,11 +280,6 @@ function admin_home() {
     hide_other_pages();
     hide_other_navs();
 
-    const changePasswordBtn = document.getElementById("admin-change-password");
-    if (changePasswordBtn) {
-        changePasswordBtn.style.display = "block";
-    }
-
     document.body.classList.add('admin-mode');
 
     safe_show("admin_page", "block");
