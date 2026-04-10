@@ -959,6 +959,13 @@ async function open_shop_with_warning() {
 }
 
 // ========================================
+// ADMIN CHANGE PASSWORD MODAL
+// ========================================
+async function button_admin_change_password() {
+    console.log("Changing password...");
+}
+
+// ========================================
 // ADMIN LOGOUT MODAL
 // ========================================
 
