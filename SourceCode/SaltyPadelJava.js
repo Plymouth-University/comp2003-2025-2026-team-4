@@ -962,7 +962,46 @@ async function open_shop_with_warning() {
 // ADMIN CHANGE PASSWORD MODAL
 // ========================================
 async function button_admin_change_password() {
-    console.log("Changing password...");
+    const current = document.getElementById("cp_current").value;
+    const newPass = document.getElementById("cp_new").value;
+    const confirm = document.getElementById("cp_confirm").value;
+
+    if (!current || !newPass || !confirm) {
+        showToast("Please fill in all fields.", "error");
+        return;
+    }
+
+    const token = sessionStorage.getItem("auth-token");
+
+    try {
+        const response = await fetch(`${API_BASE}/routes/change_password.php`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({
+                currentPassword: current,
+                newPassword: newPass,
+                confirmPassword: confirm
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showToast("Password changed successfully!", "success");
+            close_modal("modal-change-password");
+            document.getElementById("cp_current").value = "";
+            document.getElementById("cp_new").value = "";
+            document.getElementById("cp_confirm").value = "";
+        } else {
+            showToast(result.errors?.[0]?.message || "Failed to change password.", "error");
+        }
+    } catch (error) {
+        console.error("Change password error:", error);
+        showToast("Network error. Please try again.", "error");
+    }
 }
 
 // ========================================
