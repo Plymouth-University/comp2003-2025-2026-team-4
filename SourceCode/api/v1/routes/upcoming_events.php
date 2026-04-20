@@ -48,9 +48,7 @@ if ($method === 'POST') {
     if (empty($eventDate))     $errors[] = 'eventDate is required';
     if (empty($eventStartTime)) $errors[] = 'eventStartTime is required';
     if (empty($eventEndTime))   $errors[] = 'eventEndTime is required'; 
-    if ($eventDate && $eventDate < date('Y-m-d')) {
-        $errors[] = 'eventDate must be a future date';
-    }
+
 
     if (!empty($errors)) {
         http_response_code(400);
