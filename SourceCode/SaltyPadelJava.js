@@ -162,6 +162,16 @@ function button_what_we_do() {
 
     update_mobile_nav('what_we_do');
 }
+
+function format_uk_date(dateStr) {
+    const [year, month, day] = dateStr.split('-');
+    return `${day}/${month}/${year}`;
+}
+
+function format_time(timeStr) {
+    return timeStr ? timeStr.substring(0, 5) : '';
+}
+
 async function button_past_events() {
     document.body.classList.remove('admin-mode');
     hide_other_pages();
@@ -237,7 +247,7 @@ async function button_upcoming_events() {
                 container.innerHTML += `
                     <figure class="gallery-item">
                         <img src="${event.imagePath || 'assets/event-placeholder2.png'}" alt="${event.eventName}">
-                        <figcaption>${event.eventName} - ${event.eventDate} - ${event.eventStartTime} - ${event.eventEndTime} - ${event.eventLocation}</figcaption>
+                        <figcaption>${event.eventName} | ${format_uk_date(event.eventDate)} | ${format_time(event.eventStartTime)} - ${format_time(event.eventEndTime)} | ${event.eventLocation}</figcaption>
                     </figure>`;
             });
         } else {
