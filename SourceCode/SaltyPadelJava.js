@@ -203,7 +203,7 @@ async function button_past_events() {
                 container.innerHTML += `
                     <figure class="gallery-item">
                         <img src="${event.imagePath || 'assets/event-placeholder1.png'}" alt="${event.eventName}">
-                        <figcaption>${event.eventName} - ${event.eventDate}</figcaption>
+                        <figcaption>${event.eventName} - ${format_uk_date(event.eventDate)}</figcaption>
                     </figure>`;
             });
         } else {
