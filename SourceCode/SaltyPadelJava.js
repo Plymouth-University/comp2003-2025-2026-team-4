@@ -578,74 +578,81 @@ function handle_event_photo(event) {
 }
 
 async function button_upload_event() {
-    const eventTitle = sessionStorage.getItem('event-title');
-    const eventLocation = sessionStorage.getItem('event-location');
-    const eventDate = sessionStorage.getItem('event-date');
-    const eventPoster = sessionStorage.getItem('event-poster');
-    const startTime = sessionStorage.getItem('start-time');
-    const endTime = sessionStorage.getItem('end-time');
+    // Read from inputs directly as fallback if sessionStorage is empty
+    const eventTitle = sessionStorage.getItem('event-title') || document.getElementById('event-title-textInput')?.value;
+    const eventLocation = sessionStorage.getItem('event-location') || document.getElementById('event-location-textInput')?.value;
+    const eventDate = sessionStorage.getItem('event-date') || document.getElementById('event-date-dateInput')?.value;
+    const startTime = sessionStorage.getItem('start-time') || document.getElementById('event-startTime-timeInput')?.value;
+    const endTime = sessionStorage.getItem('end-time') || document.getElementById('event-endTime-timeInput')?.value;
     const token = sessionStorage.getItem('auth-token');
 
-    if (!eventTitle || !eventLocation || !eventDate || !startTime || !endTime) {
-    showToast("Please fill in all fields before submitting.", "error");
-    return;
-    }
+    if (!eventTitle) { showToast("Please add a title and location.", "error"); return; }
+    if (!eventLocation) { showToast("Please add a location.", "error"); return; }
+    if (!eventDate) { showToast("Please add a date.", "error"); return; }
+    if (!startTime || !endTime) { showToast("Please add a start and end time.", "error"); return; }
 
-    if (!eventPoster) {
-    showToast("Please add an event poster image before submitting.", "error");
-    return;
-    }
+    const fileInput = document.getElementById('event-photo-input');
+    const file = fileInput ? fileInput.files[0] : null;
+    if (!file) { showToast("Please add an event poster image.", "error"); return; }
+
     try {
-        // Step 1 — Upload the image first
-        const fileInput = document.getElementById('event-photo-input');
-        const file = fileInput ? fileInput.files[0] : null;
+        // Step 1 — Upload image
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('category', 'events');
 
-        let imagePath = null;
-
-        if (file) {
-            const formData = new FormData();
-            formData.append('image', file);
-            formData.append('category', 'events');
-
-            const uploadResponse = await fetch(`${API_BASE}/routes/uploads.php`, {
+        let uploadResponse;
+        try {
+            uploadResponse = await fetch(`${API_BASE}/routes/uploads.php`, {
                 method: "POST",
-                headers: {
-                    "Authorization": token
-                },
+                headers: { "Authorization": token },
                 body: formData
             });
-
-            const uploadResult = await uploadResponse.json();
-
-            if (!uploadResult.success) {
-                showToast("Image upload failed. Please try again.", "error");
-                return;
-            }
-
-            imagePath = uploadResult.data.imagePath;
+        } catch (networkError) {
+            showToast("Cannot reach the server. Please check your connection and try again.", "error");
+            return;
         }
 
-        // Step 2 — Create the event
-        const eventResponse = await fetch(`${API_BASE}/routes/upcoming_events.php`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": token
-            },
-            body: JSON.stringify({
-                eventName: eventTitle,
-                eventLocation: eventLocation,
-                eventDate: eventDate,
-                startTime: startTime || "09:00:00",
-                endTime: endTime || "17:00:00",
-                imagePath: imagePath
-            })
-        });
+        if (!uploadResponse.ok) {
+            showToast(`Image upload failed (${uploadResponse.status}). Please try again.`, "error");
+            return;
+        }
+
+        const uploadResult = await uploadResponse.json();
+        if (!uploadResult.success) {
+            showToast("Image upload failed. Please try again.", "error");
+            return;
+        }
+
+        const imagePath = uploadResult.data.imagePath;
+
+        // Step 2 — Create event
+        let eventResponse;
+        try {
+            eventResponse = await fetch(`${API_BASE}/routes/upcoming_events.php`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": token
+                },
+                body: JSON.stringify({
+                    eventName: eventTitle,
+                    eventLocation: eventLocation,
+                    eventDate: eventDate,
+                    startTime: startTime,
+                    endTime: endTime,
+                    imagePath: imagePath
+                })
+            });
+        } catch (networkError) {
+            showToast("Cannot reach the server. Please check your connection and try again.", "error");
+            return;
+        }
 
         const eventResult = await eventResponse.json();
+
         if (eventResponse.status === 201 && eventResult.success) {
             showToast("Event uploaded successfully!", "success");
-            // Auto-clear form
             document.getElementById('event-title-textInput').value = '';
             document.getElementById('event-location-textInput').value = '';
             document.getElementById('event-date-dateInput').value = '';
@@ -669,16 +676,18 @@ async function button_upload_event() {
             setTimeout(function () { button_manage_events(); }, 1000);
 
         } else if (eventResponse.status === 401) {
-            showToast("Unauthorized. Please log in again.", "error");
+            showToast("Session expired. Please log in again.", "error");
         } else if (eventResponse.status === 403) {
-            showToast("Forbidden. You don't have permission.", "error");
+            showToast("You do not have permission to do this.", "error");
+        } else if (eventResponse.status === 500) {
+            showToast("The database is not responding. Please try again in a few minutes.", "error");
         } else {
-            showToast("Server error. Please try again.", "error");
+            showToast(`Unexpected error (${eventResponse.status}). Please try again.`, "error");
         }
 
     } catch (error) {
         console.error("Event upload error:", error);
-        showToast("Network error. Please check your connection.", "error");
+        showToast("Something went wrong. Please check your connection and try again.", "error");
     }
 }
 //====================
