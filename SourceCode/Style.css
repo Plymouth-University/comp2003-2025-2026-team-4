@@ -498,7 +498,7 @@ MOBILE RESPONSIVE
 }
 
 #what_we_do .testimonial-card {
-    margin: 200px auto;
+    margin: 0 auto;
 }
 
 /* PARTNERS */
@@ -882,8 +882,8 @@ MOBILE RESPONSIVE
 
 .image-wrapper {
     width: 100%;
-    max-width: 1232px;
-    aspect-ratio: 1232 / 200;
+    max-width: 800px;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
     border-radius: 12px;
     margin: 20px auto;
@@ -936,12 +936,14 @@ MOBILE RESPONSIVE
     justify-content: center;
 }
 
-.what-we-do-image img {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    border-radius: 16px;
-}
+    .what-we-do-image img {
+        width: 100%;
+        max-width: 600px;
+        max-height: 400px;
+        object-fit: cover;
+        border-radius: 16px;
+        display: block;
+    }
 
 .content-block {
     max-width: 800px;
