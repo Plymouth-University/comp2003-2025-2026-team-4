@@ -317,6 +317,11 @@ MOBILE RESPONSIVE
         gap: 24px;
         padding: 32px 24px;
     }
+
+    .footer-email{
+        color: #ffffff;
+        text-decoration: none;
+    }
     /* Gallery single column */
     .gallery {
         grid-template-columns: 1fr;
