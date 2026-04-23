@@ -284,11 +284,14 @@ MOBILE RESPONSIVE
         font-size: 32px;
     }
     .hero-buttons {
-        flex-direction: column;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
         width: 100%;
     }
     .btn-hero {
-        width: 100%;
+        width: auto !important;
+        min-width: 180px;
     }
     /* Testimonials stack vertically */
     .testimonials-list {
@@ -380,6 +383,8 @@ MOBILE RESPONSIVE
 .hero-buttons {
     display: flex;
     gap: 16px;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-hero {
@@ -493,7 +498,7 @@ MOBILE RESPONSIVE
 }
 
 #what_we_do .testimonial-card {
-    margin: 40px auto;
+    margin: 200px auto;
 }
 
 /* PARTNERS */
@@ -556,12 +561,12 @@ MOBILE RESPONSIVE
 }
 
 .logo-footer {
-    width: 90px;
-    height: 90px;
-}
+    width: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #E8F5E9;
 
-.footer-center {
-    display: flex;
 }
 
 .footer-social-icon {
@@ -1060,6 +1065,14 @@ MOBILE RESPONSIVE
     margin: 20px auto 0;
     width: 60%;
     max-width: 420px;
+}
+
+.testimonial-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #E8F5E9;
 }
 .whatsapp-input {
     width: 100%;
