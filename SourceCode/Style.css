@@ -291,8 +291,7 @@ MOBILE RESPONSIVE
         width: 100%;
     }
     .btn-hero {
-        width: 100% !important;
-        min-width: 320px;
+        width: 100%;
     }
     /* Testimonials stack vertically */
     .testimonials-list {
