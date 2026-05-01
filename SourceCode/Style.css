@@ -68,12 +68,6 @@ body {
     justify-content: flex-end;
 }
 
-#who_we_are .hero,
-#upcoming_events .hero,
-#past_events .hero {
-    align-items: flex-start;
-    text-align: left;
-}
 
 .brand-title {
     color: #FFFFFF;
@@ -402,10 +396,13 @@ MOBILE RESPONSIVE
 /* Make non-home page text align left */
 #who_we_are .hero,
 #upcoming_events .hero,
-#past_events .hero {
+#past_events .hero,
+#what_we_do .hero {
     align-items: flex-start;
     text-align: left;
+    padding: 64px 24px;
 }
+
 
 
 /* TESTIMONIALS */
@@ -511,7 +508,8 @@ MOBILE RESPONSIVE
 }
 
 .partners-title {
-    font-size: 16px;
+    font-size: 24px;
+    font-weight: 700;
     margin-bottom: 24px;
 }
 
@@ -562,7 +560,6 @@ MOBILE RESPONSIVE
 
 .logo-footer {
     width: 40px;
-    width: 40px;
     height: 40px;
     border-radius: 50%;
     background-color: #E8F5E9;
@@ -600,6 +597,7 @@ MOBILE RESPONSIVE
     padding: 0;
     min-height: 50vh;
 }
+
 
 
 /* ============== Login page stuff ============== */
@@ -738,7 +736,7 @@ MOBILE RESPONSIVE
 }
 
 .input_detail {
-    display: flex important;
+    display: flex;
     flex-direction: row;
     align-items: center;
     gap: 12px;
@@ -862,13 +860,23 @@ MOBILE RESPONSIVE
     position: relative;
     z-index: 1;
     color: #000;
-    padding: 40px;
+    padding: 40px 24px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .who-intro {
-    text-align: left;
+    text-align: center;
     padding-bottom: 24px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+    .who-intro p {
+        margin-bottom: 16px;
+    }
 
 .unknownface {
     width: 320px;
@@ -934,6 +942,7 @@ MOBILE RESPONSIVE
     margin-top: 32px;
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
     .what-we-do-image img {
@@ -958,12 +967,24 @@ MOBILE RESPONSIVE
     margin-bottom: 12px;
 }
 
-.content-block p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #000;
-}
+    .content-block p {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #000;
+    }
 
+    .content-block ul {
+        margin: 12px 0 12px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+        .content-block ul li {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #000000;
+        }
 .quote-block {
     max-width: 800px;
     padding: 32px;
@@ -971,11 +992,11 @@ MOBILE RESPONSIVE
     text-align: center;
 }
 
-.quote-block h1 {
-    font-size: 40px;
-    font-weight: 800;
-    margin-bottom: 12px;
-}
+ .quote-block h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+ }
 
 @media (max-width: 700px) {
     .content-block {
@@ -1002,12 +1023,6 @@ MOBILE RESPONSIVE
     grid-template-columns: none;
 }
 
-#manage_whatsapp .gallery img {
-    width: 400%;
-    max-width: 400px;
-    height: auto;
-    object-fit: contain;
-}
 
 #manage_whatsapp .gallery-item {
     padding: 24px 0;
@@ -1052,7 +1067,7 @@ MOBILE RESPONSIVE
     min-height: 200px;
     margin: 16px auto 0;
     padding: 14px 16px;
-    font-family: 'Inter', Arial, sans-serid;
+    font-family: 'Inter', Arial, sans-serif;
     font-size: 15px;
     line-height: 1.5;
     border-radius: 12px;

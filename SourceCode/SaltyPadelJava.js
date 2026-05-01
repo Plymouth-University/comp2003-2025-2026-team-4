@@ -113,6 +113,7 @@ function update_mobile_nav(current_page) {
 // ========================================
 
 function button_home() {
+    document.body.classList.remove('admin-mode');
     hide_other_pages();
     safe_show("home_page", "block");
 
@@ -123,19 +124,18 @@ function button_home() {
         nav.style.justifyContent = "center";
     }
 
-    // Show admin login button in footer
     const adminLoginBtn = document.getElementById("admin-login");
     if (adminLoginBtn) {
         adminLoginBtn.style.display = "block";
     }
 
-    // Update mobile navigation
     update_mobile_nav('home');
     button_load_testimonials();
     button_load_partners();
 }
 
 function button_who_we_are() {
+    document.body.classList.remove('admin-mode');
     hide_other_pages();
     safe_show("who_we_are", "block");
 
@@ -150,6 +150,7 @@ function button_who_we_are() {
 }
 
 function button_what_we_do() {
+    document.body.classList.remove('admin-mode');
     hide_other_pages();
     safe_show("what_we_do", "block");
 
@@ -742,7 +743,11 @@ async function button_load_partners() {
                 item.appendChild(img);
                 container.appendChild(item);
             });
+
+        } else {
+            container.innerHTML = '';
         }
+
     } catch (error) {
         console.error('Failed to load partners:', error);
     }
